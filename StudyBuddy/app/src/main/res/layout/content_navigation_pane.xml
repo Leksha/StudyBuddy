@@ -8,13 +8,25 @@
     tools:context="uw.studybuddy.NavigationPane"
     tools:showIn="@layout/app_bar_navigation_pane">
 
-    <TextView
+    <Button
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/search_friend"
+        app:layout_constraintLeft_toRightOf="@+id/editText2"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="7dp" />
 
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="215dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/find_friend"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="7dp" />
 </android.support.constraint.ConstraintLayout>
