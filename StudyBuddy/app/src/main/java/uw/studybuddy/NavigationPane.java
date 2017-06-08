@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,12 +18,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class NavigationPane extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private String[] mPlanetTitles = {"User Profile"};
+    private Button mSearchButton;
+    private EditText mFindFriendEditText;
+    private TextView mPrintFriendInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,7 @@ public class NavigationPane extends AppCompatActivity
         setContentView(R.layout.activity_navigation_pane);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home Page");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -44,9 +53,47 @@ public class NavigationPane extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setTitle("Home Page");
+
+        mSearchButton = (Button)findViewById(R.id.search_button);
+        mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
+        mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
+
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                String friendName = mFindFriendEditText.getText().toString();
+                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
+            }
+        });
+
+        mFindFriendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == KeyEvent.KEYCODE_ENTER) {
+                    System.out.println("DOWN");
+                    mSearchButton.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        mFindFriendEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                        event.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    System.out.println("YUP");
+                    mSearchButton.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -74,8 +121,11 @@ public class NavigationPane extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+        if (id == R.id.action_new_event) {
+            mPrintFriendInfoTextView.setText("Create new event");
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,17 +137,23 @@ public class NavigationPane extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            System.out.println("Clicked on camera");
+        } else if (id == R.id.nav_user_profile) {
+            System.out.println("Clicked on gallery");
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_friend_list) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        }
+// else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
+        else if (id == R.id.nav_log_out) {
 
         }
 
