@@ -10,6 +10,11 @@
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
     <string name="action_new_event">New event</string>
 
+
+    <!-- Funtions calls -->
+    <string name="clear_search_field">clearSearchField</string>
+
+
     <string-array name="navigation_drawer_elements">
         <item>"Home</item>
     </string-array>

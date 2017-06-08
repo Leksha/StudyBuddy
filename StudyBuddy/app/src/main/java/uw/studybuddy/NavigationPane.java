@@ -82,6 +82,7 @@ public class NavigationPane extends AppCompatActivity
             }
         });
 
+        // Find friends related actions
         mFindFriendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -175,6 +176,15 @@ public class NavigationPane extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    // Only clear search friend text field if not used yet
+    public void clearSearchField() {
+        if (mFindFriendEditText.getText().toString() == (String)findViewById(R.string.clear_search_field)) {
+            mFindFriendEditText.setText("");
+        }
+    }
+
     
 }
 
