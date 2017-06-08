@@ -9,11 +9,11 @@
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/tvShowPSD"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="0dp"
+    <CheckBox
+        android:id="@+id/cbShowPSD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:text="show password"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
