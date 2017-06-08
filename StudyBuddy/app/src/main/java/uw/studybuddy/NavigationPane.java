@@ -106,6 +106,21 @@ public class NavigationPane extends AppCompatActivity
                 return false;
             }
         });
+        // Only clear search friend text field if not used yet
+        mFindFriendEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Clicked find friend");
+                String str = getResources().getString(R.string.find_friend_editText);
+                String curr = mFindFriendEditText.getText().toString();
+//                System.out.println(str);
+//                System.out.println(curr);
+                if (curr == str) {
+                    System.out.println("HERE");
+                    mFindFriendEditText.setText(" ");
+                }
+            }
+        });
 
 
 
@@ -176,15 +191,6 @@ public class NavigationPane extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    // Only clear search friend text field if not used yet
-    public void clearSearchField() {
-        if (mFindFriendEditText.getText().toString() == (String)findViewById(R.string.clear_search_field)) {
-            mFindFriendEditText.setText("");
-        }
-    }
-
     
 }
 
