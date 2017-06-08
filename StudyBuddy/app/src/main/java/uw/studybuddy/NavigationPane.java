@@ -1,6 +1,7 @@
 package uw.studybuddy;
 
 import android.content.Intent;
+import android.database.SQLException;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,8 @@ public class NavigationPane extends AppCompatActivity
     private Button mSearchButton;
     private EditText mFindFriendEditText;
     private TextView mPrintFriendInfoTextView;
+    private static DatabaseConnection dbConnectTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,9 @@ public class NavigationPane extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //initialize connection
+        dbConnectTest = new DatabaseConnection();
+
         mSearchButton = (Button)findViewById(R.id.search_button);
         mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
         mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
@@ -66,7 +72,13 @@ public class NavigationPane extends AppCompatActivity
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
-                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
+                try{
+                    String user_info = dbConnectTest.getUserInfo(friendName);
+                    mPrintFriendInfoTextView.setText(user_info);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
             }
         });
 
@@ -93,6 +105,8 @@ public class NavigationPane extends AppCompatActivity
                 return false;
             }
         });
+
+
 
     }
 
