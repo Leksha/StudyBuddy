@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Password,please"
         android:inputType="textPassword"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
