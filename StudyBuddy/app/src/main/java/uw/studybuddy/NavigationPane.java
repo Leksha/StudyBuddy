@@ -161,6 +161,10 @@ public class NavigationPane extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    
+
+    public void GotoNewEvent(MenuItem item) {
+        Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
 }
 
