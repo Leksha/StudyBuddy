@@ -54,7 +54,7 @@ public class UserInfo {
 
     public UserInfo() {
         String[] courses = {"Charms", "Dark Arts", "Herbology", "Muggle Studies"};
-        String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa! Try it!";
+        String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
 
         mDisplayName = "Wizard Kid";
         mName = "Harry Potter";
