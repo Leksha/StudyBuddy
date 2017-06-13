@@ -27,9 +27,18 @@ public class UserProfileActivity extends AppCompatActivity {
         UserInfo demoUser = new UserInfo();
 
         // Update the user profile view with the right user info
+        String courses = "";
+        String[] userCourses = demoUser.getCourses();
+        int length = userCourses.length;
+        for (int i=0; i<length; i++) {
+            courses += userCourses[i];
+            if (i<length-1) {
+                courses += ", ";
+            }
+        }
         mUserDisplayName.setText(demoUser.getDisplayName());
         mUserName.setText(demoUser.getName());
-        mUserCourses.setText(demoUser.getCourses().toString());
+        mUserCourses.setText(courses);
         mUserAboutMe.setText(demoUser.getAboutMe());
     }
 }
