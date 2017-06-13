@@ -45,7 +45,9 @@ public class HomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dbSQL = new DatabaseSQL(this);
+        dbSQL = new DatabaseSQL(HomePage.this);
+        dbSQL.insertData(1, "Yuna", "yuna1", "testpwd", null, "yuna1@edu.uwaterloo.ca", null, null);
+        dbSQL.insertData(2, "Anakha", "apalissery", "testpwd2", null, "apalissery@edu.uwaterloo.ca", null, null);
 
         setContentView(R.layout.activity_navigation_pane);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,7 +83,10 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
-                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
+                String name = dbSQL.getName(friendName);
+                mPrintFriendInfoTextView.setText(name);
+
+                //mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
                 //mPrintFriendInfoTextView.setText(dbSQL.displayName(friendName));
             }
         });

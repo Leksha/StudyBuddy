@@ -13,7 +13,7 @@ import static android.R.attr.version;
  * Created by apalissery on 2017-06-10.
  */
 
-public class DatabaseSQL extends SQLiteOpenHelper{
+public class DatabaseSQL extends SQLiteOpenHelper {
 
     public static final String db_name = "studybuddy";
     public static final String userTable = "user_info";
@@ -27,6 +27,10 @@ public class DatabaseSQL extends SQLiteOpenHelper{
     public static final String colDesc = "USERDESC";
     //public static final String colCourses = "COURSES";
     //public static final String colFriends = "FRIENDS";
+
+
+
+
 
 
     public DatabaseSQL(Context context ) {
@@ -47,10 +51,11 @@ public class DatabaseSQL extends SQLiteOpenHelper{
 
     }
 
-    public boolean insertData(String name, String username, String password, String gender, String email,
+    public boolean insertData(int id, String name, String username, String password, String gender, String email,
                               String fb, String userdesc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(colID, id);
         contentValues.put(colName, name);
         contentValues.put(colUserName, username);
         contentValues.put(colPassword, password);
@@ -67,25 +72,19 @@ public class DatabaseSQL extends SQLiteOpenHelper{
 
     }
 
-    public Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + userTable, null);
-        return res;
-    }
+    public String getName(String name) {
 
-    /*public String displayName(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + userTable + "WHERE colName = " + name, null);
-        res.moveToFirst();
-        String retName = res.getString(res.getColumnIndex(name));
-        return retName;
-    } */
-
-    public Cursor getName(DatabaseSQL db) {
-        SQLiteDatabase sq = db.getReadableDatabase();
-        String[] columns = {db.colName};
-        //Cursor res = sq.rawQuery("SELECT * FROM " + userTable + "WHERE colName = " + name, null);
-        Cursor res = sq.query(db_name, columns, null, null, null, null, null, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + userTable + " WHERE NAME = " + name, null);
+        String[] columnNames = cursor.getColumnNames();
+        if(cursor.moveToFirst()) {
+            for(int i = 0; i < cursor.getCount(); i++) {
+                columnNames[i] = cursor.getString(i);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return columnNames[1];
     }
 
     public boolean updateData(String id, String name, String username, String password, String gender, String email,
