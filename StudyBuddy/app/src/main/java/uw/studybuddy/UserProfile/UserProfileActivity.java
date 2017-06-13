@@ -1,8 +1,10 @@
-package uw.studybuddy;
+package uw.studybuddy.UserProfile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import uw.studybuddy.R;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -21,6 +23,13 @@ public class UserProfileActivity extends AppCompatActivity {
         mUserCourses = (TextView)findViewById(R.id.user_profile_courses);
         mUserAboutMe = (TextView)findViewById(R.id.user_profile_about_me);
 
+        // For the purpose of the demo, we will create a user to display
+        UserInfo demoUser = UserInfo();
 
+        // Update the user profile view with the right user info
+        mUserDisplayName.setText(demoUser.getDisplayName());
+        mUserName.setText(demoUser.getName());
+        mUserCourses.setText(demoUser.getCourses().toString());
+        mUserAboutMe.setText(demoUser.getAboutMe());
     }
 }

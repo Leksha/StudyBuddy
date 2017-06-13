@@ -27,7 +27,7 @@
         <activity android:name=".YourEventList"/>
         <activity android:name=".ForgetPassword"/>
         <activity android:name=".ResetPassword"/>
-        <activity android:name=".UserProfileActivity">
+        <activity android:name=".UserProfile.UserProfileActivity">
         </activity>
     </application>
 
