@@ -10,8 +10,7 @@
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
     <string name="action_new_event">New event</string>
 
-    <string-array name="navigation_drawer_elements">
-        <item>"Home</item>
-    </string-array>
+    <!-- User profile related info strings -->
+    <string name="user_name_title">Name:</string>
 
 </resources>

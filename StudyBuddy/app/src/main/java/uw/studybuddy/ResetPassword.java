@@ -14,7 +14,7 @@ public class ResetPassword extends AppCompatActivity {
     }
 
     public void GoToHome(View view) {
-        Intent intent = new Intent(this, NavigationPane.class);
+        Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
 }
