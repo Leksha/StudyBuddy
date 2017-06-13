@@ -33,7 +33,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
-    UserInfo user;
+    private static UserInfo user;
 
     private Button mSearchButton;
     private EditText mFindFriendEditText;
@@ -97,9 +97,19 @@ public class HomePage extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) {}
         });
-        
+
         user = new UserInfo();
 
+    }
+
+    // Update the view if any changes made to user data
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (user == null) {
+            user = UserInfo.getInstance();
+        }
+        updateNavigationDrawerUserInfo();
     }
 
     @Override
@@ -173,6 +183,15 @@ public class HomePage extends AppCompatActivity
     public void GotoNewEvent(MenuItem item) {
         Intent intent = new Intent(this, EventCreation.class);
         startActivity(intent);
+    }
+
+    private void updateNavigationDrawerUserInfo() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
+        TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
+
+        userName.setText(user.getName().toString());
     }
 }
 

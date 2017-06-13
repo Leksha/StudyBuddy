@@ -1,5 +1,8 @@
 package uw.studybuddy.UserProfile;
 
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
+
 /**
  * Created by leksharamdenee on 2017-06-12.
  */
@@ -13,6 +16,7 @@ public class UserInfo {
     private static String mName;
     private static String[] mCourses;
     private static String mAboutMe;
+    private static Image mImage;
 
     // Getters and Setters
     public static String getDisplayName() {
