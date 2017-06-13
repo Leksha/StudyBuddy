@@ -36,7 +36,7 @@ public class UserInfo {
     }
 
     public static void setCourses(String[] mCourses) {
-        UserInfo.mCourses = mCourses;
+        UserInfo.mCourses = mCourses.clone();
     }
 
     public static String getAboutMe() {

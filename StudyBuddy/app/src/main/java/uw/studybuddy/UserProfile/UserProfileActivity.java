@@ -2,6 +2,11 @@ package uw.studybuddy.UserProfile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import uw.studybuddy.R;
@@ -33,6 +38,22 @@ public class UserProfileActivity extends AppCompatActivity {
         mUserName.setText(user.getName());
         mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
+
+        setListeners();
+
+    }
+
+    // Update the view if any changes made to user data
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (user == null) {
+            user = UserInfo.getInstance();
+        }
+        mUserDisplayName.setText(user.getDisplayName());
+        mUserName.setText(user.getName());
+        mUserCourses.setText(getCoursesString());
+        mUserAboutMe.setText(user.getAboutMe());
     }
 
     // Process the way user courses is displayed
@@ -50,5 +71,74 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
         return courses;
+    }
+
+    private void setListeners() {
+
+        // Update display name
+        mUserDisplayName.addTextChangedListener(new TextWatcher() {
+            String currString;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                currString = mUserDisplayName.getText().toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (currString !=null && currString != mUserDisplayName.getText().toString()) {
+                    user.setDisplayName(mUserDisplayName.getText().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        mUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mUserName.getText().toString() != user.getName()) {
+                    user.setName(mUserName.getText().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
+        mUserCourses.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mUserCourses.getText().toString() != user.getCourses().toString()) {
+                    String[] newCourses = mUserCourses.getText().toString().split(", ");
+                    user.setCourses(newCourses);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        mUserAboutMe.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mUserAboutMe.getText().toString() != user.getAboutMe()) {
+                    user.setAboutMe(mUserAboutMe.getText().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 }

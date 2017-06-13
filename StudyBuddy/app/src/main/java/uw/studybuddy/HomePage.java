@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.support.design.widget.NavigationView;
@@ -77,18 +80,24 @@ public class HomePage extends AppCompatActivity
             }
         });
 
-        mFindFriendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mFindFriendEditText.addTextChangedListener(new TextWatcher() {
+            String currString;
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == KeyEvent.KEYCODE_ENTER) {
-                    System.out.println("DOWN");
-                    mSearchButton.callOnClick();
-                    return true;
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                currString = mFindFriendEditText.getText().toString();
             }
-        });
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (currString !=null && currString != mFindFriendEditText.getText().toString()) {
+                    mSearchButton.callOnClick();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        
         user = new UserInfo();
 
     }
