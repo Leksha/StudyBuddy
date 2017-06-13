@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.support.design.widget.NavigationView;
@@ -23,12 +26,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class NavigationPane extends AppCompatActivity
+import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.UserProfile.UserProfileActivity;
+
+public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Data required for the app
+    private static UserInfo user;
 
     private Button mSearchButton;
     private EditText mFindFriendEditText;
     private TextView mPrintFriendInfoTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,30 +80,36 @@ public class NavigationPane extends AppCompatActivity
             }
         });
 
-        mFindFriendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mFindFriendEditText.addTextChangedListener(new TextWatcher() {
+            String currString;
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == KeyEvent.KEYCODE_ENTER) {
-                    System.out.println("DOWN");
-                    mSearchButton.callOnClick();
-                    return true;
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                currString = mFindFriendEditText.getText().toString();
             }
-        });
-        mFindFriendEditText.setOnKeyListener(new View.OnKeyListener() {
+
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN &&
-                        event.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    System.out.println("YUP");
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (currString !=null && currString != mFindFriendEditText.getText().toString()) {
                     mSearchButton.callOnClick();
-                    return true;
                 }
-                return false;
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
+        user = new UserInfo();
+
+    }
+
+    // Update the view if any changes made to user data
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (user == null) {
+            user = UserInfo.getInstance();
+        }
+        updateNavigationDrawerUserInfo();
     }
 
     @Override
@@ -139,9 +155,11 @@ public class NavigationPane extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-            System.out.println("Clicked on camera");
+            System.out.println("Clicked on Home Page");
         } else if (id == R.id.nav_user_profile) {
-            System.out.println("Clicked on gallery");
+            System.out.println("Clicked on User Profile");
+            Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
+            HomePage.this.startActivity(userProfile);
 
         } else if (id == R.id.nav_friend_list) {
 
@@ -161,6 +179,19 @@ public class NavigationPane extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    
+
+    public void GotoNewEvent(MenuItem item) {
+        Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+    private void updateNavigationDrawerUserInfo() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
+        TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
+
+        userName.setText(user.getName().toString());
+    }
 }
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class SetUpProfile extends AppCompatActivity {
 
@@ -21,7 +20,7 @@ public class SetUpProfile extends AppCompatActivity {
         bWelcome.setOnClickListener(new View.OnClickListener(){ // LOGIN
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(SetUpProfile.this, NavigationPane.class);
+                Intent loginIntent = new Intent(SetUpProfile.this, HomePage.class);
                 SetUpProfile.this.startActivity(loginIntent);
             }
         });
