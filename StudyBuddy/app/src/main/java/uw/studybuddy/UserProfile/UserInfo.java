@@ -5,6 +5,9 @@ package uw.studybuddy.UserProfile;
  */
 
 public class UserInfo {
+    // Singleton
+    public static UserInfo instance;
+
     //Attributes
     private static String mDisplayName;
     private static String mName;
@@ -60,5 +63,17 @@ public class UserInfo {
         mName = "Harry Potter";
         mCourses = courses;
         mAboutMe = aboutMe;
+    }
+
+    // instance methods
+    public static void initInstance() {
+        if (instance == null) {
+            instance = new UserInfo();
+        }
+    }
+
+    public static UserInfo getInstance() {
+        initInstance();
+        return instance;
     }
 }

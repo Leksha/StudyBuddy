@@ -23,14 +23,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Data required for the app
+    UserInfo user;
+
     private Button mSearchButton;
     private EditText mFindFriendEditText;
     private TextView mPrintFriendInfoTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +88,8 @@ public class HomePage extends AppCompatActivity
                 return false;
             }
         });
-        mFindFriendEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN &&
-                        event.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    System.out.println("YUP");
-                    mSearchButton.callOnClick();
-                    return true;
-                }
-                return false;
-            }
-        });
+
+        user = new UserInfo();
 
     }
 
