@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class NavigationPane extends AppCompatActivity
+public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button mSearchButton;
