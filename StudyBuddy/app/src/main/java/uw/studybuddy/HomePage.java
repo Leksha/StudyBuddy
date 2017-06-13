@@ -38,11 +38,15 @@ public class HomePage extends AppCompatActivity
     private Button mSearchButton;
     private EditText mFindFriendEditText;
     private TextView mPrintFriendInfoTextView;
+    DatabaseSQL dbSQL;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dbSQL = new DatabaseSQL(this);
+
         setContentView(R.layout.activity_navigation_pane);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,11 +76,13 @@ public class HomePage extends AppCompatActivity
         mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
         mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
 
+
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
                 mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
+                //mPrintFriendInfoTextView.setText(dbSQL.displayName(friendName));
             }
         });
 
