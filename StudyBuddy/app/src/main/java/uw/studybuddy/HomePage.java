@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import uw.studybuddy.UserProfile.UserProfileActivity;
+
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -139,9 +141,11 @@ public class HomePage extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-            System.out.println("Clicked on camera");
+            System.out.println("Clicked on Home Page");
         } else if (id == R.id.nav_user_profile) {
-            System.out.println("Clicked on gallery");
+            System.out.println("Clicked on User Profile");
+            Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
+            HomePage.this.startActivity(userProfile);
 
         } else if (id == R.id.nav_friend_list) {
 

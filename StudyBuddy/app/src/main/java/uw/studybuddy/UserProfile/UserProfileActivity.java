@@ -24,7 +24,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mUserAboutMe = (TextView)findViewById(R.id.user_profile_about_me);
 
         // For the purpose of the demo, we will create a user to display
-        UserInfo demoUser = UserInfo();
+        UserInfo demoUser = new UserInfo();
 
         // Update the user profile view with the right user info
         mUserDisplayName.setText(demoUser.getDisplayName());
