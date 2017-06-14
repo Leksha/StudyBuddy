@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import static android.R.attr.content;
 import static android.R.attr.version;
@@ -14,6 +15,7 @@ import static android.R.attr.version;
  */
 
 public class DatabaseSQL extends SQLiteOpenHelper {
+    private static final String TAG = DatabaseSQL.class.getSimpleName();
 
     public static final String db_name = "studybuddy";
     public static final String userTable = "user_info";
@@ -21,7 +23,7 @@ public class DatabaseSQL extends SQLiteOpenHelper {
     public static final String colName = "NAME";
     public static final String colUserName = "USERNAME";
     public static final String colPassword = "PASSWORD";
-    public static String colGender;
+    public static String colGender = "true";
     public static final String colEmail = "EMAIL";
     public static final String colFB = "FBLINK";
     public static final String colDesc = "USERDESC";
@@ -40,8 +42,9 @@ public class DatabaseSQL extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + userTable + "(" + colID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + colName + " TEXT," + colUserName + " TEXT NOT NULL UNIQUE," + colPassword + " TEXT NOT NULL UNIQUE, " +
-                colGender + " TEXT," + colEmail + " TEXT NOT NULL UNIQUE" + colFB + " TEXT" + colDesc + " TEXT)");
+        db.execSQL("CREATE TABLE " + userTable + "(" + colID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + colName + " TEXT, " + colUserName + " TEXT NOT NULL UNIQUE, " + colPassword + " TEXT NOT NULL UNIQUE, " +
+                colGender + " TEXT, " + colEmail + " TEXT NOT NULL UNIQUE, " + colFB + " TEXT, " + colDesc + " TEXT)");
+
     }
 
     @Override
@@ -76,15 +79,20 @@ public class DatabaseSQL extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + userTable + " WHERE NAME = " + name, null);
+        Log.d(TAG, "query the database");
         String[] columnNames = cursor.getColumnNames();
         if(cursor.moveToFirst()) {
             for(int i = 0; i < cursor.getCount(); i++) {
                 columnNames[i] = cursor.getString(i);
+                Log.d(TAG, "column " + i + " in user_info table");
                 cursor.moveToNext();
             }
             cursor.close();
         }
-        return columnNames[1];
+        String ret = columnNames[1];
+        Log.d(TAG, "return the name from the queried table");
+        return ret;
+
     }
 
     public boolean updateData(String id, String name, String username, String password, String gender, String email,

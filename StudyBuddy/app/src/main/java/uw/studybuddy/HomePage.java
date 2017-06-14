@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,12 +26,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.util.Log;
 
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = HomePage.class.getSimpleName();
 
     // Data required for the app
     private static UserInfo user;
@@ -46,8 +49,10 @@ public class HomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dbSQL = new DatabaseSQL(HomePage.this);
+        Log.d(TAG, "initialize database instance");
         dbSQL.insertData(1, "Yuna", "yuna1", "testpwd", null, "yuna1@edu.uwaterloo.ca", null, null);
         dbSQL.insertData(2, "Anakha", "apalissery", "testpwd2", null, "apalissery@edu.uwaterloo.ca", null, null);
+        Log.d(TAG, "inserted test data into database");
 
         setContentView(R.layout.activity_navigation_pane);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,8 +88,11 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
+                Log.d(TAG, "friendName var created");
                 String name = dbSQL.getName(friendName);
+                Log.d(TAG, "call getName method from DatabaseSQL class");
                 mPrintFriendInfoTextView.setText(name);
+                Log.d(TAG, "set the text in the home page result box");
 
                 //mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
                 //mPrintFriendInfoTextView.setText(dbSQL.displayName(friendName));
