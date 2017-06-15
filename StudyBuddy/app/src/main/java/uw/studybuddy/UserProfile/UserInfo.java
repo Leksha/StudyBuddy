@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.media.Image;
 import android.support.v4.content.ContextCompat;
 
 /**
