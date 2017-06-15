@@ -3,10 +3,6 @@ package uw.studybuddy;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.DateTimePatternGenerator;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,14 +11,16 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class EventCreation extends AppCompatActivity {
 
     Calendar dateTime = Calendar.getInstance();
     private TextView textView;
+
     private Button btn_date;
     private Button btn_time;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +31,16 @@ public class EventCreation extends AppCompatActivity {
         btn_date = (Button) findViewById(R.id.btn_datePicker);
         btn_time = (Button) findViewById((R.id.btn_timePicker));
 
-        btn_date.setOnClickListener(new View.OnClickListener() {
+        btn_date.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 updateDate();
             }
         });
 
-        btn_time.setOnClickListener(new View.OnClickListener() {
+        btn_time.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 updateTime();
             }
         });
@@ -51,12 +49,12 @@ public class EventCreation extends AppCompatActivity {
 
     }
 
-    private void updateDate() {
-        new DatePickerDialog(this, d, dateTime.get(Calendar.YEAR), dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DAY_OF_MONTH)).show();
+    private void updateDate(){
+        new DatePickerDialog(this, d , dateTime.get(Calendar.YEAR), dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DAY_OF_MONTH)).show();
 
     }
 
-    private void updateTime() {
+    private void updateTime(){
         new TimePickerDialog(this, t, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), true).show();
     }
 
@@ -79,20 +77,14 @@ public class EventCreation extends AppCompatActivity {
         }
     };
 
+    private void updateTextLable() {
+        textView.setText(dateTime.get(Calendar.YEAR) + " / " + dateTime.get(Calendar.MONTH) + " / "+ dateTime.get(Calendar.DAY_OF_MONTH)
+                + "  " + dateTime.get(Calendar.HOUR_OF_DAY) + " : " + dateTime.get(Calendar.MINUTE));
+    }
+
+
     public void GoYouEventList(View view) {
         Intent intent = new Intent(this, YourEventList.class);
         startActivity(intent);
-    }
-
-    private void updateTextLable() {
-
-        /*Date date = new Date();
-        String stringDate = DateFormat.getDateTimeInstance().format(dateTime.getInstance().getTime());
-        textView.setText(stringDate);
-        */
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm a");
-        textView.setText(dateFormat.format(dateTime.getTime()));
-
     }
 }

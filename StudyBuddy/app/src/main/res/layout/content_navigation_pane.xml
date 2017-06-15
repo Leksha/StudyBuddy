@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="uw.studybuddy.NavigationPane"
+    tools:context="uw.studybuddy.HomePage"
     tools:showIn="@layout/app_bar_navigation_pane">
 
     <Button
@@ -30,6 +30,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="@string/find_friend_editText"
+        android:imeOptions="actionDone"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="parent"
