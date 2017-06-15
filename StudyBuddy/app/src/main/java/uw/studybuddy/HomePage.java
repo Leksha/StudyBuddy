@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
@@ -192,6 +194,12 @@ public class HomePage extends AppCompatActivity
         TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
 
         userName.setText(user.getName().toString());
+    }
+
+    public void LogOut(MenuItem item) {
+        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        fAuth.signOut();
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
 
