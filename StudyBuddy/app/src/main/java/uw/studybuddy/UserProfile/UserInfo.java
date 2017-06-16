@@ -1,5 +1,8 @@
 package uw.studybuddy.UserProfile;
 
+import android.content.Intent;
+import android.media.Image;
+import android.os.Bundle;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
 
@@ -70,6 +73,12 @@ public class UserInfo {
     }
 
     // instance methods
+    public static void initInstance(String displayName, String name, String[] courses, String aboutMe) {
+        if (instance == null) {
+            instance = new UserInfo(displayName, name, courses, aboutMe);
+        }
+    }
+
     public static void initInstance() {
         if (instance == null) {
             instance = new UserInfo();

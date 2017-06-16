@@ -35,7 +35,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
-    private static UserInfo user;
+    private UserInfo user;
 
     private Button mSearchButton;
     private EditText mFindFriendEditText;

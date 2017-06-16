@@ -1,9 +1,12 @@
 package uw.studybuddy;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+
+import android.text.Editable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -14,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,8 +26,15 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
-public class LoginActivity extends AppCompatActivity {
+import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.UserProfile.UserProfileActivity;
 
+public class LoginActivity extends AppCompatActivity{
+    private EditText etUsername;
+    private EditText etPassword;
+    private Button bLogin;
+    private TextView registerLink;
+    private CheckBox cbShowPS
 
     private FirebaseAuth mAuth;
     @Override
@@ -41,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         final Button bLogin = (Button) findViewById(R.id.bSubmit);
         final TextView registerLink = (TextView) findViewById(R.id.tvRegisterNow);
         final CheckBox cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
+        etUsername = (EditText)findViewById(R.id.etUsername);
+        etPassword = (EditText)findViewById(R.id.etPassword);
+        bLogin = (Button)findViewById(R.id.bSubmit);
+        registerLink = (TextView)findViewById(R.id.tvRegisterNow);
+        cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
 
         cbShowPSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
