@@ -9,7 +9,7 @@
     tools:layout_editor_absoluteX="0dp">
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etPasswordLogin"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
@@ -21,20 +21,21 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmailLogin" />
 
     <Button
         android:id="@+id/bSubmit"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:text="Login"
+        android:onClick="Login"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLogin" />
 
     <TextView
         android:id="@+id/tvRegisterNow"
@@ -43,6 +44,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="0dp"
         android:text="register now"
+        android:onClick="GotoRegister"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -78,7 +80,7 @@
         tools:layout_editor_absoluteY="6dp" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etEmailLogin"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
@@ -102,5 +104,5 @@
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLogin" />
 </android.support.constraint.ConstraintLayout>
