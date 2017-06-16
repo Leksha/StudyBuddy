@@ -30,11 +30,6 @@ import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class LoginActivity extends AppCompatActivity{
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button bLogin;
-    private TextView registerLink;
-    private CheckBox cbShowPS
 
     private FirebaseAuth mAuth;
     @Override
@@ -52,11 +47,7 @@ public class LoginActivity extends AppCompatActivity{
         final Button bLogin = (Button) findViewById(R.id.bSubmit);
         final TextView registerLink = (TextView) findViewById(R.id.tvRegisterNow);
         final CheckBox cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
-        etUsername = (EditText)findViewById(R.id.etUsername);
-        etPassword = (EditText)findViewById(R.id.etPassword);
-        bLogin = (Button)findViewById(R.id.bSubmit);
-        registerLink = (TextView)findViewById(R.id.tvRegisterNow);
-        cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
+
 
         cbShowPSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
