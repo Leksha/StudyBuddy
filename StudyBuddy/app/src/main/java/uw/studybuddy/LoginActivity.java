@@ -1,8 +1,11 @@
 package uw.studybuddy;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -11,19 +14,28 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.UserProfile.UserProfileActivity;
+
+public class LoginActivity extends AppCompatActivity{
+    private EditText etUsername;
+    private EditText etPassword;
+    private Button bLogin;
+    private TextView registerLink;
+    private CheckBox cbShowPSD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText etUsername = (EditText)findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText)findViewById(R.id.etPassword);
-        final Button bLogin = (Button)findViewById(R.id.bSubmit);
-        final TextView registerLink = (TextView)findViewById(R.id.tvRegisterNow);
-        final CheckBox cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
+        etUsername = (EditText)findViewById(R.id.etUsername);
+        etPassword = (EditText)findViewById(R.id.etPassword);
+        bLogin = (Button)findViewById(R.id.bSubmit);
+        registerLink = (TextView)findViewById(R.id.tvRegisterNow);
+        cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
 
         cbShowPSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

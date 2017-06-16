@@ -14,20 +14,21 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".LoginActivity">
+        </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".Confirmation" />
+        <activity android:name=".SetUpProfile" />
+        <activity android:name=".EventCreation" />
+        <activity android:name=".YourEventList" />
+        <activity android:name=".ForgetPassword" />
+        <activity android:name=".ResetPassword" />
+        <activity android:name=".UserProfile.UserProfileActivity"></activity>
+        <activity android:name=".StudyBuddyWelcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".Confirmation"/>
-        <activity android:name=".SetUpProfile"/>
-        <activity android:name=".EventCreation"/>
-        <activity android:name=".YourEventList"/>
-        <activity android:name=".ForgetPassword"/>
-        <activity android:name=".ResetPassword"/>
-        <activity android:name=".UserProfile.UserProfileActivity">
         </activity>
     </application>
 
