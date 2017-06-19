@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:name="layout.FragHomeSearch"
+        android:id="@+id/frag_search_friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </fragment>
+    <fragment
+        android:name="layout.FragHomeCourses"
+        android:id="@+id/frag_courses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </fragment>
+    <fragment
+        android:name="layout.FragHomeEvents"
+        android:id="@+id/frag_events"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </fragment>
+
+</LinearLayout>

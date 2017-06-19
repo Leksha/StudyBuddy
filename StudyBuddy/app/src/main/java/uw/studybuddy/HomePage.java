@@ -25,7 +25,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
+import layout.FragHomeCourses;
+import layout.FragHomeEvents;
+import layout.FragHomeSearch;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
@@ -43,10 +49,22 @@ public class HomePage extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_pane);
+        setContentView(R.layout.homepage);
+        FragHomeSearch fragSearch = new FragHomeSearch();
+        FragHomeCourses fragCourses = new FragHomeCourses();
+        FragHomeEvents fragEvents = new FragHomeEvents();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frag_search_friends, fragSearch, "Frag_Search_Friends_Tag");
+        ft.add(R.id.frag_courses, fragCourses, "Frag_Courses_Tag");
+        ft.add(R.id.frag_events, fragEvents, "Frag_Events_Tag");
+        ft.commit();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Home Page");
+        getSupportActionBar().setTitle("Home Page"); 
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +88,11 @@ public class HomePage extends AppCompatActivity
 
         mSearchButton = (Button)findViewById(R.id.search_button);
         mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
-        mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
-                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
             }
         });
 
