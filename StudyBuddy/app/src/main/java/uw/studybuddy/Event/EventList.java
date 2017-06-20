@@ -9,17 +9,22 @@ import java.util.List;
 
 public class EventList {
     private List<EventInfo> allEvents;
-
-    public EventList() {
-        allEvents = new ArrayList<EventInfo>();
-    }
+    public static EventList instance;
 
     public void addEvent(EventInfo newEvent) {
-        allEvents.add(newEvent);
+        getInstance().allEvents.add(newEvent);
     }
 
     public void removeEvent(EventInfo event) {
-        allEvents.remove(event);
+        getInstance().allEvents.remove(event);
+    }
+
+    public EventList getInstance() {
+        if (instance == null) {
+            instance = new EventList();
+            allEvents = new ArrayList<EventInfo>();
+        }
+        return instance;
     }
 
 }

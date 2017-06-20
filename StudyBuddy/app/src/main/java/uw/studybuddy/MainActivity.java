@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity
 //        }
         if (id == R.id.action_new_event) {
            // mPrintFriendInfoTextView.setText("Create new event");
+            Intent intent = new Intent(this, EventCreation.class);
+            startActivityForResult(intent, 1);
         }
 
         return super.onOptionsItemSelected(item);
@@ -155,11 +157,6 @@ public class MainActivity extends AppCompatActivity
 //        else if (id == R.id.nav_map) {
 //
 //        }
-// else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
         else if (id == R.id.nav_log_out) {
 
         }
@@ -179,10 +176,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void GotoNewEvent(MenuItem item) {
-        Intent intent = new Intent(this, EventCreation.class);
-        startActivity(intent);
-    }
+//    public void GotoNewEvent(MenuItem item) {
+//        Intent intent = new Intent(this, EventCreation.class);
+//        startActivity(intent);
+//    }
 
     private void updateNavigationDrawerUserInfo() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

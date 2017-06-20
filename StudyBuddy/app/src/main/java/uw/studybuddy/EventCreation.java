@@ -84,7 +84,6 @@ public class EventCreation extends AppCompatActivity {
 
 
     public void GoYouEventList(View view) {
-        Intent intent = new Intent(this, YourEventList.class);
-        startActivity(intent);
+        finish();
     }
 }
