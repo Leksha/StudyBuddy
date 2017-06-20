@@ -2,17 +2,21 @@ package uw.studybuddy.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by leksharamdenee on 2017-06-20.
  */
 
 public class EventInfo {
+    private UUID id;
+
     private String title;
+
     private Date date;
     private String description;
-
     public EventInfo(String eventTitle, Date eventDate, String eventDescription) {
+        id = UUID.randomUUID();
         title = eventTitle;
         date = eventDate;
         description = eventDescription;
@@ -46,5 +50,9 @@ public class EventInfo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

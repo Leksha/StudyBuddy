@@ -10,31 +10,36 @@ import java.util.List;
  */
 
 public class EventList {
-    private List<EventInfo> allEvents = null;
     public static EventList instance = null;
+    private List<EventInfo> allEvents = null;
 
     public EventList() {
         instance = getInstance();
     }
 
     public void addEvent(EventInfo newEvent) {
-        getInstance().allEvents.add(newEvent);
+        allEvents.add(newEvent);
     }
 
     public void removeEvent(EventInfo event) {
-        getInstance().allEvents.remove(event);
+        allEvents.remove(event);
     }
 
     public EventList getInstance() {
         if (instance == null) {
             instance = new EventList();
             allEvents = new ArrayList<EventInfo>();
+            createDummyEvent();
         }
         return instance;
     }
 
     public int getEventListSize() {
-        return getInstance().allEvents.size();
+        if (allEvents == null) {
+            allEvents = new ArrayList<EventInfo>();
+            createDummyEvent();
+        }
+        return allEvents.size();
     }
 
     public List<EventInfo> getEventList() {
