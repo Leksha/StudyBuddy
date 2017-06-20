@@ -1,5 +1,6 @@
 package uw.studybuddy.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -27,6 +28,12 @@ public class EventInfo {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getDateAsString(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        String dateString = sdf.format(date);
+        return dateString;
     }
 
     public void setDate(Date date) {
