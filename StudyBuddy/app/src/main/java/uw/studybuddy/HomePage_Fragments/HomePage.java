@@ -1,4 +1,4 @@
-package uw.studybuddy;
+package uw.studybuddy.HomePage_Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import uw.studybuddy.R;
 
 
 /**
@@ -64,7 +66,7 @@ public class HomePage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home__page, container, false);
+        return inflater.inflate(R.layout.fragment_home_page, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
