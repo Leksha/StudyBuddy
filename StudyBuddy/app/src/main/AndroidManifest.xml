@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Confirmation" />
-        <activity android:name=".SetUpProfile" />
+        <activity android:name=".SetUpProfile" >
+        </activity>
         <activity android:name=".EventCreation" />
         <activity android:name=".YourEventList" />
         <activity android:name=".ForgetPassword" />
