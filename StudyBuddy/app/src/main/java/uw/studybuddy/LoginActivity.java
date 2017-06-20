@@ -1,33 +1,24 @@
 package uw.studybuddy;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-import android.text.Editable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
-
-import uw.studybuddy.UserProfile.UserInfo;
-import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -39,7 +30,7 @@ public class LoginActivity extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(LoginActivity.this, HomePage.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
 
         final EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
@@ -90,7 +81,7 @@ public class LoginActivity extends AppCompatActivity{
                         if (!task.isSuccessful()) {
                             startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            startActivity(new Intent(LoginActivity.this, HomePage.class));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     }
 

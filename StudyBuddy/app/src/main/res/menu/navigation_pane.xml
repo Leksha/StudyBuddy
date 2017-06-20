@@ -9,7 +9,6 @@
     <item
         android:id="@+id/action_new_event"
         android:orderInCategory="100"
-        android:title="@string/action_new_event"
-        android:onClick="GotoNewEvent"
-        />
+        android:title="@string/action_new_event"/>
+        <!--android:onClick="GotoNewEvent"-->
 </menu>
