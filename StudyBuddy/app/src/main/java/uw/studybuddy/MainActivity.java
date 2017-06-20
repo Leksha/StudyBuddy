@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         // Setup the fragment to be displayed
         Fragment fragment = null;
         Class fragmentClass = null;
-        fragmentClass = FindFriends.class;
+        fragmentClass = HomePage.class;
         try {
             fragment = (Fragment)fragmentClass.newInstance();
         } catch (Exception e) {
