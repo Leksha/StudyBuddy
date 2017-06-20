@@ -1,9 +1,12 @@
 package uw.studybuddy;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,15 +29,12 @@ import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class HomePage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements FindFriends.OnFragmentInteractionListener,
+        DisplayCourses.OnFragmentInteractionListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
     private UserInfo user;
-
-    private Button mSearchButton;
-    private EditText mFindFriendEditText;
-    private TextView mPrintFriendInfoTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,19 @@ public class HomePage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+
+        // Setup the fragment to be displayed
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        fragmentClass = FindFriends.class;
+        try {
+            fragment = (Fragment)fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,35 +77,6 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mSearchButton = (Button)findViewById(R.id.search_button);
-        mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
-        mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
-
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                String friendName = mFindFriendEditText.getText().toString();
-                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
-            }
-        });
-
-        mFindFriendEditText.addTextChangedListener(new TextWatcher() {
-            String currString;
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                currString = mFindFriendEditText.getText().toString();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (currString !=null && currString != mFindFriendEditText.getText().toString()) {
-                    mSearchButton.callOnClick();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
 
         user = new UserInfo();
 
@@ -137,7 +121,7 @@ public class HomePage extends AppCompatActivity
 //            return true;
 //        }
         if (id == R.id.action_new_event) {
-            mPrintFriendInfoTextView.setText("Create new event");
+           // mPrintFriendInfoTextView.setText("Create new event");
         }
 
         return super.onOptionsItemSelected(item);
@@ -149,19 +133,25 @@ public class HomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = null;
+        Class fragmentClass = null;
+
         if (id == R.id.nav_home) {
             // Handle the camera action
             System.out.println("Clicked on Home Page");
+            fragmentClass = DisplayCourses.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
             Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
             HomePage.this.startActivity(userProfile);
 
         } else if (id == R.id.nav_friend_list) {
-
-        } else if (id == R.id.nav_map) {
+            fragmentClass = FindFriends.class;
 
         }
+//        else if (id == R.id.nav_map) {
+//
+//        }
 // else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {
@@ -171,6 +161,16 @@ public class HomePage extends AppCompatActivity
 
         }
 
+        // Display the new fragment
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        // Close the navigation drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -194,6 +194,14 @@ public class HomePage extends AppCompatActivity
         FirebaseAuth fAuth = FirebaseAuth.getInstance();
         fAuth.signOut();
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+
+    // OnFragmentInteractionListeners
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
 
