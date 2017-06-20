@@ -29,11 +29,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
 import uw.studybuddy.HomePage_Fragments.FindFriends;
+import uw.studybuddy.HomePage_Fragments.HomePage;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements FindFriends.OnFragmentInteractionListener,
+        implements HomePage.OnFragmentInteractionListener,
+        FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -196,7 +198,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
             System.out.println("Clicked on Home Page");
-            fragmentClass = DisplayCourses.class;
+            fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
             Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
