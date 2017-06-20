@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Home_Page.OnFragmentInteractionListener} interface
+ * {@link HomePage.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Home_Page#newInstance} factory method to
+ * Use the {@link HomePage#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Home_Page extends Fragment {
+public class HomePage extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class Home_Page extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Home_Page() {
+    public HomePage() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class Home_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Home_Page.
+     * @return A new instance of fragment HomePage.
      */
     // TODO: Rename and change types and number of parameters
-    public static Home_Page newInstance(String param1, String param2) {
-        Home_Page fragment = new Home_Page();
+    public static HomePage newInstance(String param1, String param2) {
+        HomePage fragment = new HomePage();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
