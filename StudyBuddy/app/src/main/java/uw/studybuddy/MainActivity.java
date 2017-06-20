@@ -21,16 +21,19 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import uw.studybuddy.Event.EventListFragment;
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
 import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.HomePage_Fragments.HomePage;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
+import uw.studybuddy.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
+        EventListFragment.OnListFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
@@ -201,6 +204,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }

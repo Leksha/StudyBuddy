@@ -23,4 +23,13 @@
         tools:layout="@layout/fragment_display_courses">
     </fragment>
 
+    <fragment
+        android:id="@+id/homepage_event_list"
+        android:name="uw.studybuddy.Event.EventListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_event_list">
+    </fragment>
+
+
 </LinearLayout>
