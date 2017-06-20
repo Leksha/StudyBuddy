@@ -7,10 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,16 +16,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import uw.studybuddy.HomePage_Fragments.DisplayCourses;
+import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
-public class HomePage extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
@@ -142,8 +140,8 @@ public class HomePage extends AppCompatActivity
             fragmentClass = DisplayCourses.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
-            Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
-            HomePage.this.startActivity(userProfile);
+            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+            MainActivity.this.startActivity(userProfile);
 
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FindFriends.class;
