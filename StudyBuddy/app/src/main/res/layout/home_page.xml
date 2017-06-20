@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="uw.studybuddy.HomePage"
-    tools:showIn="@layout/app_bar_navigation_pane">
+    tools:showIn="@layout/app_bar_home_page">
 
     <Button
         android:id="@+id/search_button"
