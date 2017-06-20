@@ -47,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etfirstC" />
+        app:layout_constraintTop_toBottomOf="@+id/etFirstC" />
 
     <EditText
         android:id="@+id/etThirdC"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etThirdC" />
 
     <EditText
-        android:id="@+id/etfirstC"
+        android:id="@+id/etFirstC"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
@@ -104,11 +104,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername"
+        app:layout_constraintTop_toBottomOf="@+id/etUsernameSet"
         tools:layout_editor_absoluteY="104dp" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etUsernameSet"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"

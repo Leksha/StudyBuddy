@@ -1,25 +1,45 @@
 package uw.studybuddy;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class EventCreation extends AppCompatActivity {
 
     Calendar dateTime = Calendar.getInstance();
     private TextView textView;
+    private TextView courseCreate;
+    private TextView descriptionCreate;
+    private TextView locationCreate;
+    private TextView subjectCreate;
+
+    private DatabaseReference mDatabase;
 
     private Button btn_date;
     private Button btn_time;
+    private Button mConfirm;
+    //private ProgressDialog progressDialog;
 
 
     @Override
@@ -27,9 +47,17 @@ public class EventCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
 
+        courseCreate = (EditText)findViewById(R.id.course_create);
+        locationCreate = (EditText)findViewById(R.id.location_create);
+        subjectCreate = (EditText)findViewById(R.id.subject_create);
+        descriptionCreate = (EditText)findViewById(R.id.description_create);
+
         textView = (TextView) findViewById(R.id.Text_date_time);
         btn_date = (Button) findViewById(R.id.btn_datePicker);
         btn_time = (Button) findViewById((R.id.btn_timePicker));
+
+        mConfirm = (Button)findViewById(R.id.btn_confirm_event_setup);
+        //progressDialog = new ProgressDialog(this);
 
         btn_date.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -46,6 +74,47 @@ public class EventCreation extends AppCompatActivity {
         });
 
         updateTextLable();
+
+        mConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+
+                final HashMap<String, String> dataMap = new HashMap<String, String>();
+                courseCreate = (EditText)findViewById(R.id.course_create);
+                locationCreate = (EditText)findViewById(R.id.location_create);
+                subjectCreate = (EditText)findViewById(R.id.subject_create);
+                descriptionCreate = (EditText)findViewById(R.id.description_create);
+
+                String course = courseCreate.getText().toString().trim();
+                String description = descriptionCreate.getText().toString().trim();
+                String location = locationCreate.getText().toString().trim();
+                String subject = subjectCreate.getText().toString().trim();
+        if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(subject)){
+            dataMap.put("course", course);
+            dataMap.put("description", description);
+            dataMap.put("location", location);
+            dataMap.put("subject", subject);
+
+
+            mDatabase.push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(EventCreation.this, "Saving information...",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(EventCreation.this, "Error occured.",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
+        }
+
+                Intent intent = new Intent(EventCreation.this, HomePage.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -83,8 +152,5 @@ public class EventCreation extends AppCompatActivity {
     }
 
 
-    public void GoYouEventList(View view) {
-        Intent intent = new Intent(this, YourEventList.class);
-        startActivity(intent);
-    }
 }
+
