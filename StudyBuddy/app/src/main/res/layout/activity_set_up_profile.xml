@@ -30,8 +30,10 @@
         android:id="@+id/etUsernameSet"
         android:layout_width="301dp"
         android:layout_height="37dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:background="@color/white"
         android:ems="10"
@@ -39,12 +41,11 @@
         android:hint="Name"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintHorizontal_bias="0.813"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleSetProfile"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleSetProfile"/>
 
     <TextView
         android:id="@+id/tvTextthistermcourse"
@@ -64,8 +65,10 @@
         android:id="@+id/etFirstC"
         android:layout_width="303dp"
         android:layout_height="33dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:background="@color/white"
         android:ems="10"
@@ -73,20 +76,21 @@
         android:hint="First Course (option)"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.804"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTextthistermcourse"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvTextthistermcourse"/>
 
     <EditText
         android:id="@+id/etSecondC"
         android:layout_width="303dp"
         android:layout_height="33dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="15dp"
         android:background="@color/white"
         android:ems="10"
@@ -94,20 +98,21 @@
         android:hint="Second Course (option)"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.804"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFirstC"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/etFirstC"/>
 
     <EditText
         android:id="@+id/etThirdC"
         android:layout_width="303dp"
         android:layout_height="33dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:background="@color/white"
         android:ems="10"
@@ -115,20 +120,21 @@
         android:hint="Third course (option)"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.804"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSecondC"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/etSecondC"/>
 
     <EditText
         android:id="@+id/etFourthC"
         android:layout_width="303dp"
         android:layout_height="33dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:background="@color/white"
         android:ems="10"
@@ -136,20 +142,21 @@
         android:hint="Fourth Course (option)"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.809"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etThirdC"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/etThirdC"/>
 
     <EditText
         android:id="@+id/etFifthC"
         android:layout_width="303dp"
         android:layout_height="33dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:background="@color/white"
         android:ems="10"
@@ -157,28 +164,28 @@
         android:hint="Fifth Course (option)"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.809"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFourthC"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/etFourthC"/>
 
     <Button
         android:id="@+id/bWelcome"
         android:layout_width="137dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/white"
         android:text="Welcome"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.57"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etFifthC"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="8dp"
         app:layout_constraintVertical_bias="0.818"/>
 
 </android.support.constraint.ConstraintLayout>
