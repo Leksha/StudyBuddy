@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText etConfirmationEmail = (EditText)findViewById(R.id.etConfirmationEmail);
+        //final EditText etConfirmationEmail = (EditText)findViewById(R.id.etConfirmationEmail);
         final EditText etUsername = (EditText)findViewById(R.id.etUsernameReg);
         final EditText etPassword = (EditText)findViewById(R.id.etPasswordReg);
         final Button bSubmit = (Button)findViewById(R.id.bSubmit);
@@ -53,28 +53,21 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final EditText Email = (EditText)findViewById(R.id.etUsernameReg);
         EditText Password = (EditText)findViewById(R.id.etPasswordReg);
-        EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        //EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
         String email = Email.getText().toString();
         String password = Password.getText().toString();
-        final String Authemail = Auther.getText().toString();
+        //final String Authemail = Auther.getText().toString();
         if(TextUtils.isEmpty(email)){
             String message = this.getString(R.string.EmptyEmail);
             Email.setHint(message);
             Email.setHintTextColor(getResources().getColor(R.color.errorhint));
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(password)) {
             String message = this.getString(R.string.EmptyPassword);
             Password.setHint(message);
             Password.setHintTextColor(getResources().getColor(R.color.errorhint));
-            return;
-
-        }
-        if(TextUtils.isEmpty(Authemail)){
-            String message = this.getString(R.string.EmptyEmail);
-            Auther.setHint(message);
-            Auther.setHintTextColor(getResources().getColor(R.color.errorhint));
             return;
 
         }
@@ -89,16 +82,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }else{
                             //then do the authermail now
-                            SentConfirmation(Authemail);
+                            SentConfirmation();
 
                         }
                     }
                 });
     }
 
-    public void SentConfirmation(String email) {
+    public void SentConfirmation() {
         final FirebaseUser user = mAuth.getCurrentUser();
-        final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        final String message_send = this.getString(R.string.Send_Confirmation);
+        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -109,7 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Error.setText(message);
                             return;
                         }else{
-                            startActivity(new Intent(RegisterActivity.this, SetUpProfile.class));
+                            Error.setText(message_send);
+                            startActivity(new Intent(RegisterActivity.this, Confirmation.class));
                         }
                     }
                 });
