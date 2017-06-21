@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="uw.studybuddy.Confirmation">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="uw.studybuddy.Confirmation"
+                                             android:background="@drawable/profile_setup"
+                                             tools:layout_editor_absoluteY="81dp"
+                                             tools:layout_editor_absoluteX="0dp">
 
     <Button
         android:id="@+id/bConfirm"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="confirm"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/cardview_light_background"
         android:onClick="sentConfirmEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleConfirm" />
+        android:text="confirm"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvResentEmail"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/tvResentEmail"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="The confirmation email has been send,\n please check for yout email"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="The confirmation email has been sent,\n please check your email"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bConfirm"
-        tools:layout_editor_absoluteY="165dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleConfirm"/>
 
     <TextView
         android:id="@+id/tvTitleConfirm"
         android:layout_width="162dp"
         android:layout_height="42dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:text="Confirmation"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="24sp"
         android:typeface="serif"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="9dp"
-        app:layout_constraintHorizontal_bias="0.502" />
+        android:layout_marginTop="47dp"
+        android:layout_marginRight="114dp"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
