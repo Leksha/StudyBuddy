@@ -38,9 +38,9 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
+        /*if(mAuth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, HomePage.class));
-        }
+        }*/
 
         final EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
         final EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
@@ -71,24 +71,35 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void Login(View view) {
-        EditText Email = (EditText)findViewById(R.id.etEmailLogin);
+        final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
         String email = Email.getText().toString();
-        EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
+        final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
         String password =  Password.getText().toString();
 
-
         if(TextUtils.isEmpty(email)){
-            startActivity(new Intent(LoginActivity.this, EventCreation.class));
+            String message = this.getString(R.string.EmptyEmail);
+            Email.setHint(message);
+            Email.setHintTextColor(getResources().getColor(R.color.errorhint));
+            return;
         }
         if(TextUtils.isEmpty(password)){
-            startActivity(new Intent(LoginActivity.this, EventCreation.class));
+            String message = this.getString(R.string.EmptyPassword);
+            Password.setHint(message);
+            Password.setHintTextColor(getResources().getColor(R.color.errorhint));
+            return;
         }
+        final String message = this.getString(R.string.InvalidLogin);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                            TextView Error = (TextView)findViewById(R.id.ErrorLogin);
+                            Error.setText(message);
+                            Password.setText("");
+                            Email.setText("");
+                            return;
+                            //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
                             startActivity(new Intent(LoginActivity.this, HomePage.class));
                         }

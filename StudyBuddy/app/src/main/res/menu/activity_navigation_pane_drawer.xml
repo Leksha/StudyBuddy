@@ -13,6 +13,7 @@
         <item
             android:id="@+id/nav_friend_list"
             android:icon="@drawable/ic_menu_slideshow"
+            android:onClick="GoToFriendList"
             android:title="Friend List" />
         <item
             android:id="@+id/nav_map"
