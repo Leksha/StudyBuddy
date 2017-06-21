@@ -26,7 +26,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
 
     <EditText
         android:id="@+id/etConfirmationEmail"
@@ -116,6 +115,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordReg"
-        tools:layout_editor_absoluteX="134dp"/>
+            
+    <TextView
+        android:layout_width="202dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/RegisterErrorDisplay"
+        android:text=""
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordReg"
+        android:textColor="@color/errorhint" />
 
 </android.support.constraint.ConstraintLayout>

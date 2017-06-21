@@ -13,4 +13,13 @@
     <!-- User profile related info strings -->
     <string name="user_name_title">Name:</string>
 
+
+    <!--- Error Messages -->
+    <string name="email_account_already_registered">"This email has already been used</string>
+    <string name="EmptyEmail">Please type in your email address</string>
+    <string name="EmptyPassword">Please type in your password</string>
+    <string name="InvalidLogin">The Username or Password is not valid</string>
+    <string name="Email_does_not_exist">The Email does not exist</string>
+    <string name="InvalidEmail">The Email is not available for Verification</string>
+    <string name="Send_Confirmation">The confirmation email has been sent</string>
 </resources>

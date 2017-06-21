@@ -135,4 +135,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitleSignin"
         />
 
+    <TextView
+        android:id="@+id/ErrorLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/errorhint"
+        app:layout_constraintBottom_toTopOf ="@id/etEmailLogin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+    />
 </android.support.constraint.ConstraintLayout>
