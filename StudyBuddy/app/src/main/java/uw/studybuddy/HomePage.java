@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -26,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
@@ -39,7 +44,9 @@ public class HomePage extends AppCompatActivity
 
     private Button mSearchButton;
     private EditText mFindFriendEditText;
-    private TextView mPrintFriendInfoTextView;
+    //private TextView mPrintFriendInfoTextView;
+    private RecyclerView  mEventList;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -70,15 +77,21 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+
         mSearchButton = (Button)findViewById(R.id.search_button);
         mFindFriendEditText = (EditText)findViewById(R.id.find_friend_editText);
-        mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
+        mEventList = (RecyclerView)findViewById(R.id.event_list);
+        mEventList.setHasFixedSize(true);
+        mEventList.setLayoutManager(new LinearLayoutManager(this));
+
+        //mPrintFriendInfoTextView = (TextView)findViewById(R.id.print_friend_info_textView);
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 String friendName = mFindFriendEditText.getText().toString();
-                mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
+                //mPrintFriendInfoTextView.setText("Print " + friendName + "'s info here");
             }
         });
 
@@ -102,6 +115,52 @@ public class HomePage extends AppCompatActivity
 
         user = new UserInfo();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseRecyclerAdapter<Event, EventViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
+                Event.class,
+                R.layout.event_card,
+                EventViewHolder.class,
+                mDatabase
+
+        ) {
+            @Override
+            protected void populateViewHolder(EventViewHolder viewHolder, Event model, int position) {
+                viewHolder.setCourse(model.getCourse());
+                viewHolder.setDescription(model.getDescription());
+                viewHolder.setLocation(model.getLocation());
+                viewHolder.setSubject(model.getSubject());
+            }
+        };
+        mEventList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    public static class EventViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+
+        public EventViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+        public void setDescription(String description){
+            TextView desc = (TextView)mView.findViewById(R.id.tvDescription);
+            desc.setText(description);
+        }
+        public void setCourse(String course){
+            TextView cour = (TextView)mView.findViewById(R.id.tvCourse);
+            cour.setText(course);
+        }
+        public void setLocation(String location){
+            TextView loc = (TextView)mView.findViewById(R.id.tvLocation);
+            loc.setText(location);
+        }
+        public void setSubject(String subject){
+            TextView subj = (TextView)mView.findViewById(R.id.tvSubject);
+            subj.setText(subject);
+        }
     }
 
     // Update the view if any changes made to user data
@@ -143,7 +202,7 @@ public class HomePage extends AppCompatActivity
 //            return true;
 //        }
         if (id == R.id.action_new_event) {
-            mPrintFriendInfoTextView.setText("Create new event");
+            //mPrintFriendInfoTextView.setText("Create new event");
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,11 +222,13 @@ public class HomePage extends AppCompatActivity
             Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
             HomePage.this.startActivity(userProfile);
 
-        } else if (id == R.id.nav_friend_list) {
-
-        } else if (id == R.id.nav_map) {
-
         }
+//        else if (id == R.id.nav_friend_list) {
+//
+//        }
+//        else if (id == R.id.nav_map) {
+//
+//        }
 // else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {
