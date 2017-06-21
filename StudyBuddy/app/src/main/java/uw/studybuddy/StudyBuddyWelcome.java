@@ -12,7 +12,7 @@ import java.util.TimerTask;
 public class StudyBuddyWelcome extends AppCompatActivity {
 
     private Handler handler;
-    private long delay = 1000;
+    private long delay = 1500;
     private int i = 0;
 
     @Override
