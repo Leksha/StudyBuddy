@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/navigation_drawer_top"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -14,12 +14,12 @@
 
     <ImageView
         android:id="@+id/navigation_draw_user_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@android:color/transparent"
         android:clickable="true"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:background="@android:color/transparent"
-        app:srcCompat="@mipmap/harry_potter_icon"/>
+        app:srcCompat="@drawable/harry_potter_user_image"/>
 
     <TextView
         android:id="@+id/navigation_draw_user_name"
@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="User Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/common_google_signin_btn_text_light_focused"/>
 
     <!--<TextView-->
         <!--android:id="@+id/navigation_draw_user_email"-->

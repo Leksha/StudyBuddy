@@ -222,11 +222,13 @@ public class HomePage extends AppCompatActivity
             Intent userProfile = new Intent(HomePage.this, UserProfileActivity.class);
             HomePage.this.startActivity(userProfile);
 
-        } else if (id == R.id.nav_friend_list) {
-
-        } else if (id == R.id.nav_map) {
-
         }
+//        else if (id == R.id.nav_friend_list) {
+//
+//        }
+//        else if (id == R.id.nav_map) {
+//
+//        }
 // else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {
