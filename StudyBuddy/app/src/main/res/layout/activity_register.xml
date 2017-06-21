@@ -41,6 +41,7 @@
         android:hint="Confirmation email address  "
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:typeface="serif"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,6 +61,7 @@
         android:hint="Account: Email Address  "
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:typeface="serif"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -79,6 +81,7 @@
         android:hint="Password  "
         android:inputType="textPassword"
         android:textAlignment="textEnd"
+        android:textColor="@android:color/holo_orange_dark"
         android:typeface="serif"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -101,8 +104,8 @@
 
     <Button
         android:id="@+id/bSubmit"
-        android:layout_width="112dp"
-        android:layout_height="45dp"
+        android:layout_width="135dp"
+        android:layout_height="46dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="67dp"
@@ -113,6 +116,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordReg"
-        tools:layout_editor_absoluteX="136dp"/>
+        tools:layout_editor_absoluteX="134dp"/>
 
 </android.support.constraint.ConstraintLayout>
