@@ -25,7 +25,8 @@
         app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
 
     <EditText
         android:id="@+id/etConfirmationEmail"
@@ -114,7 +115,8 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordReg"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordReg">
+    </Button>
             
     <TextView
         android:layout_width="202dp"
