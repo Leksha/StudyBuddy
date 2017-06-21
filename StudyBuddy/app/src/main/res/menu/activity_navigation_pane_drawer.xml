@@ -4,20 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home_icon"
             android:title="Home" />
         <item
             android:id="@+id/nav_user_profile"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/user_profile_icon"
             android:title="User Profile" />
-        <item
-            android:id="@+id/nav_friend_list"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Friend List" />
-        <item
-            android:id="@+id/nav_map"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Map" />
+        <!--<item-->
+            <!--android:id="@+id/nav_friend_list"-->
+            <!--android:icon="@drawable/friend_list_icon"-->
+            <!--android:title="Friend List" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_map"-->
+            <!--android:icon="@drawable/ic_menu_manage"-->
+            <!--android:title="Map" />-->
     </group>
 
     <item android:title="Communicate">
@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/nav_log_out"
                 android:onClick="LogOut"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/left_arrow_icon"
                 android:title="Log Out" />
         </menu>
     </item>
