@@ -74,6 +74,7 @@ public class EventsListRecycleViewFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         Log.d("onCreate", "onCreate ended");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
     }
 
     @Override
@@ -82,30 +83,29 @@ public class EventsListRecycleViewFragment extends Fragment {
 
         Log.d("onCreateView", "onCreateView starting");
         // Inflate the layout for this fragment
-//        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
-//        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
-//        rv.setHasFixedSize(true);
-//        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-//
-//        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
-//        FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
-//                EventInfo.class,
-//                R.layout.event_cardview,
-//                EventCardViewHolder.class,
-//                mDatabase
-//        ) {
-//            @Override
-//            protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
-//                viewHolder.setCourse(model.getCourse());
-//                viewHolder.setDescription(model.getDescription());
-//                viewHolder.setLocation(model.getLocation());
-//                viewHolder.setSubject(model.getSubject());
-//            }
-//        };
-//        rv.setAdapter(fbRecyclerAdapter);
+        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
+                EventInfo.class,
+                R.layout.event_cardview,
+                EventCardViewHolder.class,
+                mDatabase
+        ) {
+            @Override
+            protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
+                viewHolder.setCourse(model.getCourse());
+                viewHolder.setDescription(model.getDescription());
+                viewHolder.setLocation(model.getLocation());
+                viewHolder.setSubject(model.getSubject());
+            }
+        };
+        rv.setAdapter(fbRecyclerAdapter);
         Log.d("onCreateView", "onCreateView ended");
-        return inflater.inflate(R.layout.fragment_events_list, container, false);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
