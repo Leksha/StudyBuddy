@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ShareCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import uw.studybuddy.Events.EventInfo;
+import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
 import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.HomePage_Fragments.HomePage;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
 
 //        mEventList = (RecyclerView)findViewById(R.id.event_list);
 //        mEventList.setHasFixedSize(true);
@@ -99,15 +99,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseRecyclerAdapter<Event, EventViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
-                Event.class,
+        FirebaseRecyclerAdapter<EventInfo, EventViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventViewHolder>(
+                EventInfo.class,
                 R.layout.event_card,
                 EventViewHolder.class,
                 mDatabase
 
         ) {
             @Override
-            protected void populateViewHolder(EventViewHolder viewHolder, Event model, int position) {
+            protected void populateViewHolder(EventViewHolder viewHolder, EventInfo model, int position) {
                 viewHolder.setCourse(model.getCourse());
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setLocation(model.getLocation());
