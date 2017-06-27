@@ -11,10 +11,10 @@ import uw.studybuddy.R;
  * Uses the event_cardview.xml file
  */
 
-public class EventCardView extends RecyclerView.ViewHolder {
+public class EventCardViewHolder extends RecyclerView.ViewHolder {
     View mView;
 
-    public EventCardView(View itemView) {
+    public EventCardViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
     }

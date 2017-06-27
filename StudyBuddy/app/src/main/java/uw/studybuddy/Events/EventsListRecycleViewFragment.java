@@ -70,27 +70,8 @@ public class EventsListRecycleViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseRecyclerAdapter<EventInfo, EventCardView> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardView>(
-                EventInfo.class,
-                R.layout.event_cardview,
-                EventCardView.class,
-                mDatabase
-
-        ) {
-            @Override
-            protected void populateViewHolder(EventCardView viewHolder, EventInfo model, int position) {
-                viewHolder.setCourse(model.getCourse());
-                viewHolder.setDescription(model.getDescription());
-                viewHolder.setLocation(model.getLocation());
-                viewHolder.setSubject(model.getSubject());
-            }
-        };
-        rv.setAdapter(firebaseRecyclerAdapter);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
     }
 
     @Override
@@ -103,7 +84,21 @@ public class EventsListRecycleViewFragment extends Fragment {
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
+        FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
+                EventInfo.class,
+                R.layout.event_cardview,
+                EventCardViewHolder.class,
+                mDatabase
+        ) {
+            @Override
+            protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
+                viewHolder.setCourse(model.getCourse());
+                viewHolder.setDescription(model.getDescription());
+                viewHolder.setLocation(model.getLocation());
+                viewHolder.setSubject(model.getSubject());
+            }
+        };
+        rv.setAdapter(firebaseRecyclerAdapter);
 
         return rootView;
     }
