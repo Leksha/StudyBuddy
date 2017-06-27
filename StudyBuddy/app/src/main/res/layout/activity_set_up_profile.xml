@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="uw.studybuddy.SetUpProfile"
+    tools:context="uw.studybuddy.LoginAndRegistration.SetUpProfile"
     android:background="@drawable/profile_setup">
 
     <TextView

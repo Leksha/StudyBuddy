@@ -30,6 +30,7 @@ import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
 import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.HomePage_Fragments.HomePage;
+import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
 
