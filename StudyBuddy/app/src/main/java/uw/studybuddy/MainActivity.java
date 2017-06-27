@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uw.studybuddy.Events.EventCreation;
+import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
 import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.HomePage_Fragments.HomePage;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
+        EventsListRecycleViewFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
