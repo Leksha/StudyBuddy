@@ -28,7 +28,6 @@ import uw.studybuddy.HomePage_Fragments.FindFriends;
 import uw.studybuddy.HomePage_Fragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.UserInfo;
-import uw.studybuddy.UserProfile.UserProfileActivity;
 import uw.studybuddy.UserProfile.UserProfileFragment;
 
 public class MainActivity extends AppCompatActivity

@@ -68,23 +68,20 @@ public class EventsListRecycleViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("onCreate", "onCreate starting");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        Log.d("onCreate", "onCreate ended");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("onCreateView", "onCreateView starting");
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -104,7 +101,6 @@ public class EventsListRecycleViewFragment extends Fragment {
             }
         };
         rv.setAdapter(fbRecyclerAdapter);
-        Log.d("onCreateView", "onCreateView ended");
         return rootView;
     }
 

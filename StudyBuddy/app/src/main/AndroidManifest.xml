@@ -21,7 +21,6 @@
         <activity android:name=".Events.EventCreation"/>
         <activity android:name=".LoginAndRegistration.ForgetPassword"/>
         <activity android:name=".LoginAndRegistration.ResetPassword"/>
-        <activity android:name=".UserProfile.UserProfileActivity"/>
         <activity android:name=".LoginAndRegistration.StudyBuddyWelcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
