@@ -23,4 +23,11 @@
         tools:layout="@layout/fragment_display_courses">
     </fragment>
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="uw.studybuddy.Events.EventsListRecycleViewFragment"
+        tools:layout="@layout/fragment_events_list">
+    </fragment>
+
 </LinearLayout>

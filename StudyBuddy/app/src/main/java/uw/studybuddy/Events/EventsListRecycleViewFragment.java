@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import uw.studybuddy.R;
 
@@ -14,14 +20,18 @@ import uw.studybuddy.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link EventsList.OnFragmentInteractionListener} interface
+ * {@link EventsListRecycleViewFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link EventsList#newInstance} factory method to
+ * Use the {@link EventsListRecycleViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventsList extends Fragment {
+public class EventsListRecycleViewFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private DatabaseReference mDatabase;
+    private RecyclerView rv;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -31,7 +41,7 @@ public class EventsList extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public EventsList() {
+    public EventsListRecycleViewFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +51,11 @@ public class EventsList extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment EventsList.
+     * @return A new instance of fragment EventsListRecycleViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EventsList newInstance(String param1, String param2) {
-        EventsList fragment = new EventsList();
+        public static EventsListRecycleViewFragment newInstance(String param1, String param2) {
+        EventsListRecycleViewFragment fragment = new EventsListRecycleViewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,10 +73,39 @@ public class EventsList extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseRecyclerAdapter<EventInfo, EventCardView> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardView>(
+                EventInfo.class,
+                R.layout.event_cardview,
+                EventCardView.class,
+                mDatabase
+
+        ) {
+            @Override
+            protected void populateViewHolder(EventCardView viewHolder, EventInfo model, int position) {
+                viewHolder.setCourse(model.getCourse());
+                viewHolder.setDescription(model.getDescription());
+                viewHolder.setLocation(model.getLocation());
+                viewHolder.setSubject(model.getSubject());
+            }
+        };
+        rv.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
+
+        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

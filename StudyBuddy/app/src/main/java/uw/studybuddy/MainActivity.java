@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import uw.studybuddy.Events.EventCardView;
 import uw.studybuddy.Events.EventInfo;
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.HomePage_Fragments.DisplayCourses;
@@ -42,9 +43,6 @@ public class MainActivity extends AppCompatActivity
 
     // Data required for the app
     private UserInfo user;
-
-//    private RecyclerView  mEventList;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,60 +85,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
-
-//        mEventList = (RecyclerView)findViewById(R.id.event_list);
-//        mEventList.setHasFixedSize(true);
-//        mEventList.setLayoutManager(new LinearLayoutManager(this));
-
         user = new UserInfo();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseRecyclerAdapter<EventInfo, EventViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventViewHolder>(
-                EventInfo.class,
-                R.layout.event_card,
-                EventViewHolder.class,
-                mDatabase
-
-        ) {
-            @Override
-            protected void populateViewHolder(EventViewHolder viewHolder, EventInfo model, int position) {
-                viewHolder.setCourse(model.getCourse());
-                viewHolder.setDescription(model.getDescription());
-                viewHolder.setLocation(model.getLocation());
-                viewHolder.setSubject(model.getSubject());
-            }
-        };
-//        mEventList.setAdapter(firebaseRecyclerAdapter);
-    }
-
-    public static class EventViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-
-        public EventViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-        public void setDescription(String description){
-            TextView desc = (TextView)mView.findViewById(R.id.tvDescription);
-            desc.setText(description);
-        }
-        public void setCourse(String course){
-            TextView cour = (TextView)mView.findViewById(R.id.tvCourse);
-            cour.setText(course);
-        }
-        public void setLocation(String location){
-            TextView loc = (TextView)mView.findViewById(R.id.tvLocation);
-            loc.setText(location);
-        }
-        public void setSubject(String subject){
-            TextView subj = (TextView)mView.findViewById(R.id.tvSubject);
-            subj.setText(subject);
-        }
     }
 
     // Update the view if any changes made to user data
