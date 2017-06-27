@@ -1,4 +1,4 @@
-package uw.studybuddy.UserProfile;
+package uw.studybuddy;
 
 import android.content.Context;
 import android.hardware.input.InputManager;

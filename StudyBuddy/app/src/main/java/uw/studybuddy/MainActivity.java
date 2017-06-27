@@ -29,12 +29,14 @@ import uw.studybuddy.HomePage_Fragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileActivity;
+import uw.studybuddy.UserProfile.UserProfileFragment;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
+        UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
@@ -144,8 +146,9 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
-            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
-            MainActivity.this.startActivity(userProfile);
+//            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+//            MainActivity.this.startActivity(userProfile);
+            fragmentClass = UserProfileFragment.class;
 
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FindFriends.class;
