@@ -54,7 +54,21 @@ public class LoginActivity extends AppCompatActivity{
         });
 
 
+        setupDevLoginActivity();
 
+
+    }
+
+    // Uses the "DEV LOGIN" button on the login page to skip the login
+    // and registration process for purposes of testing
+    private void setupDevLoginActivity() {
+        Button mDevLoginButton = (Button)findViewById(R.id.dev_login_button);
+        mDevLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        });
     }
 
 

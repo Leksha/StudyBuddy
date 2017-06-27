@@ -112,7 +112,7 @@ public class EventCreation extends AppCompatActivity {
             Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
         }
 
-                Intent intent = new Intent(EventCreation.this, HomePage.class);
+                Intent intent = new Intent(EventCreation.this, MainActivity.class);
                 startActivity(intent);
             }
         });

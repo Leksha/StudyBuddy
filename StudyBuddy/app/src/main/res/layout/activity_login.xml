@@ -145,4 +145,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="10dp"
     />
+
+    <Button
+        android:id="@+id/dev_login_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="34dp"
+        android:layout_marginTop="29dp"
+        android:text="Dev login"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_sign_in_icon"/>
 </android.support.constraint.ConstraintLayout>

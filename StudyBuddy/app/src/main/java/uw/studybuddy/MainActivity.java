@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     // Data required for the app
     private UserInfo user;
 
-    private RecyclerView  mEventList;
+//    private RecyclerView  mEventList;
     private DatabaseReference mDatabase;
 
     @Override
@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
-        mEventList = (RecyclerView)findViewById(R.id.event_list);
-        mEventList.setHasFixedSize(true);
-        mEventList.setLayoutManager(new LinearLayoutManager(this));
+//        mEventList = (RecyclerView)findViewById(R.id.event_list);
+//        mEventList.setHasFixedSize(true);
+//        mEventList.setLayoutManager(new LinearLayoutManager(this));
 
         user = new UserInfo();
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
                 viewHolder.setSubject(model.getSubject());
             }
         };
-        mEventList.setAdapter(firebaseRecyclerAdapter);
+//        mEventList.setAdapter(firebaseRecyclerAdapter);
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {

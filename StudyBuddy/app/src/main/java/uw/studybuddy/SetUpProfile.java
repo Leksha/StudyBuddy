@@ -53,7 +53,7 @@ public class SetUpProfile extends AppCompatActivity {
 
 
                 mDatabase.child("name").setValue("Alice");
-                Intent loginIntent = new Intent(SetUpProfile.this, HomePage.class);
+                Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                 SetUpProfile.this.startActivity(loginIntent);
             }
         });
