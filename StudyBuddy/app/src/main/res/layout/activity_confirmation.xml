@@ -4,7 +4,7 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             tools:context="uw.studybuddy.Confirmation"
+                                             tools:context="uw.studybuddy.LoginAndRegistration.Confirmation"
                                              android:background="@drawable/profile_setup"
                                              tools:layout_editor_absoluteY="81dp"
                                              tools:layout_editor_absoluteX="0dp">

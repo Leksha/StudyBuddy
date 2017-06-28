@@ -1,13 +1,11 @@
-package uw.studybuddy;
+package uw.studybuddy.Events;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.HashMap;
+
+import uw.studybuddy.MainActivity;
+import uw.studybuddy.R;
 
 public class EventCreation extends AppCompatActivity {
 
@@ -79,7 +80,7 @@ public class EventCreation extends AppCompatActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
 
                 final HashMap<String, String> dataMap = new HashMap<String, String>();
                 courseCreate = (EditText)findViewById(R.id.course_create);
@@ -112,7 +113,7 @@ public class EventCreation extends AppCompatActivity {
             Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
         }
 
-                Intent intent = new Intent(EventCreation.this, HomePage.class);
+                Intent intent = new Intent(EventCreation.this, MainActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package uw.studybuddy;
+package uw.studybuddy.LoginAndRegistration;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -8,6 +8,8 @@ import android.view.Window;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import uw.studybuddy.R;
 
 public class StudyBuddyWelcome extends AppCompatActivity {
 

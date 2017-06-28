@@ -1,4 +1,4 @@
-package uw.studybuddy;
+package uw.studybuddy.LoginAndRegistration;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-
-import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.MainActivity;
+import uw.studybuddy.R;
 
 public class SetUpProfile extends AppCompatActivity {
     private EditText etUsername;
@@ -53,7 +51,7 @@ public class SetUpProfile extends AppCompatActivity {
 
 
                 mDatabase.child("name").setValue("Alice");
-                Intent loginIntent = new Intent(SetUpProfile.this, HomePage.class);
+                Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                 SetUpProfile.this.startActivity(loginIntent);
             }
         });

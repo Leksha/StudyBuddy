@@ -1,20 +1,20 @@
-package uw.studybuddy;
+package uw.studybuddy.Events;
 
 /**
  * Created by ViVi on 19/06/2017.
  */
 
-public class Event {
+public class EventInfo {
     private String course;
     private String description;
     private String location;
     private String subject;
 
-    public Event(){
+    public EventInfo(){
 
     }
 
-    public Event(String course, String description, String location, String subject) {
+    public EventInfo(String course, String description, String location, String subject) {
         this.course = course;
         this.description = description;
         this.location = location;
