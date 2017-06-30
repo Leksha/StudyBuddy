@@ -33,6 +33,7 @@ import uw.studybuddy.UserProfile.UserProfileFragment;
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
+        FriendListFragment.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
         UserProfileFragment.OnFragmentInteractionListener,
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = UserProfileFragment.class;
 
         } else if (id == R.id.nav_friend_list) {
-            fragmentClass = FindFriends.class;
+            fragmentClass = FriendListFragment.class;
 
         }
 //        else if (id == R.id.nav_map) {
