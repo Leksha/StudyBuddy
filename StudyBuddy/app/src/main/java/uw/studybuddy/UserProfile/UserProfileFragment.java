@@ -24,10 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
-import uw.studybuddy.HomePage_Fragments.HomePage;
-import uw.studybuddy.LoginAndRegistration.LoginActivity;
-import uw.studybuddy.LoginAndRegistration.SetUpProfile;
-import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 
@@ -170,7 +166,6 @@ public class UserProfileFragment extends Fragment {
             mUserName.setText("User.getDisplayName()");
             //To do switch to login
         }
-        mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
 
         return rootView;
