@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
@@ -35,7 +36,7 @@ public class EventCreation extends AppCompatActivity {
     private TextView locationCreate;
     private TextView subjectCreate;
 
-    private DatabaseReference mDatabase;
+//    private DatabaseReference mDatabase;
 
     private Button btn_date;
     private Button btn_time;
@@ -80,44 +81,29 @@ public class EventCreation extends AppCompatActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
 
-                final HashMap<String, String> dataMap = new HashMap<String, String>();
-                courseCreate = (EditText)findViewById(R.id.course_create);
-                locationCreate = (EditText)findViewById(R.id.location_create);
-                subjectCreate = (EditText)findViewById(R.id.subject_create);
-                descriptionCreate = (EditText)findViewById(R.id.description_create);
+                courseCreate = (EditText) findViewById(R.id.course_create);
+                locationCreate = (EditText) findViewById(R.id.location_create);
+                subjectCreate = (EditText) findViewById(R.id.subject_create);
+                descriptionCreate = (EditText) findViewById(R.id.description_create);
 
                 String course = courseCreate.getText().toString().trim();
                 String description = descriptionCreate.getText().toString().trim();
                 String location = locationCreate.getText().toString().trim();
-                String subject = subjectCreate.getText().toString().trim();
-        if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(subject)){
-            dataMap.put("course", course);
-            dataMap.put("description", description);
-            dataMap.put("location", location);
-            dataMap.put("subject", subject);
+                String title = subjectCreate.getText().toString().trim();
 
-
-            mDatabase.push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(EventCreation.this, "Saving information...",Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(EventCreation.this, "Error occured.",Toast.LENGTH_LONG).show();
-                    }
+                //create a new event, add to firebase
+                boolean eventCreationSuccess = FirebaseInstance.addNewEventToDatabase(course, title, location, description);
+                //on successful creation of the event: toast message
+                if (eventCreationSuccess) {
+                    Toast.makeText(EventCreation.this, "Saving information...", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(EventCreation.this, "Error occured.", Toast.LENGTH_LONG).show();
                 }
-            });
-        } else {
-            Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
-        }
 
-                Intent intent = new Intent(EventCreation.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
-
     }
 
     private void updateDate(){
