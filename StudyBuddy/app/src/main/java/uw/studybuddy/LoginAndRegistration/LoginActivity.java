@@ -68,8 +68,8 @@ public class LoginActivity extends AppCompatActivity{
         Button mDevLoginButton = (Button)findViewById(R.id.dev_login_button);
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-        String email = "www@gmail.com";
-        String password = "123456";
+        String email = "studybuddycs446@gmail.com";
+        String password = "1234567";
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override

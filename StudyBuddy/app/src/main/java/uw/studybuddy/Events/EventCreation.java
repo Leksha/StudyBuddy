@@ -80,7 +80,7 @@ public class EventCreation extends AppCompatActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
                 final HashMap<String, String> dataMap = new HashMap<String, String>();
                 courseCreate = (EditText)findViewById(R.id.course_create);
@@ -113,8 +113,7 @@ public class EventCreation extends AppCompatActivity {
             Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
         }
 
-                Intent intent = new Intent(EventCreation.this, MainActivity.class);
-                startActivity(intent);
+        finish();
             }
         });
 
