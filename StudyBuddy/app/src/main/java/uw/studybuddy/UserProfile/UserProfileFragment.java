@@ -1,9 +1,11 @@
 package uw.studybuddy.UserProfile;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,12 +32,12 @@ public class UserProfileFragment extends Fragment {
 
     private TextView mUserDisplayName;
     private TextView mUserName;
-    private LinearLayout mUserCoursesLayout;
     private TextView mUserAboutMe;
-
     private UserInfo user;
 
-    private Button[] mCourseButtons;
+    private LinearLayout mUserCoursesLayout;
+    private Button[] mCoursesButtons;
+    private String[] mCoursesName;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,16 +101,23 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        String[] courses = UserInfo.getCourses();
-        int numCourses = courses.length;
-        mCourseButtons = new Button[numCourses];
+        mCoursesName = UserInfo.getCourses();
+        int numCourses = mCoursesName.length;
+        mCoursesButtons = new Button[numCourses];
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         int diameter = 100;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
         params.setMargins(2,2,2,2);
         for (int i=0; i<numCourses; i++) {
-            Button button = createButton(courses[i]);
-            mCourseButtons[i] = button;
+            final Button button = createButton(mCoursesName[i]);
+            mCoursesButtons[i] = button;
+            final int  index = i;
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(index, button);
+                }
+            });
             mUserCoursesLayout.addView(button,params);
         }
 
@@ -125,6 +135,33 @@ public class UserProfileFragment extends Fragment {
         return button;
     }
 
+    private void showDialog(final int index, Button button) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Enter new course name");
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
+        final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
+        final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
+
+        edit_dialog_course_subject.setText("e.g. CS");
+        edit_dialog_course_number.setText("e.g 446");
+        builder.setView(view);
+        final Button btn = button;
+        final int i = index;
+        builder.setNegativeButton("cancel",null);
+        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sub = edit_dialog_course_subject.getText().toString();
+                String num = edit_dialog_course_number.getText().toString();
+                String text = sub + " " + num;
+                user.updateCourseInfo(i, sub, num);
+                btn.setText(text);
+            }
+        });
+        builder.show();
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -134,6 +171,10 @@ public class UserProfileFragment extends Fragment {
         mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getName());
         mUserAboutMe.setText(user.getAboutMe());
+        int len = mCoursesName.length;
+        for (int i=0; i<len; i++) {
+            mCoursesButtons[i].setText(mCoursesName[i]);
+        }
     }
 
     // Process the way user courses is displayed

@@ -45,6 +45,9 @@ public class UserInfo {
     public static void setCourses(String[] mCourses) {
         UserInfo.mCourses = mCourses.clone();
     }
+    public static void updateCourseInfo(int index, String subject, String number) {
+        mCourses[index] = subject + " " + number;
+    }
 
     public static String getAboutMe() {
         return mAboutMe;
