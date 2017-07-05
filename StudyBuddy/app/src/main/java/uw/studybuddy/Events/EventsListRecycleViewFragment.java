@@ -81,7 +81,7 @@ public class EventsListRecycleViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("EventInfo");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));

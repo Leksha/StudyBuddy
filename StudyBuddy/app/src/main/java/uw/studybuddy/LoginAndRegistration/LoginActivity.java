@@ -66,12 +66,28 @@ public class LoginActivity extends AppCompatActivity{
     // and registration process for purposes of testing
     private void setupDevLoginActivity() {
         Button mDevLoginButton = (Button)findViewById(R.id.dev_login_button);
-        mDevLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            }
-        });
+        final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
+        final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
+        String email = "studybuddycs446@gmail.com";
+        String password = "1234567";
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            TextView Error = (TextView)findViewById(R.id.ErrorLogin);
+                            Error.setText("Login failed");
+                            Password.setText("");
+                            Email.setText("");
+                            return;
+                            //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                    }
+
+
+                });
     }
 
 
