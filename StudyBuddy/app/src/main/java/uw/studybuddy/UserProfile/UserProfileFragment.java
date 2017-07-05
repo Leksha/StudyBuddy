@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import uw.studybuddy.R;
@@ -26,10 +29,12 @@ public class UserProfileFragment extends Fragment {
 
     private TextView mUserDisplayName;
     private TextView mUserName;
-    private TextView mUserCourses;
+    private LinearLayout mUserCoursesLayout;
     private TextView mUserAboutMe;
 
     private UserInfo user;
+
+    private Button[] mCourseButtons;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,7 +86,7 @@ public class UserProfileFragment extends Fragment {
 
         mUserDisplayName = (TextView)rootView.findViewById(R.id.user_profile_display_name);
         mUserName = (TextView)rootView.findViewById(R.id.user_profile_name);
-        mUserCourses = (TextView)rootView.findViewById(R.id.user_profile_courses);
+        mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (TextView)rootView.findViewById(R.id.user_profile_about_me);
 
         // For the purpose of the demo, we will create a user to display
@@ -90,11 +95,34 @@ public class UserProfileFragment extends Fragment {
         // Update the user profile view with the right user info
         mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getName());
-        mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
+
+        // Add the courses buttons
+        String[] courses = UserInfo.getCourses();
+        int numCourses = courses.length;
+        mCourseButtons = new Button[numCourses];
+        mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 100;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        params.setMargins(2,2,2,2);
+        for (int i=0; i<numCourses; i++) {
+            Button button = createButton(courses[i]);
+            mCourseButtons[i] = button;
+            mUserCoursesLayout.addView(button,params);
+        }
 
         setListeners();
         return rootView;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.round_button);
+        button.setText(name);
+        button.setTextSize(11);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        return button;
     }
 
     @Override
@@ -105,7 +133,6 @@ public class UserProfileFragment extends Fragment {
         }
         mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getName());
-        mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
     }
 
@@ -155,23 +182,6 @@ public class UserProfileFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mUserName.getText().toString() != user.getName()) {
                     user.setName(mUserName.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-
-        mUserCourses.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserCourses.getText().toString() != user.getCourses().toString()) {
-                    String[] newCourses = mUserCourses.getText().toString().split(", ");
-                    user.setCourses(newCourses);
                 }
             }
 
