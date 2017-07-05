@@ -31,39 +31,6 @@
                 <!--android:text="Potions"-->
                 <!--android:textColor="#fff"/>-->
 
-            <!--<Button-->
-                <!--android:id="@+id/course_bubble_2"-->
-                <!--android:layout_width="85dp"-->
-                <!--android:layout_height="85dp"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:background="@drawable/round_button"-->
-                <!--android:gravity="center_vertical|center_horizontal"-->
-                <!--android:text="Herbology"-->
-                <!--android:textColor="#fff"/>-->
-
-            <!--<Button-->
-                <!--android:id="@+id/course_bubble_3"-->
-                <!--android:layout_width="85dp"-->
-                <!--android:layout_height="85dp"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:background="@drawable/round_button"-->
-                <!--android:gravity="center_vertical|center_horizontal"-->
-                <!--android:text="Dark Arts"-->
-                <!--android:textColor="#fff"/>-->
-
-            <!--<Button-->
-                <!--android:id="@+id/course_bubble_4"-->
-                <!--android:layout_width="85dp"-->
-                <!--android:layout_height="85dp"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:background="@drawable/round_button"-->
-                <!--android:elevation="0dp"-->
-                <!--android:gravity="center_vertical|center_horizontal"-->
-                <!--android:text="Charms"-->
-                <!--android:textColor="#fff"/>-->
         </LinearLayout>
     </HorizontalScrollView>
 </FrameLayout>
