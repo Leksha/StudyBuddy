@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,8 @@ public class DisplayCourses extends Fragment {
         coursesButtons = new Button[numCourses];
 
         LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
-        int diameter = 85;
+        layout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 150;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
         params.setMargins(2,2,2,2);
         for (int i=0; i<numCourses; i++) {
@@ -99,7 +101,9 @@ public class DisplayCourses extends Fragment {
         Button button = new Button(this.getContext());
         button.setBackgroundResource(R.drawable.round_button);
         button.setText(name);
-//        button.setGravity();
+        button.setTextSize(12);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         return button;
     }
 

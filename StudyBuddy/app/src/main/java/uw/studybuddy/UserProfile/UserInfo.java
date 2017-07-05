@@ -63,7 +63,7 @@ public class UserInfo {
     }
 
     public UserInfo() {
-        String[] courses = {"Charms", "Dark Arts", "Herbology", "Muggle Studies"};
+        String[] courses = {"Cs 446", "Cs 448", "Math 235", "Econ 220", "Phil 110b", "Econ 101"};
         String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
 
         mDisplayName = "Wizard Kid";
