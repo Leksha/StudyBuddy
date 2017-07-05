@@ -1,8 +1,10 @@
 package uw.studybuddy.UserProfile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
+
+import uw.studybuddy.HomePage_Fragments.HomePage;
+import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.LoginAndRegistration.SetUpProfile;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 
@@ -30,6 +41,10 @@ public class UserProfileFragment extends Fragment {
     private TextView mUserAboutMe;
 
     private UserInfo user;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private  FirebaseAuth mAuth;
+    private FirebaseUser User;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,6 +86,27 @@ public class UserProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        mAuthListener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                User = firebaseAuth.getCurrentUser();
+                if(User != null){
+                    //user log in state is fine
+                    //do nothing for now
+                    //mDatabase = FirebaseDatabase.getInstance().getReference();
+                }else{
+                    //user has already log out
+                    //do the log in again
+                    //dont know how to swicth back to log out
+                    //To do
+                    return;
+                }
+            }
+        };
+
+
     }
 
     @Override
@@ -78,6 +114,7 @@ public class UserProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
+
 
         mUserDisplayName = (TextView)rootView.findViewById(R.id.user_profile_display_name);
         mUserName = (TextView)rootView.findViewById(R.id.user_profile_name);
@@ -88,12 +125,19 @@ public class UserProfileFragment extends Fragment {
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
-        mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getName());
+        User = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!= null){
+            mUserDisplayName.setText(User.getDisplayName());
+            mUserName.setText(User.getDisplayName());
+        }else{
+            mUserDisplayName.setText("User.getDisplayName()");
+            mUserName.setText("User.getDisplayName()");
+            //To do switch to login
+        }
         mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
 
-        setListeners();
+        //setListeners();
         return rootView;
     }
 
@@ -103,8 +147,15 @@ public class UserProfileFragment extends Fragment {
         if (user == null) {
             user = UserInfo.getInstance();
         }
-        mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getName());
+        User = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!= null){
+            mUserDisplayName.setText(User.getDisplayName());
+            mUserName.setText(User.getDisplayName());
+        }else{
+            mUserDisplayName.setText("User.getDisplayName()");
+            mUserName.setText("User.getDisplayName()");
+            //To do switch to login
+        }
         mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
     }
