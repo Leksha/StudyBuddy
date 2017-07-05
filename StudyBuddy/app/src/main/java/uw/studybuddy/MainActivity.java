@@ -27,14 +27,17 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
+import uw.studybuddy.UserProfile.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
+        FriendListFragment.OnListFragmentInteractionListener,
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = UserProfileFragment.class;
 
         } else if (id == R.id.nav_friend_list) {
-            fragmentClass = FindFriends.class;
+            fragmentClass = FriendListFragment.class;
 
         }
 //        else if (id == R.id.nav_map) {
@@ -203,10 +206,16 @@ public class MainActivity extends AppCompatActivity
     public void GoToFriendList(MenuItem item) {
         startActivity(new Intent(this, FriendList.class));
     }
-            
+
     // OnFragmentInteractionListeners
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
+    @Override
+    public void onListFragmentInteraction(Uri uri) {
 
     }
 }
