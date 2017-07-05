@@ -1,16 +1,22 @@
 package uw.studybuddy.UserProfile;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,10 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
-import uw.studybuddy.HomePage_Fragments.HomePage;
-import uw.studybuddy.LoginAndRegistration.LoginActivity;
-import uw.studybuddy.LoginAndRegistration.SetUpProfile;
-import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 
@@ -37,11 +39,13 @@ public class UserProfileFragment extends Fragment {
 
     private TextView mUserDisplayName;
     private TextView mUserName;
-    private TextView mUserCourses;
     private TextView mUserAboutMe;
-
     private UserInfo user;
 
+    private LinearLayout mUserCoursesLayout;
+    private Button[] mCoursesButtons;
+    private String[] mCoursesName;
+  
     private FirebaseAuth.AuthStateListener mAuthListener;
     private  FirebaseAuth mAuth;
     private FirebaseUser User;
@@ -118,13 +122,41 @@ public class UserProfileFragment extends Fragment {
 
         mUserDisplayName = (TextView)rootView.findViewById(R.id.user_profile_display_name);
         mUserName = (TextView)rootView.findViewById(R.id.user_profile_name);
-        mUserCourses = (TextView)rootView.findViewById(R.id.user_profile_courses);
+        mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (TextView)rootView.findViewById(R.id.user_profile_about_me);
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
+        mUserDisplayName.setText(user.getDisplayName());
+        mUserName.setText(user.getName());
+        mUserAboutMe.setText(user.getAboutMe());
+
+        // Add the courses buttons
+        mCoursesName = UserInfo.getCourses();
+        int numCourses = mCoursesName.length;
+        mCoursesButtons = new Button[numCourses];
+        mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 100;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        params.setMargins(2,2,2,2);
+        for (int i=0; i<numCourses; i++) {
+            final Button button = createButton(mCoursesName[i]);
+            mCoursesButtons[i] = button;
+            final int  index = i;
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(index, button);
+                }
+            });
+            mUserCoursesLayout.addView(button,params);
+        }
+
+        setListeners();
+
+        // Should update current user profile with names
         User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
             mUserDisplayName.setText(User.getDisplayName());
@@ -134,12 +166,47 @@ public class UserProfileFragment extends Fragment {
             mUserName.setText("User.getDisplayName()");
             //To do switch to login
         }
-        mUserCourses.setText(getCoursesString());
         mUserAboutMe.setText(user.getAboutMe());
 
-        //setListeners();
         return rootView;
     }
+
+    private Button createButton(String name) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.rounded_corners_button);
+        button.setText(name);
+        button.setTextSize(11);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        return button;
+    }
+
+    private void showDialog(final int index, Button button) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Enter new course name");
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
+        final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
+        final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
+
+        edit_dialog_course_subject.setText("e.g. CS");
+        edit_dialog_course_number.setText("e.g 446");
+        builder.setView(view);
+        final Button btn = button;
+        final int i = index;
+        builder.setNegativeButton("cancel",null);
+        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sub = edit_dialog_course_subject.getText().toString();
+                String num = edit_dialog_course_number.getText().toString();
+                String text = sub + " " + num;
+                user.updateCourseInfo(i, sub, num);
+                btn.setText(text);
+            }
+        });
+        builder.show();
+    }
+
 
     @Override
     public void onResume() {
@@ -147,6 +214,10 @@ public class UserProfileFragment extends Fragment {
         if (user == null) {
             user = UserInfo.getInstance();
         }
+
+        mUserDisplayName.setText(user.getDisplayName());
+        mUserName.setText(user.getName());
+
         User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
             mUserDisplayName.setText(User.getDisplayName());
@@ -156,8 +227,12 @@ public class UserProfileFragment extends Fragment {
             mUserName.setText("User.getDisplayName()");
             //To do switch to login
         }
-        mUserCourses.setText(getCoursesString());
+
         mUserAboutMe.setText(user.getAboutMe());
+        int len = mCoursesName.length;
+        for (int i=0; i<len; i++) {
+            mCoursesButtons[i].setText(mCoursesName[i]);
+        }
     }
 
     // Process the way user courses is displayed
@@ -206,23 +281,6 @@ public class UserProfileFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mUserName.getText().toString() != user.getName()) {
                     user.setName(mUserName.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-
-        mUserCourses.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserCourses.getText().toString() != user.getCourses().toString()) {
-                    String[] newCourses = mUserCourses.getText().toString().split(", ");
-                    user.setCourses(newCourses);
                 }
             }
 

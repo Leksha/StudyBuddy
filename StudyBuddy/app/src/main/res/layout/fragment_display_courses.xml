@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="uw.studybuddy.HomePage_Fragments.DisplayCourses">
+             tools:context="uw.studybuddy.HomePageFragments.DisplayCourses">
 
     <HorizontalScrollView
         android:id="@+id/horizontalScroll"
@@ -12,7 +12,7 @@
         android:scrollbars="horizontal">
 
         <LinearLayout
-            android:id="@+id/horizontalScroll_linear"
+            android:id="@+id/display_courses_horizontalScroll_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -20,50 +20,17 @@
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Potions"
-                android:textColor="#fff"/>
+            <!--<Button-->
+                <!--android:id="@+id/course_bubble_1"-->
+                <!--android:layout_width="85dp"-->
+                <!--android:layout_height="85dp"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:background="@drawable/round_button"-->
+                <!--android:gravity="center_vertical|center_horizontal"-->
+                <!--android:text="Potions"-->
+                <!--android:textColor="#fff"/>-->
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Herbology"
-                android:textColor="#fff"/>
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Dark Arts"
-                android:textColor="#fff"/>
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:elevation="0dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Charms"
-                android:textColor="#fff"/>
         </LinearLayout>
     </HorizontalScrollView>
 </FrameLayout>

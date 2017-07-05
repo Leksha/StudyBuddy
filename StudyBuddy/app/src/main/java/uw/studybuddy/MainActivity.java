@@ -23,9 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
-import uw.studybuddy.HomePage_Fragments.DisplayCourses;
-import uw.studybuddy.HomePage_Fragments.FindFriends;
-import uw.studybuddy.HomePage_Fragments.HomePage;
+import uw.studybuddy.HomePageFragments.DisplayCourses;
+import uw.studybuddy.HomePageFragments.FindFriends;
+import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
