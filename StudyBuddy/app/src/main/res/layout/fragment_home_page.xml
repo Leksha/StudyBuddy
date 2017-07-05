@@ -2,14 +2,14 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="uw.studybuddy.HomePage_Fragments.HomePage"
+             tools:context="uw.studybuddy.HomePageFragments.HomePage"
               android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
     <fragment
         android:id="@+id/homepage_find_friends"
-        android:name="uw.studybuddy.HomePage_Fragments.FindFriends"
+        android:name="uw.studybuddy.HomePageFragments.FindFriends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_find_friends">
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/homepage_display_courses"
-        android:name="uw.studybuddy.HomePage_Fragments.DisplayCourses"
+        android:name="uw.studybuddy.HomePageFragments.DisplayCourses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_display_courses">

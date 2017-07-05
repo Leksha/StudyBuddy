@@ -1,29 +1,34 @@
-package uw.studybuddy.HomePage_Fragments;
+package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FindFriends.OnFragmentInteractionListener} interface
+ * {@link DisplayCourses.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FindFriends#newInstance} factory method to
+ * Use the {@link DisplayCourses#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FindFriends extends Fragment {
+public class DisplayCourses extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Button[] coursesButtons;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -31,7 +36,7 @@ public class FindFriends extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FindFriends() {
+    public DisplayCourses() {
         // Required empty public constructor
     }
 
@@ -41,11 +46,11 @@ public class FindFriends extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FindFriends.
+     * @return A new instance of fragment DisplayCourses.
      */
     // TODO: Rename and change types and number of parameters
-    public static FindFriends newInstance(String param1, String param2) {
-        FindFriends fragment = new FindFriends();
+    public static DisplayCourses newInstance(String param1, String param2) {
+        DisplayCourses fragment = new DisplayCourses();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +71,37 @@ public class FindFriends extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_friends, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_display_courses, container, false);
+
+//        UWAPI uwapi = new UWAPI();
+//        int text = uwapi.getCourseBySubject("ACC");
+
+        String[] courses = UserInfo.getCourses();
+        int numCourses = courses.length;
+        coursesButtons = new Button[numCourses];
+
+        LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
+        layout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 150;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        params.setMargins(2,2,2,2);
+        for (int i=0; i<numCourses; i++) {
+            Button button = createButton(courses[i]);
+            coursesButtons[i] = button;
+            layout.addView(button,params);
+        }
+
+        return rootView;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.round_button);
+        button.setText(name);
+        button.setTextSize(12);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        return button;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
