@@ -17,6 +17,9 @@ import uw.studybuddy.R;
 public class Confirmation extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser User;
+    private TextView Noti;
+
 
     //DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
    // DatabaseReference mUsersRef  = mRootRef.child("Users");
@@ -27,7 +30,9 @@ public class Confirmation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
+        Noti = (TextView) findViewById(R.id.tvResentEmail);
         mAuth = FirebaseAuth.getInstance();
+        User = FirebaseAuth.getInstance().getCurrentUser();
 
         final Button bConfirm = (Button) findViewById(R.id.bConfirm);
         final TextView tvResendEmail = (TextView) findViewById(R.id.tvResentEmail);
@@ -37,9 +42,14 @@ public class Confirmation extends AppCompatActivity {
             public void onClick(View v) {
                 final FirebaseUser user = mAuth.getCurrentUser();
 
-                //mAccountRef = mUsersRef.child(user.toString());
-                Intent setProfileIntent = new Intent(Confirmation.this, SetUpProfile.class);
-                Confirmation.this.startActivity(setProfileIntent);
+                if(User.isEmailVerified()) {
+                    //mAccountRef = mUsersRef.child(user.toString());
+                    Intent setProfileIntent = new Intent(Confirmation.this, SetUpProfile.class);
+                    Confirmation.this.startActivity(setProfileIntent);
+                }else{
+                    Noti.setTextColor(getResources().getColor(R.color.errorhint));
+                    return;
+                }
             }
         });
 

@@ -92,6 +92,7 @@ public class EventCreation extends AppCompatActivity {
                 String description = descriptionCreate.getText().toString().trim();
                 String location = locationCreate.getText().toString().trim();
                 String subject = subjectCreate.getText().toString().trim();
+
         if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(subject)){
             dataMap.put("course", course);
             dataMap.put("description", description);
@@ -109,6 +110,7 @@ public class EventCreation extends AppCompatActivity {
                     }
                 }
             });
+
         } else {
             Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
         }

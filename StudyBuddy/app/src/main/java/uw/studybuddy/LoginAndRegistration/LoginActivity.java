@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
@@ -26,6 +27,7 @@ import uw.studybuddy.R;
 public class LoginActivity extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
+    private FirebaseUser User;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -111,7 +113,15 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                             //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            User = FirebaseAuth.getInstance().getCurrentUser();
+                            if(User.isEmailVerified()) {
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                return;
+                            }else{
+                                //if it's not verified, send the email again;
+                                SentConfirmation();
+                                return;
+                            }
                         }
                     }
 
@@ -121,5 +131,23 @@ public class LoginActivity extends AppCompatActivity{
 
     public void GotoRegister(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+    }
+
+    public void SentConfirmation() {
+        final FirebaseUser user = mAuth.getCurrentUser();
+        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!task.isSuccessful()){
+                            return;
+                        }else{
+                            startActivity(new Intent(LoginActivity.this, Confirmation.class));
+                        }
+                    }
+                });
+
+
     }
 }
