@@ -127,7 +127,7 @@ public class UserProfileFragment extends Fragment {
 
     private Button createButton(String name) {
         Button button = new Button(this.getContext());
-        button.setBackgroundResource(R.drawable.round_button);
+        button.setBackgroundResource(R.drawable.rounded_corners_button);
         button.setText(name);
         button.setTextSize(11);
         button.setClickable(true);
