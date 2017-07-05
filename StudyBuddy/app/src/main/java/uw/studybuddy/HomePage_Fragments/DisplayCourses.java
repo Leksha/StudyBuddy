@@ -7,8 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import com.endercrest.uwaterlooapi.UWaterlooAPI;
 
 import uw.studybuddy.R;
+import uw.studybuddy.UWAPI;
+import uw.studybuddy.UserProfile.UserInfo;
 
 
 /**
@@ -24,6 +30,7 @@ public class DisplayCourses extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Button[] coursesButtons;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +73,34 @@ public class DisplayCourses extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_courses, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_display_courses, container, false);
+
+//        UWAPI uwapi = new UWAPI();
+//        int text = uwapi.getCourseBySubject("ACC");
+
+        String[] courses = UserInfo.getCourses();
+        int numCourses = courses.length;
+        coursesButtons = new Button[numCourses];
+
+        LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
+        int diameter = 85;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        params.setMargins(2,2,2,2);
+        for (int i=0; i<numCourses; i++) {
+            Button button = createButton(courses[i]);
+            coursesButtons[i] = button;
+            layout.addView(button,params);
+        }
+
+        return rootView;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.round_button);
+        button.setText(name);
+//        button.setGravity();
+        return button;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
