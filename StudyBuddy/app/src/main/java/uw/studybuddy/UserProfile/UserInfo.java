@@ -45,6 +45,9 @@ public class UserInfo {
     public static void setCourses(String[] mCourses) {
         UserInfo.mCourses = mCourses.clone();
     }
+    public static void updateCourseInfo(int index, String subject, String number) {
+        mCourses[index] = subject + " " + number;
+    }
 
     public static String getAboutMe() {
         return mAboutMe;
@@ -63,7 +66,7 @@ public class UserInfo {
     }
 
     public UserInfo() {
-        String[] courses = {"Charms", "Dark Arts", "Herbology", "Muggle Studies"};
+        String[] courses = {"Cs 446", "Cs 448", "Math 235", "Econ 220"};
         String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
 
         mDisplayName = "Wizard Kid";
