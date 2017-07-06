@@ -40,10 +40,14 @@ import uw.studybuddy.R;
  */
 public class UserProfileFragment extends Fragment {
 
-    private TextView mUserDisplayName;
-    private TextView mUserName;
-    private TextView mUserAboutMe;
+    private EditText mUserDisplayName;
+    private EditText mUserName;
+    private EditText mUserAboutMe;
     private UserInfo user;
+
+    private Button mUserDisplayNameEditButton;
+    private Button mUserNameEditButton;
+    private Button mUserAboutMeEditButton;
 
     private LinearLayout mUserCoursesLayout;
     private Button[] mCoursesButtons;
@@ -123,10 +127,15 @@ public class UserProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
 
-        mUserDisplayName = (TextView)rootView.findViewById(R.id.user_profile_display_name);
-        mUserName = (TextView)rootView.findViewById(R.id.user_profile_name);
+        mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
+        mUserName = (EditText)rootView.findViewById(R.id.user_profile_name);
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
-        mUserAboutMe = (TextView)rootView.findViewById(R.id.user_profile_about_me);
+        mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
+
+        mUserDisplayNameEditButton = (Button)rootView.findViewById(R.id.user_display_name_edit_button);
+        mUserNameEditButton = (Button)rootView.findViewById(R.id.user_name_edit_button);
+        mUserAboutMeEditButton = (Button)rootView.findViewById(R.id.user_about_me_edit_button);
+
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
@@ -242,6 +251,27 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
+        // No fields should be editable when view is first loaded
+        mUserDisplayName.setEnabled(false);
+        mUserName.setEnabled(false);
+        mUserAboutMe.setEnabled(false);
+
+        Button[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
+        EditText[] userInfoEditTexts = {mUserName, mUserDisplayName,mUserAboutMe };
+        // Only editable when edit button is clicked
+        for (int i=0; i<editButtons.length; i++) {
+            final EditText currEditText = userInfoEditTexts[i];
+            editButtons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currEditText.isEnabled()) {
+                        currEditText.setEnabled(false);
+                    } else {
+                        currEditText.setEnabled(true);
+                    }
+                }
+            });
+        }
 
         // Update display name
         mUserDisplayName.addTextChangedListener(new TextWatcher() {

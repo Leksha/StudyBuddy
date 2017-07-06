@@ -38,6 +38,7 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <Button
+            android:id="@+id/user_display_name_edit_button"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@mipmap/edit_icon"/>
@@ -61,7 +62,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginRight="6dp"
             android:layout_marginBottom="0dp"/>
+
         <Button
+            android:id="@+id/user_name_edit_button"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:background="@mipmap/edit_icon"/>
@@ -130,6 +133,7 @@
             android:textStyle="bold"
             android:layout_marginRight="6dp"/>
         <Button
+            android:id="@+id/user_about_me_edit_button"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:background="@mipmap/edit_icon"/>
