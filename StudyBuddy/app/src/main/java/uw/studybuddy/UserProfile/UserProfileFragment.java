@@ -252,9 +252,9 @@ public class UserProfileFragment extends Fragment {
 
     private void setListeners() {
         // No fields should be editable when view is first loaded
-        mUserDisplayName.setEnabled(false);
-        mUserName.setEnabled(false);
-        mUserAboutMe.setEnabled(false);
+        mUserDisplayName.setFocusable(false);
+        mUserName.setFocusable(false);
+        mUserAboutMe.setFocusable(false);
 
         Button[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
         EditText[] userInfoEditTexts = {mUserName, mUserDisplayName,mUserAboutMe };
@@ -264,10 +264,10 @@ public class UserProfileFragment extends Fragment {
             editButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currEditText.isEnabled()) {
-                        currEditText.setEnabled(false);
+                    if (currEditText.isFocusable()) {
+                        currEditText.setFocusable(false);
                     } else {
-                        currEditText.setEnabled(true);
+                        currEditText.setFocusable(true);
                     }
                 }
             });
