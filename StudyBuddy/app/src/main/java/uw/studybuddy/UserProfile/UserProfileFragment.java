@@ -251,25 +251,30 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
-        // No fields should be editable when view is first loaded
-        mUserDisplayName.setFocusable(false);
-        mUserName.setFocusable(false);
-        mUserAboutMe.setFocusable(false);
-
         Button[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
-        EditText[] userInfoEditTexts = {mUserName, mUserDisplayName,mUserAboutMe };
+        EditText[] userInfoEditTexts = {mUserName, mUserDisplayName, mUserAboutMe};
+
         // Only editable when edit button is clicked
         for (int i=0; i<editButtons.length; i++) {
             final Button button = editButtons[i];
             final EditText currEditText = userInfoEditTexts[i];
+            currEditText.setFocusable(false);
+//            currEditText.setFocusableInTouchMode(true);
+            currEditText.setClickable(false);
+
             editButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currEditText.isFocusable()) {
+                    if (currEditText.isClickable()) {
+                        currEditText.setClickable(false);
                         currEditText.setFocusable(false);
+                        currEditText.setFocusableInTouchMode(false);
                         button.setBackgroundResource(R.mipmap.edit_icon);
                     } else {
+                        currEditText.setClickable(true);
                         currEditText.setFocusable(true);
+//                        currEditText.setEnabled(true);
+                        currEditText.setFocusableInTouchMode(true);
                         button.setBackgroundResource(R.mipmap.done_icon);
                     }
                 }

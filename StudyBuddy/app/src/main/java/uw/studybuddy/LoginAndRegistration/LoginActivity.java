@@ -70,36 +70,36 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-//                final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-//                final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
+                final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
+                final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
                 String email = "leksha_ramdenee@yahoo.com";
                 String password = "123456";
 
-//                mAuth.signInWithEmailAndPassword(email, password)
-//                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                if (!task.isSuccessful()) {
-//                                    TextView Error = (TextView) findViewById(R.id.ErrorLogin);
-//                                    Error.setText("Login failed");
-//                                    Password.setText("");
-//                                    Email.setText("");
-//                                    return;
-//                                    //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-//                                } else {
-//                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                                }
-//                            }
-//                        });
-//
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
-                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
-                Button bLogin = (Button) findViewById(R.id.bSubmit);
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()) {
+                                    TextView Error = (TextView) findViewById(R.id.ErrorLogin);
+                                    Error.setText("Login failed");
+                                    Password.setText("");
+                                    Email.setText("");
+                                    return;
+                                    //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                } else {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                }
+                            }
+                        });
 
-                etUsername.setText(email);
-                etPassword.setText(password);
-                bLogin.performClick();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
+//                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
+//                Button bLogin = (Button) findViewById(R.id.bSubmit);
+
+//                etUsername.setText(email);
+//                etPassword.setText(password);
+//                bLogin.performClick();
 
             }
         });
