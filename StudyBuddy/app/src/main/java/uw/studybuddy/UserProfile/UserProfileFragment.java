@@ -259,21 +259,14 @@ public class UserProfileFragment extends Fragment {
             final Button button = editButtons[i];
             final EditText currEditText = userInfoEditTexts[i];
             currEditText.setFocusable(false);
-//            currEditText.setFocusableInTouchMode(true);
-            currEditText.setClickable(false);
 
             editButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currEditText.isClickable()) {
-                        currEditText.setClickable(false);
+                    if (currEditText.isFocusable()) {
                         currEditText.setFocusable(false);
-                        currEditText.setFocusableInTouchMode(false);
                         button.setBackgroundResource(R.mipmap.edit_icon);
                     } else {
-                        currEditText.setClickable(true);
-                        currEditText.setFocusable(true);
-//                        currEditText.setEnabled(true);
                         currEditText.setFocusableInTouchMode(true);
                         button.setBackgroundResource(R.mipmap.done_icon);
                     }
