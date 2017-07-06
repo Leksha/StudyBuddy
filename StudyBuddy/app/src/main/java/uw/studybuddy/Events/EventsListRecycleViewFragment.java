@@ -1,6 +1,7 @@
 package uw.studybuddy.Events;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import uw.studybuddy.HomePageFragments.HomePage;
+import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.LoginAndRegistration.RegisterActivity;
 import uw.studybuddy.R;
 
 
@@ -32,6 +38,7 @@ public class EventsListRecycleViewFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private RecyclerView rv;
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -74,6 +81,7 @@ public class EventsListRecycleViewFragment extends Fragment {
         }
     }
 
+    // can we show event earlier?
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,6 +106,17 @@ public class EventsListRecycleViewFragment extends Fragment {
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setLocation(model.getLocation());
                 viewHolder.setSubject(model.getSubject());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "Clicked",Toast.LENGTH_LONG).show();
+                        //Intent clickedEvent = new Intent(getActivity(), ClickedEvent.class);
+                        //clickedEvent.putExtra()
+
+
+                    }
+                });
             }
         };
         rv.setAdapter(fbRecyclerAdapter);
