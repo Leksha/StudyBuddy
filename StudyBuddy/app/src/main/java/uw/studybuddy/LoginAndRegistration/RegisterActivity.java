@@ -25,6 +25,7 @@ import uw.studybuddy.R;
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser Users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //final EditText etConfirmationEmail = (EditText)findViewById(R.id.etConfirmationEmail);
-        final EditText etUsername = (EditText)findViewById(R.id.etUsernameReg);
+        final EditText etConfirmationEmail = (EditText)findViewById(R.id.etConfirmationEmail);
+        //final EditText etUsername = (EditText)findViewById(R.id.etUsernameReg);
         final EditText etPassword = (EditText)findViewById(R.id.etPasswordReg);
         final Button bSubmit = (Button)findViewById(R.id.bSubmit);
         final CheckBox cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
@@ -53,17 +54,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void SetupAccount(View view) {
         mAuth = FirebaseAuth.getInstance();
-        final EditText Email = (EditText)findViewById(R.id.etUsernameReg);
-        EditText Password = (EditText)findViewById(R.id.etPasswordReg);
-        //EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        //final EditText Email = (EditText)findViewById(R.id.etUsernameReg);
+        final EditText Password = (EditText)findViewById(R.id.etPasswordReg);
+        final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
-        String email = Email.getText().toString();
+        //final String email = Email.getText().toString();
         String password = Password.getText().toString();
-        //final String Authemail = Auther.getText().toString();
-        if(TextUtils.isEmpty(email)){
-            String message = this.getString(R.string.EmptyEmail);
-            Email.setHint(message);
-            Email.setHintTextColor(getResources().getColor(R.color.errorhint));
+        String ConfirmEmail = Auther.getText().toString();
+
+
+
+        if(TextUtils.isEmpty(ConfirmEmail)){
+            String message = this.getString(R.string.EmptyID) ;
+            Auther.setHint(message);
+            Auther.setHintTextColor(getResources().getColor(R.color.errorhint));
             return;
         }
         if(TextUtils.isEmpty(password)) {
@@ -74,7 +78,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        ConfirmEmail = ConfirmEmail + "@edu.uwaterloo.ca";
+
+        mAuth.createUserWithEmailAndPassword(ConfirmEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -85,17 +91,43 @@ public class RegisterActivity extends AppCompatActivity {
                         }else{
                             //then do the authermail now
                             SentConfirmation();
-
+                            //After sending the email
+                            //you should change the email address to Email
+                            startActivity(new Intent(RegisterActivity.this, Confirmation.class));
+                            return;
                         }
                     }
                 });
+
+    }
+
+    private void Update_Email(String email) {
+        Users = FirebaseAuth.getInstance().getCurrentUser();
+        final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
+        Users.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(!task.isSuccessful()){
+                    Error.setText(getResources().getString(R.string.email_account_already_registered));
+                    //just for testing
+                    //startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    return;
+                }else{
+                    //startActivity(new Intent(RegisterActivity.this, Confirmation.class));
+                }
+            }
+        });
+
     }
 
     public void SentConfirmation() {
         final FirebaseUser user = mAuth.getCurrentUser();
         final String message_send = this.getString(R.string.Send_Confirmation);
-        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
+        String confirm = Auther.getText().toString();
+
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
+
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -106,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
                             return;
                         }else{
                             Error.setText(message_send);
-                            startActivity(new Intent(RegisterActivity.this, Confirmation.class));
+                            return;
                         }
                     }
                 });

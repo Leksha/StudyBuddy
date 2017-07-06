@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity{
 
     public void Login(View view) {
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-        String email = Email.getText().toString();
+        String email = Email.getText().toString() + "@edu.uwaterloo.ca";
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
         String password =  Password.getText().toString();
 
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity{
 
     public void SentConfirmation() {
         final FirebaseUser user = mAuth.getCurrentUser();
-        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
+        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                         }else{
                             startActivity(new Intent(LoginActivity.this, Confirmation.class));
+                            return;
                         }
                     }
                 });

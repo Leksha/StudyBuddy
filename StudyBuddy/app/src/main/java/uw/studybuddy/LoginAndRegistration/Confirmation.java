@@ -19,6 +19,7 @@ public class Confirmation extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser User;
     private TextView Noti;
+    int test = 1;
 
 
     //DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -37,17 +38,23 @@ public class Confirmation extends AppCompatActivity {
         final Button bConfirm = (Button) findViewById(R.id.bConfirm);
         final TextView tvResendEmail = (TextView) findViewById(R.id.tvResentEmail);
 
+
         bConfirm.setOnClickListener(new View.OnClickListener() { // LOGIN
             @Override
             public void onClick(View v) {
-                final FirebaseUser user = mAuth.getCurrentUser();
 
-                if(User.isEmailVerified()) {
+                User = FirebaseAuth.getInstance().getCurrentUser();
+
+                Noti.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                if (User.isEmailVerified()) {
                     //mAccountRef = mUsersRef.child(user.toString());
                     Intent setProfileIntent = new Intent(Confirmation.this, SetUpProfile.class);
                     Confirmation.this.startActivity(setProfileIntent);
-                }else{
+                    return;
+                } else {
                     Noti.setTextColor(getResources().getColor(R.color.errorhint));
+                    bConfirm.setClickable(true);
                     return;
                 }
             }
