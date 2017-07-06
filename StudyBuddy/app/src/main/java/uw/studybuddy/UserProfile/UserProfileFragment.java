@@ -24,6 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.R;
 
 
@@ -44,7 +47,7 @@ public class UserProfileFragment extends Fragment {
 
     private LinearLayout mUserCoursesLayout;
     private Button[] mCoursesButtons;
-    private String[] mCoursesName;
+    private List<CourseInfo> mCoursesList;
   
     private FirebaseAuth.AuthStateListener mAuthListener;
     private  FirebaseAuth mAuth;
@@ -134,15 +137,16 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        mCoursesName = UserInfo.getCourses();
-        int numCourses = mCoursesName.length;
+        mCoursesList = UserInfo.getCourses();
+        int numCourses = mCoursesList.size();
         mCoursesButtons = new Button[numCourses];
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         int diameter = 100;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
         params.setMargins(2,2,2,2);
+
         for (int i=0; i<numCourses; i++) {
-            final Button button = createButton(mCoursesName[i]);
+            final Button button = createButton(mCoursesList.get(i));
             mCoursesButtons[i] = button;
             final int  index = i;
             button.setOnClickListener(new View.OnClickListener() {
@@ -171,10 +175,10 @@ public class UserProfileFragment extends Fragment {
         return rootView;
     }
 
-    private Button createButton(String name) {
+    private Button createButton(CourseInfo course) {
         Button button = new Button(this.getContext());
         button.setBackgroundResource(R.drawable.rounded_corners_button);
-        button.setText(name);
+        button.setText(course.toString());
         button.setTextSize(11);
         button.setClickable(true);
         button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -188,9 +192,10 @@ public class UserProfileFragment extends Fragment {
         final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
         final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
 
-        edit_dialog_course_subject.setText("e.g. CS");
-        edit_dialog_course_number.setText("e.g 446");
+        edit_dialog_course_subject.setText(mCoursesList.get(index).getSubject());
+        edit_dialog_course_number.setText(mCoursesList.get(index).getCatalogNumber());
         builder.setView(view);
+
         final Button btn = button;
         final int i = index;
         builder.setNegativeButton("cancel",null);
@@ -229,28 +234,12 @@ public class UserProfileFragment extends Fragment {
         }
 
         mUserAboutMe.setText(user.getAboutMe());
-        int len = mCoursesName.length;
+        int len = mCoursesList.size();
         for (int i=0; i<len; i++) {
-            mCoursesButtons[i].setText(mCoursesName[i]);
+            mCoursesButtons[i].setText(mCoursesList.get(i).toString());
         }
     }
 
-    // Process the way user courses is displayed
-    private String getCoursesString() {
-        if (user == null) {
-            return "";
-        }
-        String courses = "";
-        String[] userCourses = user.getCourses();
-        int length = userCourses.length;
-        for (int i=0; i<length; i++) {
-            courses += userCourses[i];
-            if (i<length-1) {
-                courses += ", ";
-            }
-        }
-        return courses;
-    }
 
     private void setListeners() {
 

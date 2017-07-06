@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.FriendListFragment.OnListFragmentInteractionListener;
-import uw.studybuddy.UserProfile.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
