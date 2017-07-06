@@ -19,20 +19,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
 
-    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
         /*
         if(mAuth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity{
                 String email = "studybuddycs446@gmail.com";
                 String password = "1234567";
 
-                mAuth.signInWithEmailAndPassword(email, password)
+                FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -121,7 +122,7 @@ public class LoginActivity extends AppCompatActivity{
             return;
         }
         final String message = this.getString(R.string.InvalidLogin);
-        mAuth.signInWithEmailAndPassword(email, password)
+        FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

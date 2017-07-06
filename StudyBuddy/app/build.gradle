@@ -44,6 +44,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     testCompile 'junit:junit:4.12'
     compile 'com.endercrest.uwaterlooapi:UWaterlooAPI:1.0'
+
 }
 
 
