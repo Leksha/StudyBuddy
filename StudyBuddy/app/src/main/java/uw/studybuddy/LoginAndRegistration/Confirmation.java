@@ -17,8 +17,6 @@ import uw.studybuddy.R;
 
 public class Confirmation extends AppCompatActivity {
 
-    //private FirebaseAuth mAuth;
-
     //DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
    // DatabaseReference mUsersRef  = mRootRef.child("Users");
     //DatabaseReference mAccountRef;
@@ -28,15 +26,13 @@ public class Confirmation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
-        //mAuth = FirebaseAuth.getInstance();
-
         final Button bConfirm = (Button) findViewById(R.id.bConfirm);
         final TextView tvResendEmail = (TextView) findViewById(R.id.tvResentEmail);
 
         bConfirm.setOnClickListener(new View.OnClickListener() { // LOGIN
             @Override
             public void onClick(View v) {
-                final FirebaseUser user = FirebaseInstance.registerConfirmation().getCurrentUser();
+                final FirebaseUser user = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
 
                 //mAccountRef = mUsersRef.child(user.toString());
                 Intent setProfileIntent = new Intent(Confirmation.this, SetUpProfile.class);

@@ -86,9 +86,4 @@ public class FirebaseInstance {
 
     }
 
-    public static FirebaseAuth registerConfirmation() {
-        FirebaseAuth curUser = getFirebaseAuthInstance();
-        return curUser;
-    }
-
 }

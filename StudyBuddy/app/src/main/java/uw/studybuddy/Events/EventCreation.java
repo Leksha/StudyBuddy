@@ -36,8 +36,6 @@ public class EventCreation extends AppCompatActivity {
     private TextView locationCreate;
     private TextView subjectCreate;
 
-//    private DatabaseReference mDatabase;
-
     private Button btn_date;
     private Button btn_time;
     private Button mConfirm;
