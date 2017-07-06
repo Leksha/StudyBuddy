@@ -17,6 +17,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
@@ -27,10 +28,10 @@ public class SetUpProfile extends AppCompatActivity {
     private EditText etThirdC;
     private EditText etFourthC;
     private EditText etFifthC;
-    private DatabaseReference mDatabase;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private  FirebaseAuth mAuth;
-    private  FirebaseUser User;
+    //private DatabaseReference mDatabase;
+    //private FirebaseAuth.AuthStateListener mAuthListener;
+    //private FirebaseAuth mAuth;
+    private FirebaseUser User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,8 @@ public class SetUpProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up_profile);
 
-        User = FirebaseAuth.getInstance().getCurrentUser();
+        //User = FirebaseAuth.getInstance().getCurrentUser();
+        User = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
 
         etUsername = (EditText)findViewById(R.id.etUsernameSet);
         etFirstC = (EditText)findViewById(R.id.etFirstC);
@@ -57,7 +59,7 @@ public class SetUpProfile extends AppCompatActivity {
                 String secondC = etSecondC.getText().toString().trim();
                 String thridC = etThirdC.getText().toString().trim();
                 String fourthC = etFourthC.getText().toString().trim();
-                String fifthC =etFifthC.getText().toString().trim();
+                String fifthC = etFifthC.getText().toString().trim();
                 if(TextUtils.isEmpty(username)){
                     String message = getString(R.string.UserDisplayNameMissing);
                     etUsername.setHint(message);

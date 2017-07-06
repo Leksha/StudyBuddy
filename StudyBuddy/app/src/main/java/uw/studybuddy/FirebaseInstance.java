@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +30,7 @@ public class FirebaseInstance {
 
     private static FirebaseAuth mAuth;
     private static DatabaseReference mDatabase;
+    private static FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private static void initDBInstance() {
         if (mDatabase == null) {
@@ -43,8 +44,6 @@ public class FirebaseInstance {
         }
     }
 
-
-
     public static DatabaseReference getDatabaseInstance() {
         initDBInstance();
         return mDatabase;
@@ -54,10 +53,15 @@ public class FirebaseInstance {
         initAuthInstance();
         return mAuth;
     }
-        //when creating an event
-    static boolean retVal = false;
+
+    public static FirebaseAuth.AuthStateListener getAuthStateListener() {
+        return mAuthStateListener;
+    }
+
+    //when creating an event
+    static boolean retVal;
     public static boolean addNewEventToDatabase(String course, String title, String location, String description){
-        DatabaseReference curDB = getDatabaseInstance().child("EventInfo");
+        DatabaseReference curDB = getDatabaseInstance().child("Event");
 
         final HashMap<String, String> dataMap = new HashMap<String, String>();
         if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(title)){
@@ -71,6 +75,8 @@ public class FirebaseInstance {
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         retVal = true;
+                    } else {
+                        retVal = false;
                     }
                 }
             });
@@ -80,6 +86,9 @@ public class FirebaseInstance {
 
     }
 
-
+    public static FirebaseAuth registerConfirmation() {
+        FirebaseAuth curUser = getFirebaseAuthInstance();
+        return curUser;
+    }
 
 }

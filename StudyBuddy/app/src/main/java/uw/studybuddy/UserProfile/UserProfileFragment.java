@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 
@@ -46,9 +47,9 @@ public class UserProfileFragment extends Fragment {
     private Button[] mCoursesButtons;
     private String[] mCoursesName;
   
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private  FirebaseAuth mAuth;
-    private FirebaseUser User;
+    private FirebaseAuth.AuthStateListener mAuthListener = FirebaseInstance.getAuthStateListener();
+    private  FirebaseAuth mAuth = FirebaseInstance.getFirebaseAuthInstance();
+    private FirebaseUser User = mAuth.getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,10 +93,10 @@ public class UserProfileFragment extends Fragment {
         }
 
 
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
+        /*mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                User = firebaseAuth.getCurrentUser();
+                //User = firebaseAuth.getCurrentUser();
                 if(User != null){
                     //user log in state is fine
                     //do nothing for now
@@ -109,7 +110,7 @@ public class UserProfileFragment extends Fragment {
                 }
             }
         };
-
+        */
 
     }
 
@@ -157,7 +158,7 @@ public class UserProfileFragment extends Fragment {
         setListeners();
 
         // Should update current user profile with names
-        User = FirebaseAuth.getInstance().getCurrentUser();
+        //User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
             mUserDisplayName.setText(User.getDisplayName());
             mUserName.setText(User.getDisplayName());
@@ -218,7 +219,7 @@ public class UserProfileFragment extends Fragment {
         mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getName());
 
-        User = FirebaseAuth.getInstance().getCurrentUser();
+        //User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
             mUserDisplayName.setText(User.getDisplayName());
             mUserName.setText(User.getDisplayName());
