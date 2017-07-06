@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,9 +45,9 @@ public class UserProfileFragment extends Fragment {
     private EditText mUserAboutMe;
     private UserInfo user;
 
-    private ImageButton mUserDisplayNameEditButton;
-    private ImageButton mUserNameEditButton;
-    private ImageButton mUserAboutMeEditButton;
+    private Button mUserDisplayNameEditButton;
+    private Button mUserNameEditButton;
+    private Button mUserAboutMeEditButton;
 
     private LinearLayout mUserCoursesLayout;
     private Button[] mCoursesButtons;
@@ -133,9 +132,9 @@ public class UserProfileFragment extends Fragment {
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
-        mUserDisplayNameEditButton = (ImageButton)rootView.findViewById(R.id.user_display_name_edit_button);
-        mUserNameEditButton = (ImageButton)rootView.findViewById(R.id.user_name_edit_button);
-        mUserAboutMeEditButton = (ImageButton)rootView.findViewById(R.id.user_about_me_edit_button);
+        mUserDisplayNameEditButton = (Button)rootView.findViewById(R.id.user_display_name_edit_button);
+        mUserNameEditButton = (Button)rootView.findViewById(R.id.user_name_edit_button);
+        mUserAboutMeEditButton = (Button)rootView.findViewById(R.id.user_about_me_edit_button);
 
 
         // For the purpose of the demo, we will create a user to display
@@ -257,20 +256,21 @@ public class UserProfileFragment extends Fragment {
         mUserName.setFocusable(false);
         mUserAboutMe.setFocusable(false);
 
-        ImageButton[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
+        Button[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
         EditText[] userInfoEditTexts = {mUserName, mUserDisplayName,mUserAboutMe };
         // Only editable when edit button is clicked
         for (int i=0; i<editButtons.length; i++) {
-            final ImageButton button = editButtons[i];
+            final Button button = editButtons[i];
             final EditText currEditText = userInfoEditTexts[i];
             editButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (currEditText.isFocusable()) {
                         currEditText.setFocusable(false);
-                        button.setImageResource();
+                        button.setBackgroundResource(R.mipmap.edit_icon);
                     } else {
                         currEditText.setFocusable(true);
+                        button.setBackgroundResource(R.mipmap.done_icon);
                     }
                 }
             });
