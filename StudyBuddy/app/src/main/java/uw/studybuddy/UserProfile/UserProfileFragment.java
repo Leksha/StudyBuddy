@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +63,7 @@ public class UserProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String TAG = "UserProfileFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -251,8 +254,8 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
-        Button[] editButtons = {mUserNameEditButton, mUserDisplayNameEditButton, mUserAboutMeEditButton};
-        EditText[] userInfoEditTexts = {mUserName, mUserDisplayName, mUserAboutMe};
+        Button[] editButtons = {mUserDisplayNameEditButton, mUserNameEditButton, mUserAboutMeEditButton};
+        EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
 
         // Only editable when edit button is clicked
         for (int i=0; i<editButtons.length; i++) {
@@ -260,12 +263,18 @@ public class UserProfileFragment extends Fragment {
             final EditText currEditText = userInfoEditTexts[i];
             currEditText.setFocusable(false);
 
+            final int index = i;
             editButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (currEditText.isFocusable()) {
                         currEditText.setFocusable(false);
                         button.setBackgroundResource(R.mipmap.edit_icon);
+
+                        // Only update UserInfo class if the text is changed
+                        if (getTextFromUserProfile(index) != currEditText.getText().toString()) {
+                            setTextForUserProfile(index, currEditText.getText().toString());
+                        }
                     } else {
                         currEditText.setFocusableInTouchMode(true);
                         button.setBackgroundResource(R.mipmap.done_icon);
@@ -273,56 +282,31 @@ public class UserProfileFragment extends Fragment {
                 }
             });
         }
-
-        // Update display name
-        mUserDisplayName.addTextChangedListener(new TextWatcher() {
-            String currString;
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                currString = mUserDisplayName.getText().toString();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (currString !=null && currString != mUserDisplayName.getText().toString()) {
-                    user.setDisplayName(mUserDisplayName.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        mUserName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserName.getText().toString() != user.getName()) {
-                    user.setName(mUserName.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        mUserAboutMe.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserAboutMe.getText().toString() != user.getAboutMe()) {
-                    user.setAboutMe(mUserAboutMe.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
     }
+
+    private String getTextFromUserProfile(int index) {
+        String answer;
+        switch (index) {
+            case 0: answer = user.getDisplayName(); break;
+            case 1: answer = user.getName(); break;
+            case 2: answer = user.getAboutMe(); break;
+            default: answer = "Error"; break;
+        }
+        Log.d(TAG, answer);
+        return answer;
+    }
+
+    private void setTextForUserProfile(int index, String newText) {
+        switch (index) {
+            case 0: user.setDisplayName(newText); break;
+            case 1: user.setName(newText); break;
+            case 2: user.setAboutMe(newText); break;
+            default: break;
+        }
+        Log.d(TAG, newText);
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
