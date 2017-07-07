@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -59,17 +60,21 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
         //final String email = Email.getText().toString();
-        String password = Password.getText().toString();
-        String ConfirmEmail = Auther.getText().toString();
+        final String password = Password.getText().toString();
+        final String ConfirmEmail  = Auther.getText().toString() + "@edu.uwaterloo.ca";
 
 
 
-        if(TextUtils.isEmpty(ConfirmEmail)){
+
+        if(TextUtils.isEmpty(Auther.getText().toString())){
             String message = this.getString(R.string.EmptyID) ;
             Auther.setHint(message);
             Auther.setHintTextColor(getResources().getColor(R.color.errorhint));
             return;
         }
+
+
+
         if(TextUtils.isEmpty(password)) {
             String message = this.getString(R.string.EmptyPassword);
             Password.setHint(message);
@@ -78,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
 
-        ConfirmEmail = ConfirmEmail + "@edu.uwaterloo.ca";
 
         mAuth.createUserWithEmailAndPassword(ConfirmEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -93,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                             SentConfirmation();
                             //After sending the email
                             //you should change the email address to Email
+
                             startActivity(new Intent(RegisterActivity.this, Confirmation.class));
                             return;
                         }
