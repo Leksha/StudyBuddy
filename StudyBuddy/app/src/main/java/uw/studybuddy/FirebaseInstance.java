@@ -59,16 +59,16 @@ public class FirebaseInstance {
     }
 
     //when creating an event
-    static boolean retVal;
+    static boolean retVal = true;
     public static boolean addNewEventToDatabase(String course, String title, String location, String description){
         DatabaseReference curDB = getDatabaseInstance().child("Event");
 
         final HashMap<String, String> dataMap = new HashMap<String, String>();
-        if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(title)){
-            dataMap.put("COURSE", course);
-            dataMap.put("DESCRIPTION", description);
-            dataMap.put("LOCATION", location);
-            dataMap.put("TITLE", title);
+        if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)){
+            dataMap.put("course", course);
+            dataMap.put("description", description);
+            dataMap.put("location", location);
+            dataMap.put("subject", title);
 
             curDB.push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
