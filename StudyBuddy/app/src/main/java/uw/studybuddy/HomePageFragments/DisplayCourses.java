@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.List;
+
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.UserInfo;
 
@@ -76,8 +78,8 @@ public class DisplayCourses extends Fragment {
 //        UWAPI uwapi = new UWAPI();
 //        int text = uwapi.getCourseBySubject("ACC");
 
-        String[] courses = UserInfo.getCourses();
-        int numCourses = courses.length;
+        List courses = UserInfo.getCourses();
+        int numCourses = courses.size();
         coursesButtons = new Button[numCourses];
 
         LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
@@ -86,7 +88,7 @@ public class DisplayCourses extends Fragment {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
         params.setMargins(2,2,2,2);
         for (int i=0; i<numCourses; i++) {
-            Button button = createButton(courses[i]);
+            Button button = createButton(courses.get(i).toString());
             coursesButtons[i] = button;
             layout.addView(button,params);
         }

@@ -30,7 +30,6 @@ import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
-import uw.studybuddy.UserProfile.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,

@@ -12,10 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import uw.studybuddy.R;
-import uw.studybuddy.UserProfile.dummy.DummyContent;
-import uw.studybuddy.UserProfile.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
