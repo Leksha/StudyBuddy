@@ -91,28 +91,7 @@ public class EventCreation extends AppCompatActivity {
                 String location = locationCreate.getText().toString().trim();
 
                 String subject = subjectCreate.getText().toString().trim();
-/*
-        if(!TextUtils.isEmpty(course) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(subject)){
-            dataMap.put("course", course);
-            dataMap.put("description", description);
-            dataMap.put("location", location);
-            dataMap.put("subject", subject);
 
-
-            mDatabase.push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(EventCreation.this, "Saving information...",Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(EventCreation.this, "Error occured.",Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-
-        } else {
-            Toast.makeText(EventCreation.this, "You have unfilled blank.",Toast.LENGTH_LONG).show();
-        }*/
 
                 String title = subjectCreate.getText().toString().trim();
 
