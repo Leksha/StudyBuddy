@@ -1,4 +1,4 @@
-package uw.studybuddy.HomePage_Fragments;
+package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,12 +14,12 @@ import uw.studybuddy.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HomePage.OnFragmentInteractionListener} interface
+ * {@link FindFriends.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomePage#newInstance} factory method to
+ * Use the {@link FindFriends#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomePage extends Fragment {
+public class FindFriends extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +31,7 @@ public class HomePage extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public HomePage() {
+    public FindFriends() {
         // Required empty public constructor
     }
 
@@ -41,11 +41,11 @@ public class HomePage extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomePage.
+     * @return A new instance of fragment FindFriends.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomePage newInstance(String param1, String param2) {
-        HomePage fragment = new HomePage();
+    public static FindFriends newInstance(String param1, String param2) {
+        FindFriends fragment = new FindFriends();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +66,7 @@ public class HomePage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false);
+        return inflater.inflate(R.layout.fragment_find_friends, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

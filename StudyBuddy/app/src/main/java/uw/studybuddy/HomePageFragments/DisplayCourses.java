@@ -1,14 +1,20 @@
-package uw.studybuddy.HomePage_Fragments;
+package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import java.util.List;
 
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 
 /**
@@ -24,6 +30,7 @@ public class DisplayCourses extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Button[] coursesButtons;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +73,37 @@ public class DisplayCourses extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_courses, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_display_courses, container, false);
+
+//        UWAPI uwapi = new UWAPI();
+//        int text = uwapi.getCourseBySubject("ACC");
+
+        List courses = UserInfo.getCourses();
+        int numCourses = courses.size();
+        coursesButtons = new Button[numCourses];
+
+        LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
+        layout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 150;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        params.setMargins(2,2,2,2);
+        for (int i=0; i<numCourses; i++) {
+            Button button = createButton(courses.get(i).toString());
+            coursesButtons[i] = button;
+            layout.addView(button,params);
+        }
+
+        return rootView;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.round_button);
+        button.setText(name);
+        button.setTextSize(12);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        return button;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

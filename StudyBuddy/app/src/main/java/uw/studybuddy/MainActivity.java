@@ -33,15 +33,18 @@ import java.util.Map;
 
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
-import uw.studybuddy.HomePage_Fragments.DisplayCourses;
-import uw.studybuddy.HomePage_Fragments.FindFriends;
-import uw.studybuddy.HomePage_Fragments.HomePage;
+import uw.studybuddy.HomePageFragments.DisplayCourses;
+import uw.studybuddy.HomePageFragments.FindFriends;
+import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
+
 import uw.studybuddy.UserProfile.dummy.DummyContent;
 import uw.studybuddy.UserProfile.dummy.UserPattern;
+
+
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
@@ -246,7 +249,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void LogOut(MenuItem item) {
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
         fAuth.signOut();
         startActivity(new Intent(this, LoginActivity.class));
     }

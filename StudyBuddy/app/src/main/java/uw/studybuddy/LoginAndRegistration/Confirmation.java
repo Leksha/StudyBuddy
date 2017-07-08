@@ -16,10 +16,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import uw.studybuddy.MainActivity;
+
+import uw.studybuddy.FirebaseInstance;
+
 import uw.studybuddy.R;
 
 public class Confirmation extends AppCompatActivity {
+
 
     private FirebaseAuth mAuth;
     private FirebaseUser User;
@@ -46,10 +51,12 @@ public class Confirmation extends AppCompatActivity {
         TextView tvResendEmail = (TextView) findViewById(R.id.tvResentEmail);
 
 
+
         bConfirm.setOnClickListener(new View.OnClickListener() { // LOGIN
             @Override
             public void onClick(View v) {
                 Intent setProfileIntent = new Intent(Confirmation.this, LoginActivity.class);
+
                 Confirmation.this.startActivity(setProfileIntent);
                 return;
 

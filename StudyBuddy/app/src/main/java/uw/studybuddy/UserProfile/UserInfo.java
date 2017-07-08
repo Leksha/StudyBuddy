@@ -6,7 +6,17 @@ import android.os.Bundle;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
 
+
 import uw.studybuddy.UserProfile.dummy.UserPattern;
+
+import com.endercrest.uwaterlooapi.courses.models.Course;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import uw.studybuddy.CourseInfo;
+
 
 /**
  * Created by leksharamdenee on 2017-06-12.
@@ -18,59 +28,86 @@ public class UserInfo {
 
     //Attributes
     private static String mDisplayName;
+
     private static String mQuestID;
     private static String[] mCourses;
+
     private static String mAboutMe;
     private static Image mImage;
 
-    // Getters and Setters
+    // Getters
     public static String getDisplayName() {
         return mDisplayName;
-    }
-
-    public static void setDisplayName(String mDisplayName) {
-        UserInfo.mDisplayName = mDisplayName;
     }
 
     public static String getName() {
         return mQuestID;
     }
 
+
     public static void setName(String mName) {
         UserInfo.mQuestID = mName;
-    }
-
-    public static String[] getCourses() {
-        return mCourses;
-    }
-
-    public static void setCourses(String[] mCourses) {
-        UserInfo.mCourses = mCourses.clone();
     }
 
     public static String getAboutMe() {
         return mAboutMe;
     }
 
+    // Setters
+    public static void updateCourseInfo(int index, String subject, String number) {
+        CourseInfo newCourse = new CourseInfo(subject, number);
+        mCoursesList.set(index, newCourse);
+    }
+
+    public static void setCourses(List<CourseInfo> newList) {
+        UserInfo.mCoursesList = new ArrayList<>(newList);
+    }
+    public static void setDisplayName(String mDisplayName) {
+        UserInfo.mDisplayName = mDisplayName;
+    }
+
+    public static void deleteCourse(int index) {
+        mCoursesList.remove(index);
+    }
+
+    public static void addCourse(String subject, String catNum) {
+        CourseInfo course = new CourseInfo(subject, catNum);
+        mCoursesList.add(course);
+    }
+
+    public static void setName(String mName) {
+        UserInfo.mName = mName;
+    }
+
     public static void setAboutMe(String mAboutMe) {
         UserInfo.mAboutMe = mAboutMe;
     }
 
+
     // Constructors
-    public UserInfo(String displayName, String name, String[] courses, String aboutMe) {
+    public UserInfo(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
         mDisplayName = displayName;
+
         mQuestID = name;
         mCourses = courses.clone();
+
         mAboutMe = aboutMe;
     }
 
     public UserInfo() {
-        String[] courses = {"Charms", "Dark Arts", "Herbology", "Muggle Studies"};
+        CourseInfo[] courses = {new CourseInfo("CS", "446"), new CourseInfo("CS", "448"),
+                new CourseInfo("Math", "235"), new CourseInfo("Econ", "220"), new CourseInfo("Math", "135"),
+                new CourseInfo("Phil", "110b"), new CourseInfo("Fr", "221")};
+
+        List<CourseInfo> courseList = new ArrayList<>(Arrays.asList(courses));
+
         String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
 
         mDisplayName = "Wizard Kid";
+
         mQuestID = "Harry Potter";
         mCourses = courses;
+
         mAboutMe = aboutMe;
     }
 
@@ -83,7 +120,7 @@ public class UserInfo {
 
 
     // instance methods
-    public static void initInstance(String displayName, String name, String[] courses, String aboutMe) {
+    public static void initInstance(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
         if (instance == null) {
             instance = new UserInfo(displayName, name, courses, aboutMe);
         }

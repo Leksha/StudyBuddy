@@ -1,16 +1,27 @@
 package uw.studybuddy.UserProfile;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,10 +29,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
-import uw.studybuddy.HomePage_Fragments.HomePage;
-import uw.studybuddy.LoginAndRegistration.LoginActivity;
-import uw.studybuddy.LoginAndRegistration.SetUpProfile;
-import uw.studybuddy.MainActivity;
+import java.util.ArrayList;
+import java.util.List;
+import uw.studybuddy.CourseInfo;
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 
@@ -35,16 +46,21 @@ import uw.studybuddy.R;
  */
 public class UserProfileFragment extends Fragment {
 
-    private TextView mUserDisplayName;
-    private TextView mUserName;
-    private TextView mUserCourses;
-    private TextView mUserAboutMe;
-
+    private EditText mUserDisplayName;
+    private EditText mUserName;
+    private EditText mUserAboutMe;
     private UserInfo user;
 
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private  FirebaseAuth mAuth;
-    private FirebaseUser User;
+    private Button mUserEditButton;
+    private Button mAddCourseButton;
+
+    private LinearLayout mUserCoursesLayout;
+    private List<Button> mCoursesButtons;
+    private List<CourseInfo> mCoursesList;
+  
+    private FirebaseAuth.AuthStateListener mAuthListener = FirebaseInstance.getAuthStateListener();
+    private  FirebaseAuth mAuth = FirebaseInstance.getFirebaseAuthInstance();
+    private FirebaseUser User = mAuth.getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +71,7 @@ public class UserProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String TAG = "user_profile_fragment";
     private OnFragmentInteractionListener mListener;
 
     public UserProfileFragment() {
@@ -88,10 +105,10 @@ public class UserProfileFragment extends Fragment {
         }
 
 
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
+        /*mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                User = firebaseAuth.getCurrentUser();
+                //User = firebaseAuth.getCurrentUser();
                 if(User != null){
                     //user log in state is fine
                     //do nothing for now
@@ -105,7 +122,7 @@ public class UserProfileFragment extends Fragment {
                 }
             }
         };
-
+        */
 
     }
 
@@ -116,29 +133,119 @@ public class UserProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
 
-        mUserDisplayName = (TextView)rootView.findViewById(R.id.user_profile_display_name);
-        mUserName = (TextView)rootView.findViewById(R.id.user_profile_name);
-        mUserCourses = (TextView)rootView.findViewById(R.id.user_profile_courses);
-        mUserAboutMe = (TextView)rootView.findViewById(R.id.user_profile_about_me);
+        mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
+        mUserName = (EditText)rootView.findViewById(R.id.user_profile_name);
+        mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
+        mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
+
+        mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
+
+        mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
+
         User = FirebaseAuth.getInstance().getCurrentUser();
         if(User!= null){
+
             mUserDisplayName.setText(User.getDisplayName());
-            mUserName.setText(User.getDisplayName());
-        }else{
-            mUserDisplayName.setText("User.getDisplayName()");
-            mUserName.setText("User.getDisplayName()");
-            //To do switch to login
         }
-        mUserCourses.setText(getCoursesString());
+        mUserName.setText(user.getName());
         mUserAboutMe.setText(user.getAboutMe());
 
-        //setListeners();
+        // Add the courses buttons
+        mCoursesList = UserInfo.getCourses();
+        int numCourses = mCoursesList.size();
+        mCoursesButtons = new ArrayList<>();
+        mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        int diameter = 100;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter-10);
+        params.setMargins(2,2,2,2);
+
+        for (int i=0; i<numCourses; i++) {
+            final Button button = createButton(mCoursesList.get(i));
+            mCoursesButtons.add(button);
+            final int  index = i;
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(index, button, false);
+                }
+            });
+            mUserCoursesLayout.addView(button,params);
+        }
+
+        setListeners();
+
+        // Should update current user profile with names
+        //User = FirebaseAuth.getInstance().getCurrentUser();
+        mUserAboutMe.setText(user.getAboutMe());
+
         return rootView;
+    }
+
+    private Button createButton(CourseInfo course) {
+        Button button = new Button(this.getContext());
+        button.setBackgroundResource(R.drawable.rounded_corners_button);
+        button.setText(course.toString());
+        button.setTextSize(11);
+        button.setClickable(true);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        return button;
+    }
+
+    // Using the same dialog to add and edit courses
+    private void showDialog(final int index, Button button, final boolean isAdd) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
+        final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
+        final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
+        builder.setView(view);
+
+        final Button btn = button;
+        final int i = index;
+
+        if (isAdd) {
+            builder.setTitle("Add New Course");
+        } else {
+            edit_dialog_course_subject.setText(mCoursesList.get(index).getSubject());
+            edit_dialog_course_number.setText(mCoursesList.get(index).getCatalogNumber());
+
+            builder.setTitle("Edit Course");
+            builder.setNegativeButton("delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    user.deleteCourse(i);
+                    reloadFragment();
+                }
+            });
+        }
+
+        builder.setNeutralButton("cancel",null);
+        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sub = edit_dialog_course_subject.getText().toString();
+                String num = edit_dialog_course_number.getText().toString();
+                String text = sub + " " + num;
+                if (isAdd) {
+                    user.addCourse(sub, num);
+                } else {
+                    user.updateCourseInfo(i, sub, num);
+//                    btn.setText(text);
+                }
+                reloadFragment();
+
+            }
+        });
+        builder.show();
+    }
+
+    // Refresh fragment when user deletes a course
+    private void reloadFragment() {
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
     @Override
@@ -147,7 +254,11 @@ public class UserProfileFragment extends Fragment {
         if (user == null) {
             user = UserInfo.getInstance();
         }
-        User = FirebaseAuth.getInstance().getCurrentUser();
+
+        mUserDisplayName.setText(user.getDisplayName());
+        mUserName.setText(user.getName());
+
+        //User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
             mUserDisplayName.setText(User.getDisplayName());
             mUserName.setText(User.getDisplayName());
@@ -156,95 +267,95 @@ public class UserProfileFragment extends Fragment {
             mUserName.setText("User.getDisplayName()");
             //To do switch to login
         }
-        mUserCourses.setText(getCoursesString());
+
         mUserAboutMe.setText(user.getAboutMe());
+        int len = mCoursesList.size();
+        for (int i=0; i<len; i++) {
+            mCoursesButtons.get(i).setText(mCoursesList.get(i).toString());
+        }
     }
 
-    // Process the way user courses is displayed
-    private String getCoursesString() {
-        if (user == null) {
-            return "";
-        }
-        String courses = "";
-        String[] userCourses = user.getCourses();
-        int length = userCourses.length;
-        for (int i=0; i<length; i++) {
-            courses += userCourses[i];
-            if (i<length-1) {
-                courses += ", ";
-            }
-        }
-        return courses;
-    }
 
     private void setListeners() {
+        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
+        for (EditText e: userInfoEditTexts) {
+            e.setFocusable(false);
+        }
 
-        // Update display name
-        mUserDisplayName.addTextChangedListener(new TextWatcher() {
-            String currString;
+        mUserEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                currString = mUserDisplayName.getText().toString();
-            }
+            public void onClick(View v) {
+                Boolean editable = false;
+                for (EditText e: userInfoEditTexts) {
+                    if (e.isFocusable()) {
+                        e.setFocusable(false);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (currString !=null && currString != mUserDisplayName.getText().toString()) {
-                    user.setDisplayName(mUserDisplayName.getText().toString());
+                    } else {
+                        editable = true;
+                        e.setFocusableInTouchMode(true);
+
+                    }
                 }
-            }
+                // Update image of edit button accordingly
+                if (editable) {
+                    mUserEditButton.setBackgroundResource(R.mipmap.done_icon);
+                } else {
+                    mUserEditButton.setBackgroundResource(R.mipmap.edit_icon);
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
+            }
         });
 
-        mUserName.addTextChangedListener(new TextWatcher() {
+        mAddCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserName.getText().toString() != user.getName()) {
-                    user.setName(mUserName.getText().toString());
-                }
+            public void onClick(View v) {
+                showDialog(0, null, true);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
 
+        for (int i=0; i<userInfoEditTexts.length; i++) {
+            final EditText e = userInfoEditTexts[i];
+            final int index = i;
+            e.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        mUserCourses.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserCourses.getText().toString() != user.getCourses().toString()) {
-                    String[] newCourses = mUserCourses.getText().toString().split(", ");
-                    user.setCourses(newCourses);
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (getTextFromUserProfile(index) != e.getText().toString()) {
+                        setTextForUserProfile(index, e.getText().toString());
+                    }
                 }
-            }
+            });
+        }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
 
-        mUserAboutMe.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mUserAboutMe.getText().toString() != user.getAboutMe()) {
-                    user.setAboutMe(mUserAboutMe.getText().toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
     }
+
+
+
+    private String getTextFromUserProfile(int index) {
+        String answer;
+        switch (index) {
+            case 0: answer = user.getDisplayName(); break;
+            case 1: answer = user.getName(); break;
+            case 2: answer = user.getAboutMe(); break;
+            default: answer = "Error"; break;
+        }
+        Log.d(TAG, answer);
+        return answer;
+    }
+
+    private void setTextForUserProfile(int index, String newText) {
+        switch (index) {
+            case 0: user.setDisplayName(newText); break;
+            case 1: user.setName(newText); break;
+            case 2: user.setAboutMe(newText); break;
+            default: break;
+        }
+        Log.d(TAG, newText);
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

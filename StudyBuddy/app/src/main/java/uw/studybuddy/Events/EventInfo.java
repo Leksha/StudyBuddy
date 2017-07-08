@@ -10,9 +10,7 @@ public class EventInfo {
     private String location;
     private String subject;
 
-    public EventInfo(){
-
-    }
+    public EventInfo(){}
 
     public EventInfo(String course, String description, String location, String subject) {
         this.course = course;

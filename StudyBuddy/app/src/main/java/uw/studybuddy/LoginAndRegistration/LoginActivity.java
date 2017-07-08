@@ -21,21 +21,24 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
 
+
     private FirebaseAuth mAuth;
     private FirebaseUser User;
     private  boolean test = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
         /*
         if(mAuth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -72,7 +75,38 @@ public class LoginActivity extends AppCompatActivity{
         mDevLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
+                final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
+                String email = "leksha_ramdenee@yahoo.com";
+                String password = "123456";
+
+                FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()) {
+                                    TextView Error = (TextView) findViewById(R.id.ErrorLogin);
+                                    Error.setText("Login failed");
+                                    Password.setText("");
+                                    Email.setText("");
+                                    return;
+                                    //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                } else {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                }
+                            }
+                        });
+
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
+//                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
+//                Button bLogin = (Button) findViewById(R.id.bSubmit);
+
+//                etUsername.setText(email);
+//                etPassword.setText(password);
+//                bLogin.performClick();
+
             }
         });
     }
@@ -102,7 +136,7 @@ public class LoginActivity extends AppCompatActivity{
             return;
         }
         final String message = this.getString(R.string.InvalidLogin);
-        mAuth.signInWithEmailAndPassword(email, password)
+        FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

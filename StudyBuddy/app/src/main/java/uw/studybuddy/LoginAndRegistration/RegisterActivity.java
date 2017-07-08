@@ -20,13 +20,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 import uw.studybuddy.MainActivity;
+
+import uw.studybuddy.FirebaseInstance;
+
 import uw.studybuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
+
     private FirebaseAuth mAuth;
     private FirebaseUser Users;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void SetupAccount(View view) {
+
         mAuth = FirebaseAuth.getInstance();
         //final EditText Email = (EditText)findViewById(R.id.etUsernameReg);
         final EditText Password = (EditText)findViewById(R.id.etPasswordReg);
         final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
+
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
         //final String email = Email.getText().toString();
         final String password = Password.getText().toString();
@@ -85,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         mAuth.createUserWithEmailAndPassword(ConfirmEmail, password)
+
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -126,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
         final String message_send = this.getString(R.string.Send_Confirmation);
         final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         String confirm = Auther.getText().toString();
@@ -141,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
                             String message = getResources().getString(R.string.InvalidEmail);
                             Error.setText(message);
                             return;
-                        }else{
+                        }else {
                             Error.setText(message_send);
                             return;
                         }
