@@ -59,6 +59,10 @@ public class UserInfo {
         UserInfo.mDisplayName = mDisplayName;
     }
 
+    public static void deleteCourse(int index) {
+        mCoursesList.remove(index);
+    }
+
     public static void setName(String mName) {
         UserInfo.mName = mName;
     }
@@ -77,7 +81,7 @@ public class UserInfo {
     }
 
     public UserInfo() {
-        CourseInfo[] courses = {new CourseInfo("CS", "446"), new CourseInfo("Cs", "448"),
+        CourseInfo[] courses = {new CourseInfo("CS", "446"), new CourseInfo("CS", "448"),
                 new CourseInfo("Math", "235"), new CourseInfo("Econ", "220"), new CourseInfo("Math", "135"),
                 new CourseInfo("Phil", "110b"), new CourseInfo("Fr", "221")};
 

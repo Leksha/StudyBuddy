@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uw.studybuddy.CourseInfo;
@@ -52,7 +55,7 @@ public class UserProfileFragment extends Fragment {
     private Button mUserAboutMeEditButton;
 
     private LinearLayout mUserCoursesLayout;
-    private Button[] mCoursesButtons;
+    private List<Button> mCoursesButtons;
     private List<CourseInfo> mCoursesList;
   
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -63,12 +66,12 @@ public class UserProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String TAG = "UserProfileFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private String TAG = "user_profile_fragment";
     private OnFragmentInteractionListener mListener;
 
     public UserProfileFragment() {
@@ -151,7 +154,7 @@ public class UserProfileFragment extends Fragment {
         // Add the courses buttons
         mCoursesList = UserInfo.getCourses();
         int numCourses = mCoursesList.size();
-        mCoursesButtons = new Button[numCourses];
+        mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         int diameter = 100;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
@@ -159,7 +162,7 @@ public class UserProfileFragment extends Fragment {
 
         for (int i=0; i<numCourses; i++) {
             final Button button = createButton(mCoursesList.get(i));
-            mCoursesButtons[i] = button;
+            mCoursesButtons.add(button);
             final int  index = i;
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -199,7 +202,7 @@ public class UserProfileFragment extends Fragment {
 
     private void showDialog(final int index, Button button) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Enter new course name");
+        builder.setTitle("Edit Course");
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
         final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
         final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
@@ -210,7 +213,17 @@ public class UserProfileFragment extends Fragment {
 
         final Button btn = button;
         final int i = index;
-        builder.setNegativeButton("cancel",null);
+
+        builder.setNegativeButton("delete", new DialogInterface.OnClickListener() {
+            @Override
+           public void onClick(DialogInterface dialog, int which) {
+                user.deleteCourse(i);
+//                mCoursesButtons.remove(i);
+//                mCoursesList.remove(i);
+                reloadFragment();
+            }
+        });
+        builder.setNeutralButton("cancel",null);
         builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -224,6 +237,18 @@ public class UserProfileFragment extends Fragment {
         builder.show();
     }
 
+    // Refresh fragment when user deletes a course
+    private void reloadFragment() {
+
+        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+
+        if (currentFragment instanceof UserProfileFragment) {
+            FragmentTransaction fragTransaction =   getActivity().getSupportFragmentManager().beginTransaction();
+            fragTransaction.detach(currentFragment);
+            fragTransaction.attach(currentFragment);
+            fragTransaction.commit();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -248,7 +273,7 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
         int len = mCoursesList.size();
         for (int i=0; i<len; i++) {
-            mCoursesButtons[i].setText(mCoursesList.get(i).toString());
+            mCoursesButtons.get(i).setText(mCoursesList.get(i).toString());
         }
     }
 
