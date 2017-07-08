@@ -159,7 +159,7 @@ public class UserProfileFragment extends Fragment {
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         int diameter = 100;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter-10);
         params.setMargins(2,2,2,2);
 
         for (int i=0; i<numCourses; i++) {
@@ -218,7 +218,7 @@ public class UserProfileFragment extends Fragment {
         } else {
             edit_dialog_course_subject.setText(mCoursesList.get(index).getSubject());
             edit_dialog_course_number.setText(mCoursesList.get(index).getCatalogNumber());
-            
+
             builder.setTitle("Edit Course");
             builder.setNegativeButton("delete", new DialogInterface.OnClickListener() {
                 @Override
