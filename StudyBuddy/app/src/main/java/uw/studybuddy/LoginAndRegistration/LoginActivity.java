@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +27,8 @@ import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
+
+    private String TAG = "LOGIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,37 +74,16 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-                final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-                String email = "leksha_ramdenee@yahoo.com";
-                String password = "123456";
+                String email = "studybuddycs446@gmail.com";
+                String password = "1234567";
 
-                FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    TextView Error = (TextView) findViewById(R.id.ErrorLogin);
-                                    Error.setText("Login failed");
-                                    Password.setText("");
-                                    Email.setText("");
-                                    return;
-                                    //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                                } else {
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                }
-                            }
-                        });
+                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
+                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
+                Button bLogin = (Button) findViewById(R.id.bSubmit);
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
-//                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
-//                Button bLogin = (Button) findViewById(R.id.bSubmit);
-
-//                etUsername.setText(email);
-//                etPassword.setText(password);
-//                bLogin.performClick();
-
+                etUsername.setText(email);
+                etPassword.setText(password);
+                bLogin.callOnClick();
             }
         });
     }
@@ -113,10 +95,12 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void Login(View view) {
+        Log.d(TAG, "Login called");
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-        String email = Email.getText().toString();
+        final String email = Email.getText().toString();
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-        String password =  Password.getText().toString();
+        final String password =  Password.getText().toString();
+
 
         if(TextUtils.isEmpty(email)){
             String message = this.getString(R.string.EmptyEmail);
@@ -143,7 +127,12 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                             //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            Log.d(TAG, "email: " + email);
+                            Log.d(TAG, "password: " + password);
+
+                            Intent homeActivity = new Intent(LoginActivity.this, MainActivity.class);
+                            homeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(homeActivity);
                         }
                     }
 

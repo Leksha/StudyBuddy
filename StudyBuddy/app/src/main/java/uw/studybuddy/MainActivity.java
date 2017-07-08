@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
+
     // Data required for the app
     private UserInfo user;
 
@@ -53,8 +54,7 @@ public class MainActivity extends AppCompatActivity
 
         // Setup the fragment to be displayed
         Fragment fragment = null;
-        Class fragmentClass = null;
-        fragmentClass = HomePage.class;
+        Class fragmentClass = HomePage.class;
         try {
             fragment = (Fragment)fragmentClass.newInstance();
         } catch (Exception e) {
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -142,15 +142,9 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-            System.out.println("Clicked on Home Page");
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
-            System.out.println("Clicked on User Profile");
-//            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
-//            MainActivity.this.startActivity(userProfile);
             fragmentClass = UserProfileFragment.class;
-
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
 
@@ -199,7 +193,10 @@ public class MainActivity extends AppCompatActivity
     public void LogOut(MenuItem item) {
         FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
         fAuth.signOut();
-        startActivity(new Intent(this, LoginActivity.class));
+
+        Intent newIntent = new Intent(this, LoginActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(newIntent);
     }
 
     public void GoToFriendList(MenuItem item) {

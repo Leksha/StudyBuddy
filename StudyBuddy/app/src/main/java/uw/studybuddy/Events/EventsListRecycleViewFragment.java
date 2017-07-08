@@ -38,6 +38,7 @@ public class EventsListRecycleViewFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private RecyclerView rv;
+    private String TAG = "EventsListRVFragment";
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +49,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter;
 
     public EventsListRecycleViewFragment() {
         // Required empty public constructor
@@ -74,27 +76,15 @@ public class EventsListRecycleViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
-
-    // can we show event earlier?
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
-        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
+        fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
                 EventInfo.class,
                 R.layout.event_cardview,
                 EventCardViewHolder.class,
@@ -106,6 +96,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setLocation(model.getLocation());
                 viewHolder.setSubject(model.getSubject());
+                Log.d(TAG, "populateViewHolder");
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,12 +104,24 @@ public class EventsListRecycleViewFragment extends Fragment {
                         Toast.makeText(getActivity(), "Clicked",Toast.LENGTH_LONG).show();
                         //Intent clickedEvent = new Intent(getActivity(), ClickedEvent.class);
                         //clickedEvent.putExtra()
-
-
                     }
                 });
             }
         };
+    }
+
+    // can we show event earlier?
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(fbRecyclerAdapter);
         return rootView;
     }
