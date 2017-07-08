@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 public class ResetPassword extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class ResetPassword extends AppCompatActivity {
 
 
     public void SentResetEmail(View view) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        //FirebaseAuth auth = FirebaseAuth.getInstance();
         final EditText Email = (EditText)findViewById(R.id.ResetEmail);
         String email = Email.getText().toString();
         final String message = this.getString(R.string.EmptyEmail);
@@ -37,7 +38,7 @@ public class ResetPassword extends AppCompatActivity {
             Email.setHintTextColor(getResources().getColor(R.color.errorhint));
             return;
         }
-        auth.sendPasswordResetEmail(email)
+        FirebaseInstance.getFirebaseAuthInstance().sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

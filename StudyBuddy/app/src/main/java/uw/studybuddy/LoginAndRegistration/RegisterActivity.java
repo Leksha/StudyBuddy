@@ -20,11 +20,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    //private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void SetupAccount(View view) {
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
         final EditText Email = (EditText)findViewById(R.id.etUsernameReg);
         EditText Password = (EditText)findViewById(R.id.etPasswordReg);
         //EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
@@ -74,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        FirebaseInstance.getFirebaseAuthInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -92,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
         final String message_send = this.getString(R.string.Send_Confirmation);
         //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail) ;
         final TextView Error = (TextView)findViewById(R.id.RegisterErrorDisplay);
@@ -104,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                             String message = getResources().getString(R.string.InvalidEmail);
                             Error.setText(message);
                             return;
-                        }else{
+                        }else {
                             Error.setText(message_send);
                             startActivity(new Intent(RegisterActivity.this, Confirmation.class));
                         }

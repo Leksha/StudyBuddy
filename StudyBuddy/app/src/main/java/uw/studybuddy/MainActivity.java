@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void LogOut(MenuItem item) {
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
         fAuth.signOut();
         startActivity(new Intent(this, LoginActivity.class));
     }
