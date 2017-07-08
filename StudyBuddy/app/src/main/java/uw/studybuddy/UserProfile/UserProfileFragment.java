@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -50,9 +51,7 @@ public class UserProfileFragment extends Fragment {
     private EditText mUserAboutMe;
     private UserInfo user;
 
-    private Button mUserDisplayNameEditButton;
-    private Button mUserNameEditButton;
-    private Button mUserAboutMeEditButton;
+    private Button mUserEditButton;
     private Button mAddCourseButton;
 
     private LinearLayout mUserCoursesLayout;
@@ -139,9 +138,7 @@ public class UserProfileFragment extends Fragment {
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
-        mUserDisplayNameEditButton = (Button)rootView.findViewById(R.id.user_display_name_edit_button);
-        mUserNameEditButton = (Button)rootView.findViewById(R.id.user_name_edit_button);
-        mUserAboutMeEditButton = (Button)rootView.findViewById(R.id.user_about_me_edit_button);
+        mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
 
         mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
@@ -283,40 +280,56 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
-        Button[] editButtons = {mUserDisplayNameEditButton, mUserNameEditButton, mUserAboutMeEditButton};
-        EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
+        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
+        for (EditText e: userInfoEditTexts) {
+            e.setFocusable(false);
+        }
 
-        // Only editable when edit button is clicked
-        for (int i=0; i<editButtons.length; i++) {
-            final Button button = editButtons[i];
-            final EditText currEditText = userInfoEditTexts[i];
-            currEditText.setFocusable(false);
+        mUserEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean editable = false;
+                for (EditText e: userInfoEditTexts) {
+                    if (e.isFocusable()) {
+                        e.setFocusable(false);
 
-            final int index = i;
-            editButtons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (currEditText.isFocusable()) {
-                        currEditText.setFocusable(false);
-                        button.setBackgroundResource(R.mipmap.edit_icon);
-
-                        // Only update UserInfo class if the text is changed
-                        if (getTextFromUserProfile(index) != currEditText.getText().toString()) {
-                            setTextForUserProfile(index, currEditText.getText().toString());
-                        }
                     } else {
-                        currEditText.setFocusableInTouchMode(true);
-                        button.setBackgroundResource(R.mipmap.done_icon);
+                        editable = true;
+                        e.setFocusableInTouchMode(true);
+
                     }
                 }
-            });
-        }
+                // Update image of edit button accordingly
+                if (editable) {
+                    mUserEditButton.setBackgroundResource(R.mipmap.done_icon);
+                } else {
+                    mUserEditButton.setBackgroundResource(R.mipmap.edit_icon);
+                }
+
+            }
+        });
+
         mAddCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(0, null, true);
             }
         });
+
+        for (int i=0; i<userInfoEditTexts.length; i++) {
+            final EditText e = userInfoEditTexts[i];
+            final int index = i;
+            e.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (getTextFromUserProfile(index) != e.getText().toString()) {
+                        setTextForUserProfile(index, e.getText().toString());
+                    }
+                }
+            });
+        }
 
 
     }
