@@ -20,7 +20,6 @@ import uw.studybuddy.R;
  * interface.
  */
 public class FriendListFragment extends Fragment {
-
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters

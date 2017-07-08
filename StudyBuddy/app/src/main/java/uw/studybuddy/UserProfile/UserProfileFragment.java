@@ -146,7 +146,12 @@ public class UserProfileFragment extends Fragment {
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
-        mUserDisplayName.setText(user.getDisplayName());
+
+        User = FirebaseAuth.getInstance().getCurrentUser();
+        if(User!= null){
+
+            mUserDisplayName.setText(User.getDisplayName());
+        }
         mUserName.setText(user.getName());
         mUserAboutMe.setText(user.getAboutMe());
 
@@ -176,14 +181,6 @@ public class UserProfileFragment extends Fragment {
 
         // Should update current user profile with names
         //User = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!= null){
-            mUserDisplayName.setText(User.getDisplayName());
-            mUserName.setText(User.getDisplayName());
-        }else{
-            mUserDisplayName.setText("User.getDisplayName()");
-            mUserName.setText("User.getDisplayName()");
-            //To do switch to login
-        }
         mUserAboutMe.setText(user.getAboutMe());
 
         return rootView;

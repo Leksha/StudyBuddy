@@ -20,6 +20,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
@@ -31,6 +41,11 @@ import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
 
+import uw.studybuddy.UserProfile.dummy.DummyContent;
+import uw.studybuddy.UserProfile.dummy.UserPattern;
+
+
+
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
@@ -41,7 +56,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
-    private UserInfo user;
+    private UserInfo user = new UserInfo();
+
+    DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
+            .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
+
+    DatabaseReference mDisplayNameRef  = mUserRootRef.child("displayName");
+    DatabaseReference mReadRef = mUserRootRef.child("read");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +71,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+
+        mReadRef.setValue("false");
+
+        updateNavigationDrawerUserInfo();
 
         // Setup the fragment to be displayed
         Fragment fragment = null;
@@ -84,7 +109,30 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        user = new UserInfo();
+
+    }
+
+    @Override
+    protected  void onStart(){
+        super.onStart();
+        mUserRootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserPattern temp = dataSnapshot.getValue(UserPattern.class);
+                if(temp != null){
+                    user.setDisplayName(temp.getDisplayName());
+                    user.setName(temp.getmQuestID());
+                    user.setAboutMe(temp.getAbout_me());
+                    user.setCourses(temp.getCourse());
+                    updateNavigationDrawerUserInfo();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -147,7 +195,7 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
-//            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+ //           Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
 //            MainActivity.this.startActivity(userProfile);
             fragmentClass = UserProfileFragment.class;
 
@@ -193,7 +241,11 @@ public class MainActivity extends AppCompatActivity
         ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
         TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
 
-        userName.setText(user.getName().toString());
+        if(user.getDisplayName() != null) {
+            userName.setText(user.getDisplayName().toString());
+        }else{
+            userName.setText("Nooooo!");
+        }
     }
 
     public void LogOut(MenuItem item) {
@@ -205,6 +257,8 @@ public class MainActivity extends AppCompatActivity
     public void GoToFriendList(MenuItem item) {
         startActivity(new Intent(this, FriendList.class));
     }
+
+
 
     // OnFragmentInteractionListeners
     @Override

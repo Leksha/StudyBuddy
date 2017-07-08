@@ -25,7 +25,7 @@
         android:layout_height="45dp"
         android:background="@color/white"
         android:ems="10"
-        android:hint="  Email Address"
+        android:hint="    UW Quest ID"
         android:inputType="textEmailAddress"
         android:textAlignment="textStart"
         android:textColor="@android:color/holo_orange_dark"
