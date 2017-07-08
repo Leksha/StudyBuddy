@@ -1,5 +1,8 @@
 package uw.studybuddy.Events;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -113,8 +116,6 @@ public class EventsListRecycleViewFragment extends Fragment {
                         Toast.makeText(getActivity(), "Clicked",Toast.LENGTH_LONG).show();
                         //Intent clickedEvent = new Intent(getActivity(), ClickedEvent.class);
                         //clickedEvent.putExtra()
-
-
                     }
                 });
             }

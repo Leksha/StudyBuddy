@@ -1,7 +1,10 @@
 package uw.studybuddy.Events;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -96,6 +99,7 @@ public class EventCreation extends AppCompatActivity {
                 //on successful creation of the event: toast message
                 if (eventCreationSuccess) {
                     Toast.makeText(EventCreation.this, "Saving information...", Toast.LENGTH_LONG).show();
+                    sendNotification();
                 } else {
                     Toast.makeText(EventCreation.this, "Error occured.", Toast.LENGTH_LONG).show();
                 }
@@ -103,6 +107,22 @@ public class EventCreation extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void sendNotification() {
+        NotificationManager NM = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        String title = "New event created";
+        String subject = "You can join this event!";
+
+        NotificationManager notif = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify = new Notification.Builder
+                (getApplicationContext()).setContentTitle(title).setContentText(subject).
+                setContentTitle(title).setSmallIcon(R.mipmap.notif_icon).build();
+
+        notify.flags |= Notification.FLAG_AUTO_CANCEL;
+        notif.notify(0, notify);
+
+
     }
 
     private void updateDate(){
