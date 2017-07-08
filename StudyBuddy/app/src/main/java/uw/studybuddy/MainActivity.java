@@ -53,11 +53,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
-    private UserInfo user;
+    private UserInfo user = new UserInfo();
+
     DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
             .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
 
-    DatabaseReference mDisplayNameRef  = mUserRootRef.child("DisplayName");
+    DatabaseReference mDisplayNameRef  = mUserRootRef.child("displayName");
     DatabaseReference mReadRef = mUserRootRef.child("read");
 
     @Override
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Home Page");
 
         mReadRef.setValue("false");
+
+        updateNavigationDrawerUserInfo();
 
         // Setup the fragment to be displayed
         Fragment fragment = null;
@@ -103,57 +106,28 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        user = new UserInfo();
 
     }
 
     @Override
     protected  void onStart(){
         super.onStart();
-        mUserRootRef.addChildEventListener(new ChildEventListener() {
+        mUserRootRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
-                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
-                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
-                //Map<String, String> newPost = (Map<String, String>) dataSnapshot.child("course").getValue();
-                //user.setCourses((String[]) newPost.keySet().toArray());
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
-                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
-                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
-                HashMap<String, String> course_list;
-                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
-                //user.setCourses((String[]) course_list.keySet().toArray());
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
-                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
-                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
-                HashMap<String, String> course_list;
-                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
-                //user.setCourses((String[]) course_list.keySet().toArray());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
-                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
-                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
-                HashMap<String, String> course_list;
-                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
-                //user.setCourses((String[]) course_list.keySet().toArray());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserPattern temp = dataSnapshot.getValue(UserPattern.class);
+                if(temp != null){
+                    user.setDisplayName(temp.getDisplayName());
+                    user.setName(temp.getmQuestID());
+                    user.setAboutMe(temp.getAbout_me());
+                    user.setCourses(temp.getCourse());
+                    updateNavigationDrawerUserInfo();
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //do nothing right now
+
             }
         });
 
@@ -218,7 +192,7 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
-//            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+ //           Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
 //            MainActivity.this.startActivity(userProfile);
             fragmentClass = UserProfileFragment.class;
 
@@ -264,7 +238,11 @@ public class MainActivity extends AppCompatActivity
         ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
         TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
 
-        userName.setText(user.getName().toString());
+        if(user.getDisplayName() != null) {
+            userName.setText(user.getDisplayName().toString());
+        }else{
+            userName.setText("Nooooo!");
+        }
     }
 
     public void LogOut(MenuItem item) {

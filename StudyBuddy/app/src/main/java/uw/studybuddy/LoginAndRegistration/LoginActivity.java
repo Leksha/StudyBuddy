@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private FirebaseUser User;
-    private  boolean test = true;
+    private  boolean test = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
