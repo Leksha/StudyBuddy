@@ -20,6 +20,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
@@ -31,6 +41,7 @@ import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
 import uw.studybuddy.UserProfile.dummy.DummyContent;
+import uw.studybuddy.UserProfile.dummy.UserPattern;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
@@ -43,6 +54,11 @@ public class MainActivity extends AppCompatActivity
 
     // Data required for the app
     private UserInfo user;
+    DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
+            .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
+
+    DatabaseReference mDisplayNameRef  = mUserRootRef.child("DisplayName");
+    DatabaseReference mReadRef = mUserRootRef.child("read");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+
+        mReadRef.setValue("false");
 
         // Setup the fragment to be displayed
         Fragment fragment = null;
@@ -86,6 +104,58 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         user = new UserInfo();
+
+    }
+
+    @Override
+    protected  void onStart(){
+        super.onStart();
+        mUserRootRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
+                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
+                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
+                //Map<String, String> newPost = (Map<String, String>) dataSnapshot.child("course").getValue();
+                //user.setCourses((String[]) newPost.keySet().toArray());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
+                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
+                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
+                HashMap<String, String> course_list;
+                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
+                //user.setCourses((String[]) course_list.keySet().toArray());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
+                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
+                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
+                HashMap<String, String> course_list;
+                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
+                //user.setCourses((String[]) course_list.keySet().toArray());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                user.setDisplayName(dataSnapshot.child("DisplayName").getValue(String.class));
+                user.setAboutMe(dataSnapshot.child("About_me").getValue(String.class));
+                user.setName(dataSnapshot.child("mQuestID").getValue(String.class));
+                HashMap<String, String> course_list;
+                //course_list = dataSnapshot.child("course").getValue(HashMap.class);
+                //user.setCourses((String[]) course_list.keySet().toArray());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //do nothing right now
+            }
+        });
 
     }
 
@@ -206,6 +276,8 @@ public class MainActivity extends AppCompatActivity
     public void GoToFriendList(MenuItem item) {
         startActivity(new Intent(this, FriendList.class));
     }
+
+
 
     // OnFragmentInteractionListeners
     @Override

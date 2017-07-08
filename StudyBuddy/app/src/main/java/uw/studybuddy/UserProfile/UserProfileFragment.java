@@ -126,7 +126,7 @@ public class UserProfileFragment extends Fragment {
 
         // Update the user profile view with the right user info
         User = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!= null){
+        if(User!= null){
             mUserDisplayName.setText(User.getDisplayName());
             mUserName.setText(User.getDisplayName());
         }else{

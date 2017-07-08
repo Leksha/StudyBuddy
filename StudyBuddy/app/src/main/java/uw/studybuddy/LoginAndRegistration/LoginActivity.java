@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private FirebaseUser User;
+    private  boolean test = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -119,8 +120,13 @@ public class LoginActivity extends AppCompatActivity{
                                     startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
                                     return;
                                 }else {
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                    return;
+                                    if(test){
+                                        startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
+                                        return;
+                                    }else {
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        return;
+                                    }
                                 }
                             }else{
                                 //if it's not verified, send the email again;
