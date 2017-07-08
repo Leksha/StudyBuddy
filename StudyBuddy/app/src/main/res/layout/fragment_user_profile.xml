@@ -88,16 +88,27 @@
 
 
     <!-- Courses -->
-    <TextView
-        android:id="@+id/user_profile_courses_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="29dp"
-        android:layout_marginTop="10dp"
-        android:text="Courses"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textStyle="bold"/>
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/user_profile_courses_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Courses"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/add_course_button"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:background="@mipmap/add_icon"/>
+
+    </LinearLayout>
+
 
     <HorizontalScrollView
         android:layout_width="300dp"

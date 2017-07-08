@@ -63,6 +63,11 @@ public class UserInfo {
         mCoursesList.remove(index);
     }
 
+    public static void addCourse(String subject, String catNum) {
+        CourseInfo course = new CourseInfo(subject, catNum);
+        mCoursesList.add(course);
+    }
+
     public static void setName(String mName) {
         UserInfo.mName = mName;
     }

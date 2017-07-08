@@ -53,6 +53,7 @@ public class UserProfileFragment extends Fragment {
     private Button mUserDisplayNameEditButton;
     private Button mUserNameEditButton;
     private Button mUserAboutMeEditButton;
+    private Button mAddCourseButton;
 
     private LinearLayout mUserCoursesLayout;
     private List<Button> mCoursesButtons;
@@ -142,6 +143,7 @@ public class UserProfileFragment extends Fragment {
         mUserNameEditButton = (Button)rootView.findViewById(R.id.user_name_edit_button);
         mUserAboutMeEditButton = (Button)rootView.findViewById(R.id.user_about_me_edit_button);
 
+        mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
@@ -167,7 +169,7 @@ public class UserProfileFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog(index, button);
+                    showDialog(index, button, false);
                 }
             });
             mUserCoursesLayout.addView(button,params);
@@ -200,27 +202,33 @@ public class UserProfileFragment extends Fragment {
         return button;
     }
 
-    private void showDialog(final int index, Button button) {
+    // Using the same dialog to add and edit courses
+    private void showDialog(final int index, Button button, final boolean isAdd) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Edit Course");
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
         final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
         final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
-
-        edit_dialog_course_subject.setText(mCoursesList.get(index).getSubject());
-        edit_dialog_course_number.setText(mCoursesList.get(index).getCatalogNumber());
         builder.setView(view);
 
         final Button btn = button;
         final int i = index;
 
-        builder.setNegativeButton("delete", new DialogInterface.OnClickListener() {
-            @Override
-           public void onClick(DialogInterface dialog, int which) {
-                user.deleteCourse(i);
-                reloadFragment();
-            }
-        });
+        if (isAdd) {
+            builder.setTitle("Add New Course");
+        } else {
+            edit_dialog_course_subject.setText(mCoursesList.get(index).getSubject());
+            edit_dialog_course_number.setText(mCoursesList.get(index).getCatalogNumber());
+            
+            builder.setTitle("Edit Course");
+            builder.setNegativeButton("delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    user.deleteCourse(i);
+                    reloadFragment();
+                }
+            });
+        }
+
         builder.setNeutralButton("cancel",null);
         builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
             @Override
@@ -228,8 +236,14 @@ public class UserProfileFragment extends Fragment {
                 String sub = edit_dialog_course_subject.getText().toString();
                 String num = edit_dialog_course_number.getText().toString();
                 String text = sub + " " + num;
-                user.updateCourseInfo(i, sub, num);
-                btn.setText(text);
+                if (isAdd) {
+                    user.addCourse(sub, num);
+                } else {
+                    user.updateCourseInfo(i, sub, num);
+//                    btn.setText(text);
+                }
+                reloadFragment();
+
             }
         });
         builder.show();
@@ -297,7 +311,17 @@ public class UserProfileFragment extends Fragment {
                 }
             });
         }
+        mAddCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(0, null, true);
+            }
+        });
+
+
     }
+
+
 
     private String getTextFromUserProfile(int index) {
         String answer;
