@@ -218,8 +218,6 @@ public class UserProfileFragment extends Fragment {
             @Override
            public void onClick(DialogInterface dialog, int which) {
                 user.deleteCourse(i);
-//                mCoursesButtons.remove(i);
-//                mCoursesList.remove(i);
                 reloadFragment();
             }
         });
@@ -239,15 +237,7 @@ public class UserProfileFragment extends Fragment {
 
     // Refresh fragment when user deletes a course
     private void reloadFragment() {
-
-        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
-
-        if (currentFragment instanceof UserProfileFragment) {
-            FragmentTransaction fragTransaction =   getActivity().getSupportFragmentManager().beginTransaction();
-            fragTransaction.detach(currentFragment);
-            fragTransaction.attach(currentFragment);
-            fragTransaction.commit();
-        }
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
     @Override
