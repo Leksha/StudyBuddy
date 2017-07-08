@@ -53,16 +53,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Home Page");
 
         // Setup the fragment to be displayed
-        Fragment fragment = null;
-        Class fragmentClass = HomePage.class;
-        try {
-            fragment = (Fragment)fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        setupHomepage();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +86,23 @@ public class MainActivity extends AppCompatActivity
         if (user == null) {
             user = UserInfo.getInstance();
         }
+        setupHomepage();
         updateNavigationDrawerUserInfo();
+    }
+
+
+    private void setupHomepage(){
+        // Setup the fragment to be displayed
+        Fragment fragment = null;
+        Class fragmentClass = HomePage.class;
+        try {
+            fragment = (Fragment)fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     @Override
@@ -142,6 +149,7 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         if (id == R.id.nav_home) {
+            recreate();
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             fragmentClass = UserProfileFragment.class;
