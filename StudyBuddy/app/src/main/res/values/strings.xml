@@ -8,7 +8,6 @@
     <string name="find_friend_editText">Enter a friend\'s name ...</string>
     <string name="search_friend_button">Search</string>
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
-    <string name="action_new_event">New event</string>
 
     <!-- User profile related info strings -->
     <string name="user_name_title">Name:</string>
@@ -24,4 +23,10 @@
     <string name="Send_Confirmation">The confirmation email has been sent</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="UserDisplayNameMissing">Please type in your Nick Name</string>
+
+
+    <!-- Action Bar Items -->
+    <string name="action_new_event">New Event</string>
+    <string name="action_notifications">Notifications</string>
+
 </resources>
