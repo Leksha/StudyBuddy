@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile.dummy;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Display;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.UserProfile.UserInfo;
 
 /**
@@ -61,7 +63,7 @@ public class FirebaseUserInfo {
         return;
     }
 
-    public static void set_Username(String name){
+    public static void set_DisplayName(String name){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
@@ -92,6 +94,28 @@ public class FirebaseUserInfo {
         }
         return;
     }
+
+    public static void remove_mCourse(final String subject, String num){
+        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String coursename = subject + num;
+        if(key != null) {
+            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child("Users").
+                    child(key).child("course");
+
+            mCourseReference.child(coursename).removeValue(new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) { // No Errors
+                        Log.d(TAG, "Error removing course: " + databaseError.getMessage());
+                    } else {
+                        Log.d(TAG, "Success removing course: ");
+                    }
+                }
+            });
+        }
+    }
+
+
 
     //update thhe read filed to nake the listener functon runs
     public static void listener_trigger(){

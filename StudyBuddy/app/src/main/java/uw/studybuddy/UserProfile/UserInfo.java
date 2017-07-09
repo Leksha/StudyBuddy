@@ -7,6 +7,7 @@ import android.media.Image;
 import android.support.v4.content.ContextCompat;
 
 
+import uw.studybuddy.UserProfile.dummy.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.dummy.UserPattern;
 
 import com.endercrest.uwaterlooapi.courses.models.Course;
@@ -31,7 +32,7 @@ public class UserInfo {
     private static String mDisplayName;
 
     private static String mQuestID;
-    private static List mCoursesList;
+    private static List<CourseInfo> mCoursesList;
 
     private static String mAboutMe;
     private static Image mImage;
@@ -49,16 +50,12 @@ public class UserInfo {
         return mCoursesList;
     }
 
+    public static String getAboutMe() { return mAboutMe; }
 
-    public static void setQuestID(String mName) {
-        UserInfo.mQuestID = mName;
-    }
-
-    public static String getAboutMe() {
-        return mAboutMe;
-    }
 
     // Setters
+    public static void setQuestID(String mName) { UserInfo.mQuestID = mName; }
+
     public static void updateCourseInfo(int index, String subject, String number) {
         CourseInfo newCourse = new CourseInfo(subject, number);
         mCoursesList.set(index, newCourse);
@@ -67,21 +64,27 @@ public class UserInfo {
     public static void setCourses(List<CourseInfo> newList) {
         UserInfo.mCoursesList = new ArrayList<>(newList);
     }
+
     public static void setDisplayName(String mDisplayName) {
         UserInfo.mDisplayName = mDisplayName;
+        FirebaseUserInfo.set_DisplayName(mDisplayName);
     }
 
     public static void deleteCourse(int index) {
+        CourseInfo c = mCoursesList.get(index);
+        FirebaseUserInfo.remove_mCourse(c.getSubject(), c.getCatalogNumber());
         mCoursesList.remove(index);
     }
 
     public static void addCourse(String subject, String catNum) {
         CourseInfo course = new CourseInfo(subject, catNum);
         mCoursesList.add(course);
+        FirebaseUserInfo.add_mCourse(subject, catNum);
     }
 
     public static void setAboutMe(String mAboutMe) {
         UserInfo.mAboutMe = mAboutMe;
+        FirebaseUserInfo.set_mAboutMe(mAboutMe);
     }
 
 
