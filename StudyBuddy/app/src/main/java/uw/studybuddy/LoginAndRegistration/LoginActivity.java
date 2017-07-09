@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity{
 
             }
         });
+        mDevLoginButton.setEnabled(false);
     }
 
 

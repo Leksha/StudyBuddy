@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile.dummy;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Display;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.UserProfile.UserInfo;
 
 /**
@@ -28,20 +30,32 @@ import uw.studybuddy.UserProfile.UserInfo;
 
 public class FirebaseUserInfo {
 
-    static String TAG = "Firebase UserInfo";
+    final static String TAG = "Firebase UserInfo";
+
+    // All fields in the Users table
+    private static String table_users          = "Users";
+    private static String field_quest_id       = "quest_id";
+    private static String field_display_name   = "display_name";
+    private static String field_user_name      = "user_name";
+    private static String field_about_me       = "about_me";
+
+    // Tables in the user table
+    private static String table_courses         = "courses";
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
+
+    public static DatabaseReference getUsersTable() {
+        return FirebaseDatabase.getInstance().getReference().child(table_users);
+    }
+
     public static void update_UserInfo(UserPattern USER){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();
 
         //String key  = databaseReference.child("Users").push().getKey().toString();
-        DatabaseReference DestReference = databaseReference.child("Users").child(USER.getmQuestID().toString());
+        DatabaseReference DestReference = getUsersTable().child(USER.getmQuestID().toString());
         DestReference.setValue(USER);
-
-        final String TAG = "Firebase UserInfo";
-
 
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -61,22 +75,18 @@ public class FirebaseUserInfo {
         return;
     }
 
-    public static void set_Username(String name){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
+    public static void set_DisplayName(String name){
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
         //get the key
-        databaseReference.child("Users").child(User.getDisplayName().toString()).child("DisplayName").setValue(name);
+        getUsersTable().child(User.getDisplayName().toString()).child(field_display_name).setValue(name);
 
         return;
     }
     public static void set_mAboutMe(String mAboutMe){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
         //get the key
-        databaseReference.child("Users").child(User.getDisplayName().toString()).child("About_me").setValue(mAboutMe);
+        getUsersTable().child(User.getDisplayName().toString()).child(field_about_me).setValue(mAboutMe);
         return;
     }
     //add a course to the database.
@@ -84,8 +94,7 @@ public class FirebaseUserInfo {
         String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         String coursename = subject + num;
         if(key != null) {
-            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child("Users").
-                    child(key).child("course");
+            DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
 
             CourseInfo newcourse = new CourseInfo(subject, num);
             mCourseReference.child(coursename).setValue(newcourse);
@@ -93,10 +102,31 @@ public class FirebaseUserInfo {
         return;
     }
 
-    //update thhe read filed to nake the listener functon runs
+    public static void remove_mCourse(final String subject, String num){
+        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String coursename = subject + num;
+        if(key != null) {
+            DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
+
+            mCourseReference.child(coursename).removeValue(new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) { // No Errors
+                        Log.d(TAG, "Error removing course: " + databaseError.getMessage());
+                    } else {
+                        Log.d(TAG, "Success removing course: ");
+                    }
+                }
+            });
+        }
+    }
+
+
+
+    //update the read filed to make the listener function run
     public static void listener_trigger(){
         String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        DatabaseReference mReadReference = FirebaseDatabase.getInstance().getReference().child("Users").child("key").child("read");
+        DatabaseReference mReadReference = getUsersTable().child("key").child("read");
         mReadReference.setValue("true");
     }
 
