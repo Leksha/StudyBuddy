@@ -39,6 +39,7 @@ public class UserPattern {
     public UserPattern(UserInfo User){
         read = "true";
         List<CourseInfo> course_list = User.getCoursesList();
+        course = new HashMap<>();
         for(CourseInfo c : course_list){
             course.put(c.getSubject(), c.getCatalogNumber());
         }

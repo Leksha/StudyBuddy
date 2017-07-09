@@ -4,6 +4,9 @@ import android.support.v4.util.Pair;
 
 import com.endercrest.uwaterlooapi.UWaterlooAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by leksharamdenee on 2017-06-27.
  */
@@ -38,6 +41,19 @@ public class CourseInfo {
         mCatalogNumber = number;
     }
 
+
+    public static List<CourseInfo> getCourseListFromStringArray(String[] courses) {
+        int len = courses.length;
+        List<CourseInfo> course_list = new ArrayList<CourseInfo>();
+        for (int i=0; i<len ; i++) {
+            if (!courses[i].isEmpty()) {
+                Pair<String, String> p = CourseInfo.processCourseString(courses[i]);
+                course_list.add(new CourseInfo(p.first, p.second));
+            }
+        }
+        return course_list;
+    }
+
     // Takes in a for example "CS446" and returns <"CS", "446">
     public static Pair<String, String> processCourseString(String course) {
         char[] arr = course.toCharArray();
@@ -50,7 +66,7 @@ public class CourseInfo {
         }
         String subject = course.substring(0, substr);
         String catNum = course.substring(substr);
-        return new Pair<>(subject, catNum);
+        return new Pair<>(subject.toUpperCase(), catNum);
     }
 
 }

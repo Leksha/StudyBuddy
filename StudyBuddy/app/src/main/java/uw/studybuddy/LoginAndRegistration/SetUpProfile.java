@@ -75,13 +75,7 @@ public class SetUpProfile extends AppCompatActivity {
                 final String QuestID = email.substring(0, email.length()-17);
 
                 final String[] courses = new String[] {firstC, secondC, thridC, fourthC, fifthC};
-                final List<CourseInfo> course_list = new ArrayList<>();
-                for (int i=0; i<5 ; i++) {
-                    if (courses[i] != null) {
-                        Pair<String, String> p = CourseInfo.processCourseString(courses[i]);
-                        course_list.add(new CourseInfo(p.first, p.second));
-                    }
-                }
+                final List<CourseInfo> course_list = CourseInfo.getCourseListFromStringArray(courses);
 
                 if(TextUtils.isEmpty(username)){
                     String message = getString(R.string.UserDisplayNameMissing);
@@ -98,7 +92,7 @@ public class SetUpProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    FirebaseUserInfo.update_UserInfo(new UserPattern(new UserInfo(username, QuestID, course_list,  "" )));
+                                    FirebaseUserInfo.update_UserInfo(new UserPattern(new UserInfo(username, QuestID, course_list,  "Tell us about you" )));
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                                     SetUpProfile.this.startActivity(loginIntent);
                                 }else{
