@@ -30,7 +30,17 @@ import uw.studybuddy.UserProfile.UserInfo;
 
 public class FirebaseUserInfo {
 
-    static String TAG = "Firebase UserInfo";
+    final static String TAG = "Firebase UserInfo";
+
+    // All fields in the Users table
+    private static String table_users          = "table_users";
+    private static String field_quest_id       = "quest_id";
+    private static String field_display_name   = "display_name";
+    private static String field_user_name      = "user_name";
+    private static String field_about_me       = "about_me";
+
+    // Tables in the user table
+    private static String table_courses         = "courses";
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
@@ -39,11 +49,8 @@ public class FirebaseUserInfo {
         DatabaseReference databaseReference = database.getReference();
 
         //String key  = databaseReference.child("Users").push().getKey().toString();
-        DatabaseReference DestReference = databaseReference.child("Users").child(USER.getmQuestID().toString());
+        DatabaseReference DestReference = databaseReference.child(table_users).child(USER.getmQuestID().toString());
         DestReference.setValue(USER);
-
-        final String TAG = "Firebase UserInfo";
-
 
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -68,7 +75,7 @@ public class FirebaseUserInfo {
         DatabaseReference databaseReference = database.getReference();
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
         //get the key
-        databaseReference.child("Users").child(User.getDisplayName().toString()).child("DisplayName").setValue(name);
+        databaseReference.child(table_users).child(User.getDisplayName().toString()).child(field_display_name).setValue(name);
 
         return;
     }
@@ -78,7 +85,7 @@ public class FirebaseUserInfo {
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
         //get the key
-        databaseReference.child("Users").child(User.getDisplayName().toString()).child("About_me").setValue(mAboutMe);
+        databaseReference.child(table_users).child(User.getDisplayName().toString()).child(field_about_me).setValue(mAboutMe);
         return;
     }
     //add a course to the database.
@@ -86,8 +93,8 @@ public class FirebaseUserInfo {
         String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         String coursename = subject + num;
         if(key != null) {
-            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child("Users").
-                    child(key).child("course");
+            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child(table_users).
+                    child(key).child(table_courses);
 
             CourseInfo newcourse = new CourseInfo(subject, num);
             mCourseReference.child(coursename).setValue(newcourse);
@@ -99,8 +106,8 @@ public class FirebaseUserInfo {
         String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         String coursename = subject + num;
         if(key != null) {
-            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child("Users").
-                    child(key).child("course");
+            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child(table_users).
+                    child(key).child(table_courses);
 
             mCourseReference.child(coursename).removeValue(new DatabaseReference.CompletionListener() {
                 @Override
@@ -117,10 +124,10 @@ public class FirebaseUserInfo {
 
 
 
-    //update thhe read filed to nake the listener functon runs
+    //update the read filed to make the listener function run
     public static void listener_trigger(){
         String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        DatabaseReference mReadReference = FirebaseDatabase.getInstance().getReference().child("Users").child("key").child("read");
+        DatabaseReference mReadReference = FirebaseDatabase.getInstance().getReference().child(table_users).child("key").child("read");
         mReadReference.setValue("true");
     }
 
