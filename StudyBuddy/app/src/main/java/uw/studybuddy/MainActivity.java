@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener {
 
     // Data required for the app
-    private UserInfo user = new UserInfo();
+    private UserInfo user = UserInfo.getInstance();
 
     DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
             .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());

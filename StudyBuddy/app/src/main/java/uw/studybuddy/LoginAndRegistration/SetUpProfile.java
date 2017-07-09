@@ -92,8 +92,10 @@ public class SetUpProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    FirebaseUserInfo.update_UserInfo(new UserPattern(new UserInfo(username, QuestID, course_list,  "Tell us about you" )));
+                                    UserInfo newUser = new UserInfo(username, QuestID, course_list,  "Tell us about you" );
+                                    FirebaseUserInfo.update_UserInfo(new UserPattern(newUser));
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
+                                    loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     SetUpProfile.this.startActivity(loginIntent);
                                 }else{
                                     return;

@@ -95,9 +95,10 @@ public class UserInfo {
         UserInfo.mCoursesList = new ArrayList<>(courses);
 
         mAboutMe = aboutMe;
+        instance = this;
     }
 
-    public UserInfo() {
+    private UserInfo() {
         CourseInfo[] courses = {new CourseInfo("CS", "446"), new CourseInfo("CS", "448"),
                 new CourseInfo("Math", "235"), new CourseInfo("Econ", "220"), new CourseInfo("Math", "135"),
                 new CourseInfo("Phil", "110b"), new CourseInfo("Fr", "221")};
@@ -140,5 +141,6 @@ public class UserInfo {
         initInstance();
         return instance;
     }
+
 
 }
