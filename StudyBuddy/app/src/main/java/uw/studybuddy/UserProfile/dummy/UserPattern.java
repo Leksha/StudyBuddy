@@ -24,7 +24,7 @@ public class UserPattern {
     private String DisplayName;
     private String About_me;
     //coursename : coursename
-    public Map<String, String> course = new HashMap<>();
+    private List<CourseInfo> coursesList;
 
     //quest id , displayname
     public Map<String, String> friend_list = new HashMap<>();
@@ -38,22 +38,13 @@ public class UserPattern {
     //update the Userinfo
     public UserPattern(UserInfo User){
         read = "true";
-        List<CourseInfo> course_list = User.getCoursesList();
-        course = new HashMap<>();
-        for(CourseInfo c : course_list){
-            course.put(c.getSubject(), c.getCatalogNumber());
-        }
+        coursesList = new ArrayList<>(User.getCoursesList());
         About_me = User.getAboutMe();
         mQuestID = User.getQuestID();
         DisplayName = User.getDisplayName();
     }
     public List<CourseInfo> getCourse(){
-        List<CourseInfo> list = new ArrayList<>();
-        for (Map.Entry<String, String> entry : course.entrySet()) {
-            CourseInfo c = new CourseInfo(entry.getKey(), entry.getValue());
-            list.add(c);
-        }
-        return list;
+        return coursesList;
     }
     public String getRead() {
         return read;
