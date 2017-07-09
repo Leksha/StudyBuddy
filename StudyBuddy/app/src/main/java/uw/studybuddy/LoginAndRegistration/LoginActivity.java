@@ -27,11 +27,6 @@ import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
 
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser User;
-    private  boolean test = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -78,33 +73,15 @@ public class LoginActivity extends AppCompatActivity{
 
                 final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
                 final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-                String email = "leksha_ramdenee@yahoo.com";
-                String password = "123456";
+                String email = "lramdene";
+                String password = "1234567";
 
-                FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    TextView Error = (TextView) findViewById(R.id.ErrorLogin);
-                                    Error.setText("Login failed");
-                                    Password.setText("");
-                                    Email.setText("");
-                                    return;
-                                    //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                                } else {
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                }
-                            }
-                        });
+                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
+                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
+                Button bLogin = (Button) findViewById(R.id.bSubmit);
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
-//                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
-//                Button bLogin = (Button) findViewById(R.id.bSubmit);
-
-//                etUsername.setText(email);
-//                etPassword.setText(password);
+                etUsername.setText(email);
+                etPassword.setText(password);
 //                bLogin.performClick();
 
             }
@@ -119,7 +96,7 @@ public class LoginActivity extends AppCompatActivity{
 
     public void Login(View view) {
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-        String email = Email.getText().toString() + "@edu.uwaterloo.ca";
+        String email = Email.getText().toString();
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
         String password =  Password.getText().toString();
 
@@ -148,25 +125,7 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                             //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            User = FirebaseAuth.getInstance().getCurrentUser();
-                            if(User.isEmailVerified()) {
-                                if(User.getDisplayName() == null){
-                                    startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
-                                    return;
-                                }else {
-                                    if(test){
-                                        startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
-                                        return;
-                                    }else {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        return;
-                                    }
-                                }
-                            }else{
-                                //if it's not verified, send the email again;
-                                SentConfirmation();
-                                return;
-                            }
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     }
 
@@ -176,24 +135,5 @@ public class LoginActivity extends AppCompatActivity{
 
     public void GotoRegister(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-    }
-
-    public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
-        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(!task.isSuccessful()){
-                            return;
-                        }else{
-                            startActivity(new Intent(LoginActivity.this, Confirmation.class));
-                            return;
-                        }
-                    }
-                });
-
-
     }
 }

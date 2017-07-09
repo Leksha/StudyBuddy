@@ -152,11 +152,11 @@ public class UserProfileFragment extends Fragment {
 
             mUserDisplayName.setText(User.getDisplayName());
         }
-        mUserName.setText(user.getName());
+        mUserName.setText(user.getQuestID());
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        mCoursesList = UserInfo.getCourses();
+        mCoursesList = UserInfo.getCoursesList();
         int numCourses = mCoursesList.size();
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -181,6 +181,14 @@ public class UserProfileFragment extends Fragment {
 
         // Should update current user profile with names
         //User = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!= null){
+            mUserDisplayName.setText(User.getDisplayName());
+            mUserName.setText(User.getDisplayName());
+        }else{
+            mUserDisplayName.setText("User.getDisplayName()");
+            mUserName.setText("User.getDisplayName()");
+            //To do switch to login
+        }
         mUserAboutMe.setText(user.getAboutMe());
 
         return rootView;
@@ -256,7 +264,7 @@ public class UserProfileFragment extends Fragment {
         }
 
         mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getName());
+        mUserName.setText(user.getQuestID());
 
         //User = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null){
@@ -337,7 +345,7 @@ public class UserProfileFragment extends Fragment {
         String answer;
         switch (index) {
             case 0: answer = user.getDisplayName(); break;
-            case 1: answer = user.getName(); break;
+            case 1: answer = user.getQuestID(); break;
             case 2: answer = user.getAboutMe(); break;
             default: answer = "Error"; break;
         }
@@ -348,7 +356,7 @@ public class UserProfileFragment extends Fragment {
     private void setTextForUserProfile(int index, String newText) {
         switch (index) {
             case 0: user.setDisplayName(newText); break;
-            case 1: user.setName(newText); break;
+            case 1: user.setQuestID(newText); break;
             case 2: user.setAboutMe(newText); break;
             default: break;
         }

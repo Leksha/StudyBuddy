@@ -2,9 +2,11 @@ package uw.studybuddy.LoginAndRegistration;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +19,13 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
-import uw.studybuddy.UserProfile.UserInfo;
-import uw.studybuddy.UserProfile.dummy.FirebaseUserInfo;
-import uw.studybuddy.UserProfile.dummy.UserPattern;
 
 public class SetUpProfile extends AppCompatActivity {
     private EditText etUsername;
@@ -57,7 +60,7 @@ public class SetUpProfile extends AppCompatActivity {
         bWelcome.setOnClickListener(new View.OnClickListener(){ // LOGIN
             @Override
             public void onClick(View v) {
-                final String username = etUsername.getText().toString().trim();
+                String username = etUsername.getText().toString().trim();
                 String firstC = etFirstC.getText().toString().trim();
                 String secondC = etSecondC.getText().toString().trim();
                 String thridC = etThirdC.getText().toString().trim();
@@ -68,7 +71,14 @@ public class SetUpProfile extends AppCompatActivity {
 
                 final String QuestID = email.substring(0, email.length()-17);
 
-                final String[] course_list = new String[] {firstC, secondC, thridC, fourthC, fifthC};
+                final String[] courses = new String[] {firstC, secondC, thridC, fourthC, fifthC};
+                final List<CourseInfo> course_list = new ArrayList<>();
+                for (int i=0; i<5 ; i++) {
+                    if (courses[i] != null) {
+                        Pair<String, String> p = processCourseString(courses[i]);
+                        course_list.add(new CourseInfo(p.first, p.second));
+                    }
+                }
 
                 if(TextUtils.isEmpty(username)){
                     String message = getString(R.string.UserDisplayNameMissing);
@@ -85,7 +95,6 @@ public class SetUpProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    FirebaseUserInfo.update_UserInfo(new UserPattern(new UserInfo(username, QuestID, course_list,  "" )));
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                                     SetUpProfile.this.startActivity(loginIntent);
                                 }else{
@@ -101,5 +110,19 @@ public class SetUpProfile extends AppCompatActivity {
 
             }
         });
+    }
+
+    private Pair<String, String> processCourseString(String course) {
+        char[] arr = course.toCharArray();
+        int substr = 0;
+        for (int i=0; i<arr.length; i++) {
+            if (Character.isDigit(arr[i])) {
+                substr = i;
+                break;
+            }
+        }
+        String subject = course.substring(0, substr);
+        String catNum = course.substring(substr);
+        return new Pair<>(subject, catNum);
     }
 }
