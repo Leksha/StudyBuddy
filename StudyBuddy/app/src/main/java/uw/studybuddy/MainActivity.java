@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import uw.studybuddy.Events.EventCreation;
@@ -49,6 +51,14 @@ public class MainActivity extends AppCompatActivity
 
     // Data required for the app
     private UserInfo user;
+
+
+    DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
+            .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
+
+    DatabaseReference mDisplayNameRef  = mUserRootRef.child("displayName");
+    DatabaseReference mReadRef = mUserRootRef.child("read");
+    DatabaseReference mAboutMeRef = mUserRootRef.child("about_me");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +102,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         user = new UserInfo();
+        user.setDisplayName(mDisplayNameRef.toString());
+        user.setAboutMe(mAboutMeRef.toString());
 
     }
 
