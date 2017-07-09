@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.UserProfile.UserInfo;
 
 /**
@@ -29,7 +30,8 @@ public class FirebaseUserInfo {
 
     static String TAG = "Firebase UserInfo";
 
-    //update the whole user info (create a new reference)
+    //update the whole User profile to the firebase
+    //if the child is existed in the firebase, then override it.
     public static void update_UserInfo(UserPattern USER){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();
@@ -76,6 +78,26 @@ public class FirebaseUserInfo {
         //get the key
         databaseReference.child("Users").child(User.getDisplayName().toString()).child("About_me").setValue(mAboutMe);
         return;
+    }
+    //add a course to the database.
+    public static void add_mCourse(String subject, String num){
+        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String coursename = subject + num;
+        if(key != null) {
+            DatabaseReference mCourseReference = FirebaseDatabase.getInstance().getReference().child("Users").
+                    child(key).child("course");
+
+            CourseInfo newcourse = new CourseInfo(subject, num);
+            mCourseReference.child(coursename).setValue(newcourse);
+        }
+        return;
+    }
+
+    //update thhe read filed to nake the listener functon runs
+    public static void listener_trigger(){
+        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DatabaseReference mReadReference = FirebaseDatabase.getInstance().getReference().child("Users").child("key").child("read");
+        mReadReference.setValue("true");
     }
 
 }
