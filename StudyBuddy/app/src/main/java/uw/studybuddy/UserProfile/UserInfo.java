@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
 
-
-import uw.studybuddy.UserProfile.dummy.UserPattern;
-
 import com.endercrest.uwaterlooapi.courses.models.Course;
 
 import java.util.ArrayList;
@@ -16,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import uw.studybuddy.CourseInfo;
-
 
 /**
  * Created by leksharamdenee on 2017-06-12.
@@ -28,10 +24,8 @@ public class UserInfo {
 
     //Attributes
     private static String mDisplayName;
-
-    private static String mQuestID;
-    private static String[] mCourses;
-
+    private static String mName;
+    private static List<CourseInfo> mCoursesList;
     private static String mAboutMe;
     private static Image mImage;
 
@@ -41,12 +35,11 @@ public class UserInfo {
     }
 
     public static String getName() {
-        return mQuestID;
+        return mName;
     }
 
-
-    public static void setName(String mName) {
-        UserInfo.mQuestID = mName;
+    public static List<CourseInfo> getCourses() {
+        return mCoursesList;
     }
 
     public static String getAboutMe() {
@@ -87,10 +80,8 @@ public class UserInfo {
     // Constructors
     public UserInfo(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
         mDisplayName = displayName;
-
-        mQuestID = name;
-        mCourses = courses.clone();
-
+        mName = name;
+        UserInfo.mCoursesList = new ArrayList<>(courses);
         mAboutMe = aboutMe;
     }
 
@@ -104,20 +95,10 @@ public class UserInfo {
         String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
 
         mDisplayName = "Wizard Kid";
-
-        mQuestID = "Harry Potter";
-        mCourses = courses;
-
+        mName = "Harry Potter";
+        setCourses(courseList);
         mAboutMe = aboutMe;
     }
-
-    public void PatternToUser(UserPattern Pattern){
-        mQuestID =  Pattern.getmQuestID();
-        mDisplayName =  Pattern.getDisplayName();
-        mAboutMe =  Pattern.getAbout_me();
-        mCourses = (String[]) Pattern.course.keySet().toArray();
-    }
-
 
     // instance methods
     public static void initInstance(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
@@ -136,5 +117,4 @@ public class UserInfo {
         initInstance();
         return instance;
     }
-
 }
