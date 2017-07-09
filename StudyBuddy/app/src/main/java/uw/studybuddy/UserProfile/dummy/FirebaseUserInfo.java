@@ -78,7 +78,13 @@ public class FirebaseUserInfo {
     public static void set_DisplayName(String name){
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
         //get the key
-        getUsersTable().child(User.getDisplayName().toString()).child(field_display_name).setValue(name);
+        if(User.getDisplayName() == null) {
+            String email = User.getEmail();
+            String key = email.substring(0, email.length()-17);
+            getUsersTable().child(key).child(field_display_name).setValue(name);
+        }else {
+            getUsersTable().child(User.getDisplayName().toString()).child(field_display_name).setValue(name);
+        }
 
         return;
     }
@@ -86,12 +92,25 @@ public class FirebaseUserInfo {
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
         //get the key
-        getUsersTable().child(User.getDisplayName().toString()).child(field_about_me).setValue(mAboutMe);
+        if(User.getDisplayName() == null) {
+            String email = User.getEmail();
+            String key = email.substring(0, email.length() - 17);
+            getUsersTable().child(key).child(field_about_me).setValue(mAboutMe);
+        }else {
+            getUsersTable().child(User.getDisplayName().toString()).child(field_about_me).setValue(mAboutMe);
+        }
         return;
     }
     //add a course to the database.
     public static void add_mCourse(String subject, String num){
-        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+        String key;
+        if(User.getDisplayName() == null) {
+            String email = User.getEmail();
+            key = email.substring(0, email.length() - 17);
+        }else {
+            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
+        }
         String coursename = subject + num;
         if(key != null) {
             DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
@@ -103,7 +122,14 @@ public class FirebaseUserInfo {
     }
 
     public static void remove_mCourse(final String subject, String num){
-        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+        String key;
+        if(User.getDisplayName() == null) {
+            String email = User.getEmail();
+            key = email.substring(0, email.length() - 17);
+        }else {
+            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
+        }
         String coursename = subject + num;
         if(key != null) {
             DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
@@ -125,8 +151,15 @@ public class FirebaseUserInfo {
 
     //update the read filed to make the listener function run
     public static void listener_trigger(){
-        String key = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        DatabaseReference mReadReference = getUsersTable().child("key").child("read");
+        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+        String key;
+        if(User.getDisplayName() == null) {
+            String email = User.getEmail();
+            key = email.substring(0, email.length() - 17);
+        }else {
+            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
+        }
+        DatabaseReference mReadReference = getUsersTable().child(key).child("read");
         mReadReference.setValue("true");
     }
 

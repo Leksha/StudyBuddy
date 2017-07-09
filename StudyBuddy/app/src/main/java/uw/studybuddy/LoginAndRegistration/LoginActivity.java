@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private FirebaseUser User;
-    private  boolean test = true;
+    private  boolean test = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {

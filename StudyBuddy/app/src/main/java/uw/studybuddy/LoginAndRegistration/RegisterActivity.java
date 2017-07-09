@@ -106,8 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
                         }else{
                             //then do the authermail now
                             //set the displayname here
-                            String id = Auther.getText().toString();
-                            Update_Display(id);
+                            //String id = Auther.getText().toString();
+                            //Update_Display(id);
                             SentConfirmation();
                             //After sending the email
                             //you should change the email address to Email
@@ -151,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+        return;
     }
 
     public void SentConfirmation() {

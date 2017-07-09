@@ -48,8 +48,7 @@ public class SetUpProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up_profile);
 
-        //User = FirebaseAuth.getInstance().getCurrentUser();
-        User = FirebaseInstance.getFirebaseAuthInstance().getCurrentUser();
+        User = FirebaseAuth.getInstance().getCurrentUser();
 
         etUsername = (EditText)findViewById(R.id.etUsernameSet);
         etFirstC = (EditText)findViewById(R.id.etFirstC);
@@ -88,8 +87,7 @@ public class SetUpProfile extends AppCompatActivity {
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(QuestID)
                         .build();
-
-                User.updateProfile(profileUpdates)
+                FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileUpdates)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -100,6 +98,7 @@ public class SetUpProfile extends AppCompatActivity {
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                                     loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     SetUpProfile.this.startActivity(loginIntent);
+                                    return;
                                 }else{
                                     return;
                                 }

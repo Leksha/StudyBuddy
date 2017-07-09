@@ -3,6 +3,7 @@ package uw.studybuddy;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,14 +62,32 @@ public class MainActivity extends AppCompatActivity
     // Data required for the app
     private UserInfo user = UserInfo.getInstance();
 
+    String ID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+    String QuestID = ID.substring(0, ID.length()-17);
+
+
+
     DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
-            .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
+            .child(QuestID);
 
     DatabaseReference mDisplayNameRef  = mUserRootRef.child("displayName");
     DatabaseReference mReadRef = mUserRootRef.child("read");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser Users = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(QuestID)
+                .build();
+        Users.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                }
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
