@@ -22,7 +22,6 @@ import uw.studybuddy.CourseInfo;
 /**
  * Created by leksharamdenee on 2017-06-12.
  */
-
 public class UserInfo {
     // Singleton
     public static UserInfo instance;

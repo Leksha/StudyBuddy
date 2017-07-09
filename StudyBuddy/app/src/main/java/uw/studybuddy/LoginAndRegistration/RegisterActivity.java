@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 
 import uw.studybuddy.MainActivity;
@@ -103,6 +105,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }else{
                             //then do the authermail now
+                            //set the displayname here
+                            String id = Auther.getText().toString();
+                            Update_Display(id);
                             SentConfirmation();
                             //After sending the email
                             //you should change the email address to Email
@@ -132,6 +137,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void Update_Display(String questid){
+        Users = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(questid)
+                .build();
+        Users.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                }
+            }
+        });
     }
 
     public void SentConfirmation() {

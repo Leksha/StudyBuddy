@@ -83,8 +83,10 @@ public class SetUpProfile extends AppCompatActivity {
                     etUsername.setHintTextColor(getResources().getColor(R.color.errorhint));
                     return;
                 }
+
+
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(username)
+                        .setDisplayName(QuestID)
                         .build();
 
                 User.updateProfile(profileUpdates)
@@ -94,6 +96,7 @@ public class SetUpProfile extends AppCompatActivity {
                                 if(task.isSuccessful()){
                                     UserInfo newUser = new UserInfo(username, QuestID, course_list,  "Tell us about you" );
                                     FirebaseUserInfo.update_UserInfo(new UserPattern(newUser));
+
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                                     loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     SetUpProfile.this.startActivity(loginIntent);
