@@ -41,7 +41,6 @@ import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
 
-import uw.studybuddy.UserProfile.dummy.DummyContent;
 import uw.studybuddy.UserProfile.dummy.UserPattern;
 
 
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                 UserPattern temp = dataSnapshot.getValue(UserPattern.class);
                 if(temp != null){
                     user.setDisplayName(temp.getDisplayName());
-                    user.setName(temp.getmQuestID());
+                    user.setQuestID(temp.getmQuestID());
                     user.setAboutMe(temp.getAbout_me());
                     user.setCourses(temp.getCourse());
                     updateNavigationDrawerUserInfo();

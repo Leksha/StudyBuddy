@@ -1,12 +1,16 @@
 package uw.studybuddy.UserProfile.dummy;
 
 
+import com.endercrest.uwaterlooapi.courses.models.Course;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.UserProfile.UserInfo;
 
 /**
@@ -34,20 +38,21 @@ public class UserPattern {
     //update the Userinfo
     public UserPattern(UserInfo User){
         read = "true";
-        String[] course_list = User.getCourses().clone();
-        for(String  value : course_list){
-            course.put(value, value);
+        List<CourseInfo> course_list = User.getCoursesList();
+        for(CourseInfo c : course_list){
+            course.put(c.getSubject(), c.getCatalogNumber());
         }
         About_me = User.getAboutMe();
-        mQuestID = User.getName();
+        mQuestID = User.getQuestID();
         DisplayName = User.getDisplayName();
     }
-    public String[] getCourse(){
-        String[] temp = new String[6];
-        if(course != null) {
-            course.keySet().toArray(temp);
+    public List<CourseInfo> getCourse(){
+        List<CourseInfo> list = new ArrayList<>();
+        for (Map.Entry<String, String> entry : course.entrySet()) {
+            CourseInfo c = new CourseInfo(entry.getKey(), entry.getValue());
+            list.add(c);
         }
-        return temp;
+        return list;
     }
     public String getRead() {
         return read;
