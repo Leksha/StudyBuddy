@@ -27,11 +27,6 @@ import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
 
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser User;
-    private  boolean test = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -101,7 +96,7 @@ public class LoginActivity extends AppCompatActivity{
 
     public void Login(View view) {
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-        String email = Email.getText().toString() + "@edu.uwaterloo.ca";
+        String email = Email.getText().toString();
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
         String password =  Password.getText().toString();
 
@@ -130,25 +125,7 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                             //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            User = FirebaseAuth.getInstance().getCurrentUser();
-                            if(User.isEmailVerified()) {
-                                if(User.getDisplayName() == null){
-                                    startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
-                                    return;
-                                }else {
-                                    if(test){
-                                        startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
-                                        return;
-                                    }else {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        return;
-                                    }
-                                }
-                            }else{
-                                //if it's not verified, send the email again;
-                                SentConfirmation();
-                                return;
-                            }
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     }
 
@@ -158,24 +135,5 @@ public class LoginActivity extends AppCompatActivity{
 
     public void GotoRegister(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-    }
-
-    public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
-        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(!task.isSuccessful()){
-                            return;
-                        }else{
-                            startActivity(new Intent(LoginActivity.this, Confirmation.class));
-                            return;
-                        }
-                    }
-                });
-
-
     }
 }

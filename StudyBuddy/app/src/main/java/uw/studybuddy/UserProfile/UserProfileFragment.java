@@ -181,6 +181,14 @@ public class UserProfileFragment extends Fragment {
 
         // Should update current user profile with names
         //User = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!= null){
+            mUserDisplayName.setText(User.getDisplayName());
+            mUserName.setText(User.getDisplayName());
+        }else{
+            mUserDisplayName.setText("User.getDisplayName()");
+            mUserName.setText("User.getDisplayName()");
+            //To do switch to login
+        }
         mUserAboutMe.setText(user.getAboutMe());
 
         return rootView;

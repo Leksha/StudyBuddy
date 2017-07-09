@@ -89,10 +89,6 @@ public class EventCreation extends AppCompatActivity {
                 String course = courseCreate.getText().toString().trim();
                 String description = descriptionCreate.getText().toString().trim();
                 String location = locationCreate.getText().toString().trim();
-
-                String subject = subjectCreate.getText().toString().trim();
-
-
                 String title = subjectCreate.getText().toString().trim();
 
                 //create a new event, add to firebase
@@ -103,7 +99,6 @@ public class EventCreation extends AppCompatActivity {
                 } else {
                     Toast.makeText(EventCreation.this, "Error occured.", Toast.LENGTH_LONG).show();
                 }
-
 
                 finish();
             }
