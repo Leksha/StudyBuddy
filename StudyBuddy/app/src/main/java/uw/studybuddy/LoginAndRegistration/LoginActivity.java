@@ -73,8 +73,8 @@ public class LoginActivity extends AppCompatActivity{
 
                 final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
                 final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-                String email = "leksha_ramdenee@yahoo.com";
-                String password = "123456";
+                String email = "studybuddycs446@gmail.com";
+                String password = "1234567";
 
                 FirebaseInstance.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity{
                             }
                         });
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                //startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
 //                EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
 //                Button bLogin = (Button) findViewById(R.id.bSubmit);

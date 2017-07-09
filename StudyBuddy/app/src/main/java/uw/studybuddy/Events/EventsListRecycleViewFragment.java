@@ -15,8 +15,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
@@ -37,7 +42,12 @@ public class EventsListRecycleViewFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+
     private RecyclerView rv;
+
+    private DatabaseReference mJoinEvent;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -46,6 +56,8 @@ public class EventsListRecycleViewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private boolean isJoinEvent = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -90,6 +102,13 @@ public class EventsListRecycleViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mJoinEvent = FirebaseDatabase.getInstance().getReference().child("Participants");
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        mDatabase.keepSynced(true);
+        mJoinEvent.keepSynced(true);
+
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -102,21 +121,77 @@ public class EventsListRecycleViewFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
+                final String eventKey = getRef(position).getKey();
+
                 viewHolder.setCourse(model.getCourse());
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setLocation(model.getLocation());
-                viewHolder.setSubject(model.getSubject());
+                viewHolder.setTitle(model.getTitle());
+                viewHolder.setJoinEvent(eventKey);
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), "Clicked",Toast.LENGTH_LONG).show();
-                        //Intent clickedEvent = new Intent(getActivity(), ClickedEvent.class);
-                        //clickedEvent.putExtra()
+                        Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
+                        clickedEvent.putExtra("event_id", eventKey);
+                        startActivity(clickedEvent);
 
 
                     }
                 });
+
+                viewHolder.BjoinEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        isJoinEvent = true;
+                        mJoinEvent.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (isJoinEvent) {
+                                    if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
+                                        //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
+                                        isJoinEvent = false;
+                                    } else {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(mCurrentUser.getEmail());
+                                        isJoinEvent = false;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                });
+                /*viewHolder.BleaveEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isJoinEvent = false;
+                        mJoinEvent.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (!isJoinEvent) {
+                                    if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
+                                        isJoinEvent = true;
+                                    } else {
+                                        Toast.makeText(getActivity(), "You did not join this event.", Toast.LENGTH_LONG).show();
+                                        isJoinEvent = true;
+                                    }
+                                }
+                            }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                });*/
             }
         };
         rv.setAdapter(fbRecyclerAdapter);

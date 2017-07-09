@@ -19,9 +19,9 @@ import java.util.List;
 
 public class UWAPI /*extends AsyncTask<Void, Void, String>*/ {
 
-    private String apiKey = "ed2c25922f87ba9a013af94a813856ff";
-    private UWaterlooAPI apiInstance;
-    private String tag = "UWAPI";
+    private static String apiKey = "ed2c25922f87ba9a013af94a813856ff";
+    private static UWaterlooAPI apiInstance;
+    private static String tag = "UWAPI";
 
     public UWAPI() {
         try {
@@ -31,7 +31,7 @@ public class UWAPI /*extends AsyncTask<Void, Void, String>*/ {
         }
     }
 
-    private UWaterlooAPI getInstance() {
+    private static UWaterlooAPI getInstance() {
         if (apiInstance == null) {
             try {
                 apiInstance = new UWaterlooAPI(apiKey);
@@ -42,7 +42,9 @@ public class UWAPI /*extends AsyncTask<Void, Void, String>*/ {
         return apiInstance;
     }
 
-    public int getCourseBySubject(String course) {
+    public static int getCourseBySubject(String course) {
+        // To test call getCourseBySubject("CS");
+
         ApiRequest<List<Course>> req = getInstance().getCoursesAPI().getCourseBySubject(course);
         List<Course> courses = req.getData();
         return course.length();
