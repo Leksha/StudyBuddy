@@ -39,8 +39,8 @@ public class UserPattern {
     public UserPattern(UserInfo User){
         read = "true";
         for( CourseInfo value : (List<CourseInfo>) User.getCoursesList())   {
-
-            coursesList.put((String) (value.getSubject()+ value.getCatalogNumber()), (CourseInfo) value);
+            String temp = value.getSubject() + "" + value.getCatalogNumber();
+            coursesList.put((String) temp, (CourseInfo) value);
         }
         About_me = User.getAboutMe();
         mQuestID = User.getQuestID();
