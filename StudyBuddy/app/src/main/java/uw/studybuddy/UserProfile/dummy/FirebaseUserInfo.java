@@ -33,7 +33,7 @@ public class FirebaseUserInfo {
     final static String TAG = "Firebase UserInfo";
 
     // All fields in the Users table
-    private static String table_users          = "table_users";
+    private static String table_users          = "Users";
     private static String field_quest_id       = "quest_id";
     private static String field_display_name   = "display_name";
     private static String field_user_name      = "user_name";
