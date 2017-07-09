@@ -78,7 +78,7 @@ public class SetUpProfile extends AppCompatActivity {
                 final List<CourseInfo> course_list = new ArrayList<>();
                 for (int i=0; i<5 ; i++) {
                     if (courses[i] != null) {
-                        Pair<String, String> p = processCourseString(courses[i]);
+                        Pair<String, String> p = CourseInfo.processCourseString(courses[i]);
                         course_list.add(new CourseInfo(p.first, p.second));
                     }
                 }
@@ -116,17 +116,4 @@ public class SetUpProfile extends AppCompatActivity {
         });
     }
 
-    private Pair<String, String> processCourseString(String course) {
-        char[] arr = course.toCharArray();
-        int substr = 0;
-        for (int i=0; i<arr.length; i++) {
-            if (Character.isDigit(arr[i])) {
-                substr = i;
-                break;
-            }
-        }
-        String subject = course.substring(0, substr);
-        String catNum = course.substring(substr);
-        return new Pair<>(subject, catNum);
-    }
 }
