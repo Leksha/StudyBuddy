@@ -110,6 +110,7 @@ public class EventCreation extends AppCompatActivity {
     }
 
     private void sendNotification() {
+
         NotificationManager NM = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         String title = "New event created";
         String subject = "You can join this event!";

@@ -202,10 +202,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public void GoToFriendList(MenuItem item) {
-        startActivity(new Intent(this, FriendList.class));
-    }
-
     // OnFragmentInteractionListeners
     @Override
     public void onFragmentInteraction(Uri uri) {
