@@ -30,6 +30,11 @@ public class LoginActivity extends AppCompatActivity{
 
     private String TAG = "LOGIN";
 
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser User;
+    private  boolean test = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -97,7 +102,8 @@ public class LoginActivity extends AppCompatActivity{
     public void Login(View view) {
         Log.d(TAG, "Login called");
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-        final String email = Email.getText().toString();
+
+        String email = Email.getText().toString() + "@edu.uwaterloo.ca";
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
         final String password =  Password.getText().toString();
 
@@ -127,12 +133,28 @@ public class LoginActivity extends AppCompatActivity{
                             return;
                             //startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                         } else {
-                            Log.d(TAG, "email: " + email);
-                            Log.d(TAG, "password: " + password);
-
-                            Intent homeActivity = new Intent(LoginActivity.this, MainActivity.class);
-                            homeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(homeActivity);
+                            User = FirebaseAuth.getInstance().getCurrentUser();
+                            if(User.isEmailVerified()) {
+                                if(User.getDisplayName() == null){
+                                    startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
+                                    return;
+                                }else {
+                                    if(test){
+                                        startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
+                                        return;
+                                    }else {
+                                        Intent homeActivity = new Intent(LoginActivity.this, MainActivity.class);
+                                        // Clears the stack so user cannot go back to login
+                                        homeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(homeActivity);
+                                        return;
+                                    }
+                                }
+                            }else{
+                                //if it's not verified, send the email again;
+                                SentConfirmation();
+                                return;
+                            }
                         }
                     }
 
@@ -142,5 +164,24 @@ public class LoginActivity extends AppCompatActivity{
 
     public void GotoRegister(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+    }
+
+    public void SentConfirmation() {
+        final FirebaseUser user = mAuth.getCurrentUser();
+        //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!task.isSuccessful()){
+                            return;
+                        }else{
+                            startActivity(new Intent(LoginActivity.this, Confirmation.class));
+                            return;
+                        }
+                    }
+                });
+
+
     }
 }
