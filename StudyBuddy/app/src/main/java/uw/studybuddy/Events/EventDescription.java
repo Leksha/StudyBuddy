@@ -35,6 +35,7 @@ public class EventDescription extends AppCompatActivity {
     private TextView edParticipants;
 
     private Button bDeleteEvent;
+    private Button bAddFriend;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
@@ -54,6 +55,7 @@ public class EventDescription extends AppCompatActivity {
         edParticipants = (TextView) findViewById(R.id.edParticipants);
 
         bDeleteEvent = (Button) findViewById(R.id.BdeleteEvent);
+        bAddFriend = (Button) findViewById(R.id.BaddFriend);
 
         mPostKey = getIntent().getExtras().getString("event_id");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
@@ -70,7 +72,7 @@ public class EventDescription extends AppCompatActivity {
                 String location = (String) dataSnapshot.child("location").getValue();
                 String date = (String) dataSnapshot.child("date").getValue();
                 String time = (String) dataSnapshot.child("time").getValue();
-                String questId = (String) dataSnapshot.child("questId").getValue();
+                final String questId = (String) dataSnapshot.child("questId").getValue();
                 String uid = (String) dataSnapshot.child("uid").getValue();
 
                 edCourse.setText(course);
@@ -84,6 +86,17 @@ public class EventDescription extends AppCompatActivity {
                 if(mCurrentUser.getUid().equals(uid)){
                     bDeleteEvent.setVisibility(View.VISIBLE);
                 }
+
+                if(mCurrentUser.getUid().equals(uid)){
+                    bAddFriend.setVisibility(View.INVISIBLE);
+                }
+
+                bAddFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(EventDescription.this, "You have sent friend request to "+questId, Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -120,6 +133,7 @@ public class EventDescription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDatabase.child(mPostKey).removeValue();
+                mDatabaseJoin.child(mPostKey).removeValue();
                 finish();
             }
         });

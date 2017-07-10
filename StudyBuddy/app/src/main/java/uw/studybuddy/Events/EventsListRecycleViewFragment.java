@@ -120,14 +120,14 @@ public class EventsListRecycleViewFragment extends Fragment {
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
+            protected void populateViewHolder(final EventCardViewHolder viewHolder, EventInfo model, int position) {
                 final String eventKey = getRef(position).getKey();
 
                 viewHolder.setCourse(model.getCourse());
-                viewHolder.setDescription(model.getDescription());
-                viewHolder.setLocation(model.getLocation());
+                //viewHolder.setDescription(model.getDescription());
+                //viewHolder.setLocation(model.getLocation());
                 viewHolder.setTitle(model.getTitle());
-                viewHolder.setJoinEvent(eventKey);
+                viewHolder.setJoinEvent(eventKey, model.getUid());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -143,6 +143,13 @@ public class EventsListRecycleViewFragment extends Fragment {
                 viewHolder.BjoinEvent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if(viewHolder.BjoinEvent.getText() == "Review Event"){
+                            Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
+                            clickedEvent.putExtra("event_id", eventKey);
+                            startActivity(clickedEvent);
+                            return;
+                        }
 
                         isJoinEvent = true;
                         mJoinEvent.addValueEventListener(new ValueEventListener() {

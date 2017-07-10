@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="serif"
         android:text="None"
         android:textStyle="bold"
@@ -118,7 +118,7 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:text="Event Participants:"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -127,7 +127,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.555" />
+        app:layout_constraintHorizontal_bias="0.6" />
 
     <TextView
         android:id="@+id/textView15"
@@ -148,7 +148,7 @@
 
     <Button
         android:id="@+id/BdeleteEvent"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
@@ -159,5 +159,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/BaddFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Add Friend"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="@+id/edQuestId"
+        app:layout_constraintTop_toBottomOf="@+id/edQuestId" />
 
 </android.support.constraint.ConstraintLayout>
