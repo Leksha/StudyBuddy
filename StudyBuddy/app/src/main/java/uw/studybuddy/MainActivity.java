@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         if (id == R.id.nav_home) {
-            recreate();
+//            recreate();
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             fragmentClass = UserProfileFragment.class;

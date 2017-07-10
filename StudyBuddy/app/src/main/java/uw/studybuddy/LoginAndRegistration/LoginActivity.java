@@ -74,8 +74,8 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                String email = "studybuddycs446@gmail.com";
-                String password = "1234567";
+                String email = "q73chen";
+                String password = "123qwe";
 
                 EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
                 EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
