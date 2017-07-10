@@ -49,6 +49,10 @@ public class FirebaseUserInfo {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
     }
 
+//    public static DatabaseReference getUserCoursesTable() {
+//        return getUsersTable().child();
+//    }
+
     public static void update_UserInfo(UserPattern USER){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();

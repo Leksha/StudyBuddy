@@ -1,6 +1,8 @@
 package uw.studybuddy.UserProfile.dummy;
 
 
+import android.util.Log;
+
 import com.endercrest.uwaterlooapi.courses.models.Course;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,12 +21,14 @@ import uw.studybuddy.UserProfile.UserInfo;
 
 public class UserPattern {
 
+    private String TAG = "UserPattern";
+
     private String read;
     private String mQuestID;
     private String DisplayName;
     private String About_me;
     //coursename : coursename
-    private Map<String,CourseInfo> coursesList = new HashMap<>();
+    private Map<String, CourseInfo> coursesList = new HashMap<>();
 
     //quest id , displayname
     public Map<String, String> friend_list = new HashMap<>();
@@ -48,6 +52,7 @@ public class UserPattern {
     }
     public List<CourseInfo> getCourse(){
         List<CourseInfo> temp = new ArrayList<CourseInfo>(coursesList.values());
+        Log.d(TAG, "getCourse = " + coursesList.values() + " list: " + temp );
         return  temp;
     }
     public String getRead() {
