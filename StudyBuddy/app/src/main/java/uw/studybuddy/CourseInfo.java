@@ -55,7 +55,7 @@ public class CourseInfo {
         return course_list;
     }
 
-    // Takes in a for example "CS446" and returns <"CS", "446">
+    // Takes in a for example "cS    446" and returns <"CS", "446">
     public static Pair<String, String> processCourseString(String course) {
         char[] arr = course.toCharArray();
         int substr = 0;
@@ -65,7 +65,7 @@ public class CourseInfo {
                 break;
             }
         }
-        String subject = course.substring(0, substr);
+        String subject = course.substring(0, substr).trim();
         String catNum = course.substring(substr);
         return new Pair<>(subject.toUpperCase(), catNum);
     }

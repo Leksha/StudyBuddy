@@ -1,21 +1,11 @@
 package uw.studybuddy.UserProfile;
 
-import android.content.Intent;
 import android.media.Image;
-import android.os.Bundle;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
 
-
-import uw.studybuddy.UserProfile.dummy.FirebaseUserInfo;
-import uw.studybuddy.UserProfile.dummy.UserPattern;
-
-import com.endercrest.uwaterlooapi.courses.models.Course;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import uw.studybuddy.CourseInfo;
 

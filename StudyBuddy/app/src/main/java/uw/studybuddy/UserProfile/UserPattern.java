@@ -1,4 +1,4 @@
-package uw.studybuddy.UserProfile.dummy;
+package uw.studybuddy.UserProfile;
 
 
 import android.util.Log;
