@@ -130,7 +130,6 @@ public class UserInfo {
     }
 
     public static UserInfo getInstance() {
-        initInstance();
         return instance;
     }
 

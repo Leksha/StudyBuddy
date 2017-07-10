@@ -42,6 +42,11 @@ public class CourseInfo {
     }
 
 
+    public CourseInfo(){
+        mSubject = "";
+        mCatalogNumber = "";
+    }
+
     // E.g. Give it ["CS446", "CS115"] and converts it into a list of CourseInfo
     public static List<CourseInfo> getCourseListFromStringArray(String[] courses) {
         int len = courses.length;

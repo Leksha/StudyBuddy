@@ -31,12 +31,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
@@ -54,57 +58,20 @@ public class MainActivity extends AppCompatActivity
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
-    // Data required for the app
-    private UserInfo user = UserInfo.getInstance();
-
-    String ID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-    String QuestID = ID.substring(0, ID.length()-17);
-
-
-
-    DatabaseReference mUserRootRef = FirebaseDatabase.getInstance().getReference().child("Users")
-            .child(QuestID);
-
-    DatabaseReference mDisplayNameRef  = mUserRootRef.child("displayName");
-    DatabaseReference mReadRef = mUserRootRef.child("read");
+    private UserInfo user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseUser Users = FirebaseAuth.getInstance().getCurrentUser();
-
-        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
-                .setDisplayName(QuestID)
-                .build();
-        Users.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                }
-            }
-        });
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
 
-        mReadRef.setValue("false");
-
-        updateNavigationDrawerUserInfo();
+        // Setup UserInfo class
+        setupUserProfile();
 
         // Setup the fragment to be displayed
-        Fragment fragment = null;
-        Class fragmentClass = null;
-        fragmentClass = HomePage.class;
-        try {
-            fragment = (Fragment)fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -121,47 +88,21 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
     }
 
-    @Override
-    protected  void onStart(){
-        super.onStart();
-        mUserRootRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserPattern temp = dataSnapshot.getValue(UserPattern.class);
-                if(temp != null){
-                    user.setDisplayName(temp.getDisplayName());
-                    user.setQuestID(temp.getmQuestID());
-                    user.setAboutMe(temp.getAbout_me());
-                    user.setCourses(temp.getCourse());
-                    updateNavigationDrawerUserInfo();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     // Update the view if any changes made to user data
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (user == null) {
-            user = UserInfo.getInstance();
-        }
-        updateNavigationDrawerUserInfo();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (user == null) {
+//            user = UserInfo.getInstance();
+//        }
+//        updateNavigationDrawerUserInfo();
+//    }
 
     @Override
     public void onBackPressed() {
@@ -252,18 +193,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void updateNavigationDrawerUserInfo() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
-        TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
-
-        if(user.getDisplayName() != null) {
-            userName.setText(user.getDisplayName().toString());
-        }else{
-            userName.setText("Nooooo!");
-        }
-    }
 
     public void LogOut(MenuItem item) {
         FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
@@ -271,10 +200,89 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public void GoToFriendList(MenuItem item) {
-        startActivity(new Intent(this, FriendList.class));
+    // User setup-related code
+    private void setupUserProfile() {
+        // Updating the Display name on the user
+        FirebaseUser Users = FirebaseUserInfo.getCurrentFirebaseUser();
+        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(FirebaseUserInfo.get_QuestId())
+                .build();
+        Users.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                }
+            }
+        });
+
+        // Create UserInfo class
+
+        // Update User Profile when it is changed
+        setupUserProfileListener();
+        FirebaseUserInfo.set_UserRead("false");
     }
 
+    // Updates UserInfo class when user data is changed
+    private void setupUserProfileListener() {
+        FirebaseUserInfo.getCurrentUserRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                updateUserInfoClass(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+    }
+
+
+    private void updateUserInfoClass(DataSnapshot dataSnapshot) {
+        UserPattern temp = dataSnapshot.getValue(UserPattern.class);
+
+        // Process courses table from database
+        List<CourseInfo> courseList = new ArrayList<>();
+        for (int i=0; i<7; i++) {
+            CourseInfo course;
+            course = dataSnapshot.child(FirebaseUserInfo.table_courses).child(Integer.toString(i)).getValue(CourseInfo.class);
+            if (course != null) {
+                courseList.add(course);
+            }
+        }
+        if(temp != null){
+            user = new UserInfo(temp.getDisplayName(),temp.getmQuestID(),courseList ,temp.getAbout_me());
+            updateNavigationDrawerUserInfo();
+            setMainActivityToHomePage();
+        }
+    }
+
+    private void updateNavigationDrawerUserInfo() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
+        TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
+
+        if(user != null && user.getDisplayName() != null) {
+            userName.setText(user.getDisplayName().toString());
+        }else{
+            userName.setText("Nooooo!");
+        }
+    }
+
+    private void setMainActivityToHomePage() {
+        if (user != null) {
+            Fragment fragment = null;
+            Class fragmentClass = HomePage.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        }
+    }
 
 
     // OnFragmentInteractionListeners

@@ -76,10 +76,8 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
-                final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-                String email = "lramdene";
-                String password = "1234567";
+                String email = "q73chen";
+                String password = "123qwe";
 
                 EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
                 EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
@@ -87,11 +85,11 @@ public class LoginActivity extends AppCompatActivity{
 
                 etUsername.setText(email);
                 etPassword.setText(password);
-//                bLogin.performClick();
+                bLogin.performClick();
 
             }
         });
-        mDevLoginButton.setEnabled(false);
+        mDevLoginButton.setEnabled(true);
     }
 
 

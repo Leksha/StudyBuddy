@@ -2,7 +2,10 @@ package uw.studybuddy.UserProfile;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventCardViewHolder;
+import uw.studybuddy.Events.EventInfo;
+import uw.studybuddy.R;
 
 /**
  * Created by Yuna on 17/7/7.
@@ -29,9 +35,10 @@ public class FirebaseUserInfo {
     private static String field_display_name   = "display_name";
     private static String field_user_name      = "user_name";
     private static String field_about_me       = "about_me";
+    private static String field_read           = "read";
 
     // Tables in the user table
-    private static String table_courses         = "courses";
+    public static String table_courses         = "course";
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
@@ -40,9 +47,6 @@ public class FirebaseUserInfo {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
     }
 
-//    public static DatabaseReference getUserCoursesTable() {
-//        return getUsersTable().child();
-//    }
 
     public static void update_UserInfo(UserPattern USER){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -83,6 +87,34 @@ public class FirebaseUserInfo {
 
         return;
     }
+
+
+    // Getters
+
+    public static String get_Email() {
+        return FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+    }
+
+    public static String get_QuestId() {
+        String email = get_Email();
+        String QuestID = email.substring(0, email.length()-17);
+        return QuestID;
+    }
+
+    public static DatabaseReference getCurrentUserRef() {
+        return getUsersTable().child(get_QuestId());
+    }
+
+    public static FirebaseUser getCurrentFirebaseUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public static DatabaseReference getCurrentUserReadRef() {
+        return getCurrentUserRef().child(field_read);
+    }
+
+    // Setters
+
     public static void set_mAboutMe(String mAboutMe){
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -114,6 +146,10 @@ public class FirebaseUserInfo {
             mCourseReference.child(coursename).setValue(newcourse);
         }
         return;
+    }
+
+    public static void set_UserRead(String val) {
+        getCurrentUserReadRef().setValue(val);
     }
 
     public static void remove_mCourse(final String subject, String num){
