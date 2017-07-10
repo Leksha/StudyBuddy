@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity
 
     private UserInfo user;
 
+    private boolean firstTimeHomePageInitialize = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,7 +254,12 @@ public class MainActivity extends AppCompatActivity
         if(temp != null){
             user = new UserInfo(temp.getDisplayName(),temp.getmQuestID(),courseList ,temp.getAbout_me());
             updateNavigationDrawerUserInfo();
-            setMainActivityToHomePage();
+
+            // Only force the main activity to be initialized to home page once
+            if (!firstTimeHomePageInitialize) {
+                firstTimeHomePageInitialize = true;
+                setMainActivityToHomePage();
+            }
         }
     }
 
