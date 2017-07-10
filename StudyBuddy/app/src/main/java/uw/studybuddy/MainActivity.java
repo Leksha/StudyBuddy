@@ -1,5 +1,6 @@
 package uw.studybuddy;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     // Data required for the app
     private UserInfo user;
+    public static Activity fa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+
+        fa = this;
 
         // Setup the fragment to be displayed
         Fragment fragment = null;
