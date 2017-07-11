@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +27,8 @@ import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 public class LoginActivity extends AppCompatActivity{
+
+    private String TAG = "LOGIN";
 
 
     private FirebaseAuth mAuth;
@@ -87,6 +90,9 @@ public class LoginActivity extends AppCompatActivity{
                 etPassword.setText(password);
                 bLogin.performClick();
 
+                etUsername.setText(email);
+                etPassword.setText(password);
+                bLogin.callOnClick();
             }
         });
         mDevLoginButton.setEnabled(true);
@@ -99,10 +105,13 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void Login(View view) {
+        Log.d(TAG, "Login called");
         final EditText Email = (EditText)findViewById(R.id.etEmailLogin);
+
         String email = Email.getText().toString() + "@edu.uwaterloo.ca";
         final EditText Password = (EditText)findViewById(R.id.etPasswordLogin);
-        String password =  Password.getText().toString();
+        final String password =  Password.getText().toString();
+
 
         if(TextUtils.isEmpty(email)){
             String message = this.getString(R.string.EmptyEmail);
@@ -139,7 +148,10 @@ public class LoginActivity extends AppCompatActivity{
                                         startActivity(new Intent(LoginActivity.this, SetUpProfile.class));
                                         return;
                                     }else {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        Intent homeActivity = new Intent(LoginActivity.this, MainActivity.class);
+                                        // Clears the stack so user cannot go back to login
+                                        homeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(homeActivity);
                                         return;
                                     }
                                 }
