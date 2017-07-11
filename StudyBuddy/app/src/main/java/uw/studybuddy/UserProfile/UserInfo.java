@@ -46,7 +46,7 @@ public class UserInfo {
     public static void setQuestID(String mName) { UserInfo.mQuestID = mName; }
 
     public static void updateCourseInfo(int index, String subject, String number) {
-        CourseInfo newCourse = new CourseInfo(subject, number);
+        CourseInfo newCourse = new CourseInfo(subject.toUpperCase(), number);
         mCoursesList.set(index, newCourse);
         FirebaseUserInfo.update_courseInfo(index, subject, number);
     }

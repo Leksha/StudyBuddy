@@ -75,4 +75,14 @@ public class CourseInfo {
         return new Pair<>(subject.toUpperCase(), catNum);
     }
 
+    public static List<String> getCourseStringsListFromList(List<CourseInfo> courseInfoList) {
+        int len = courseInfoList.size();
+        List<String> list = new ArrayList<>();
+        for (int i=0; i<len ; i++) {
+            String courseDesc = courseInfoList.get(i).toString();
+            list.add(courseDesc);
+        }
+        return list;
+    }
+
 }

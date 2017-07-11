@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -19,12 +22,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
@@ -33,10 +39,11 @@ public class EventCreation extends AppCompatActivity {
 
     Calendar dateTime = Calendar.getInstance();
     private TextView textView;
-    private TextView courseCreate;
+//    private TextView courseCreate;
     private TextView descriptionCreate;
     private TextView locationCreate;
     private TextView subjectCreate;
+    private Spinner courseSpinner;
 
     private Button btn_date;
     private Button btn_time;
@@ -54,10 +61,14 @@ public class EventCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
 
-        courseCreate = (EditText)findViewById(R.id.course_create);
         locationCreate = (EditText)findViewById(R.id.location_create);
         subjectCreate = (EditText)findViewById(R.id.subject_create);
         descriptionCreate = (EditText)findViewById(R.id.description_create);
+
+        // Setup the course dropdown spinner
+        courseSpinner = (Spinner)findViewById(R.id.course_create_spinner);
+        addItemsOnCourseSpinner();
+        addListenerOnSpinnerItemSelection();
 
         textView = (TextView) findViewById(R.id.Text_date_time);
         btn_date = (Button) findViewById(R.id.btn_datePicker);
@@ -92,12 +103,12 @@ public class EventCreation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                courseCreate = (EditText) findViewById(R.id.course_create);
+                courseSpinner = (Spinner) findViewById(R.id.course_create_spinner);
                 locationCreate = (EditText) findViewById(R.id.location_create);
                 subjectCreate = (EditText) findViewById(R.id.subject_create);
                 descriptionCreate = (EditText) findViewById(R.id.description_create);
 
-                String course = courseCreate.getText().toString().trim();
+                String course = courseSpinner.getSelectedItem().toString();
                 String description = descriptionCreate.getText().toString().trim();
                 String location = locationCreate.getText().toString().trim();
 
@@ -125,6 +136,31 @@ public class EventCreation extends AppCompatActivity {
 
                 finish();
             }
+        });
+    }
+
+    // Setup the dropdown list for course field
+    private void addItemsOnCourseSpinner() {
+        List coursesList = uw.studybuddy.UserProfile.UserInfo.getInstance().getCoursesList();
+        List<String> list = CourseInfo.getCourseStringsListFromList(coursesList);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        courseSpinner.setAdapter(dataAdapter);
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(),
+                        "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+
         });
     }
 
