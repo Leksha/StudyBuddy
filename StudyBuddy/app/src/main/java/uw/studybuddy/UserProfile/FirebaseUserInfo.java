@@ -119,7 +119,7 @@ public class FirebaseUserInfo {
         }
         return;
     }
-    //add a course to the database.
+    // Add a course to the database.
     public static void add_mCourse(int index, String subject, String num){
         String key  = get_QuestId();
         String courseIndexSting = Integer.toString(index);
@@ -129,6 +129,10 @@ public class FirebaseUserInfo {
             mCourseReference.child(courseIndexSting).setValue(newcourse);
         }
         return;
+    }
+
+    public static void update_courseInfo(int index, String subject, String num) {
+        add_mCourse(index, subject, num);
     }
 
     public static void set_UserRead(String val) {

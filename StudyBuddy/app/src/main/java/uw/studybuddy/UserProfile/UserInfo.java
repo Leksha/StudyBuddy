@@ -48,6 +48,7 @@ public class UserInfo {
     public static void updateCourseInfo(int index, String subject, String number) {
         CourseInfo newCourse = new CourseInfo(subject, number);
         mCoursesList.set(index, newCourse);
+        FirebaseUserInfo.update_courseInfo(index, subject, number);
     }
 
     public static void setCourses(List<CourseInfo> newList) {
