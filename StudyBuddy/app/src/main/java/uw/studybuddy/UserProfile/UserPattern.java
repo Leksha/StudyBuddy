@@ -63,7 +63,7 @@ public class UserPattern {
         return quest_id;
     }
 
-    public void set_quest_id(String mQuestID) {
+    public void setquest_id(String mQuestID) {
         this.quest_id = mQuestID;
     }
 
@@ -71,7 +71,7 @@ public class UserPattern {
         return display_name;
     }
 
-    public void set_display_name(String display_name) {
+    public void setdisplay_name(String display_name) {
         this.display_name = display_name;
     }
 
@@ -79,7 +79,7 @@ public class UserPattern {
         return about_me;
     }
 
-    public void set_about_me(String about_me) {
+    public void setabout_me(String about_me) {
         about_me = about_me;
     }
 }

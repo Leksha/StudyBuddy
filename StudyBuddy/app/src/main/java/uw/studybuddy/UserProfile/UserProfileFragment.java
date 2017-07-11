@@ -120,8 +120,8 @@ public class UserProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         // Get display components from the view
-        mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
         mUserQuestId = (TextView)rootView.findViewById(R.id.user_profile_quest_id);
+        mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
@@ -133,8 +133,8 @@ public class UserProfileFragment extends Fragment {
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
-        mUserDisplayName.setText(user.getDisplayName());
         mUserQuestId.setText(user.getQuestID());
+        mUserDisplayName.setText(user.getDisplayName());
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
@@ -309,8 +309,7 @@ public class UserProfileFragment extends Fragment {
         String answer;
         switch (index) {
             case 0: answer = user.getDisplayName(); break;
-            case 1: answer = user.getQuestID(); break;
-            case 2: answer = user.getAboutMe(); break;
+            case 1: answer = user.getAboutMe(); break;
             default: answer = "Error"; break;
         }
         Log.d(TAG, answer);
@@ -320,8 +319,7 @@ public class UserProfileFragment extends Fragment {
     private void setTextForUserProfile(int index, String newText) {
         switch (index) {
             case 0: user.setDisplayName(newText); break;
-            case 1: user.setQuestID(newText); break;
-            case 2: user.setAboutMe(newText); break;
+            case 1: user.setAboutMe(newText); break;
             default: break;
         }
         Log.d(TAG, newText);
