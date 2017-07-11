@@ -30,8 +30,8 @@ public class UserPattern {
 
 
     public UserPattern(){
-        quest_id = "q79chen";
-        about_me ="I am testing!";
+        quest_id = "";
+        about_me ="";
     }
 
     //update the Userinfo
@@ -79,7 +79,7 @@ public class UserPattern {
         return about_me;
     }
 
-    public void setAbout_me(String about_me) {
+    public void set_about_me(String about_me) {
         about_me = about_me;
     }
 }

@@ -2,15 +2,9 @@ package uw.studybuddy.UserProfile;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,15 +18,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import uw.studybuddy.CourseInfo;
-import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 
@@ -46,8 +36,8 @@ import uw.studybuddy.R;
  */
 public class UserProfileFragment extends Fragment {
 
+    private TextView mUserQuestId;
     private EditText mUserDisplayName;
-    private EditText mUserName;
     private EditText mUserAboutMe;
     private UserInfo user;
 
@@ -131,7 +121,7 @@ public class UserProfileFragment extends Fragment {
 
         // Get display components from the view
         mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
-        mUserName = (EditText)rootView.findViewById(R.id.user_profile_name);
+        mUserQuestId = (TextView)rootView.findViewById(R.id.user_profile_quest_id);
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
@@ -144,7 +134,7 @@ public class UserProfileFragment extends Fragment {
 
         // Update the user profile view with the right user info
         mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getQuestID());
+        mUserQuestId.setText(user.getQuestID());
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
@@ -248,7 +238,7 @@ public class UserProfileFragment extends Fragment {
         }
 
         mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getQuestID());
+        mUserQuestId.setText(user.getQuestID());
 
         mUserAboutMe.setText(user.getAboutMe());
         int len = mCoursesList.size();
@@ -259,7 +249,7 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
-        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
+        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserAboutMe};
         for (EditText e: userInfoEditTexts) {
             e.setFocusable(false);
         }
