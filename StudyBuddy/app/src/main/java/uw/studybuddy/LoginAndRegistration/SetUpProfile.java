@@ -20,6 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.UserProfile.dummy.FirebaseUserInfo;
+import uw.studybuddy.UserProfile.dummy.UserPattern;
 
 public class SetUpProfile extends AppCompatActivity {
     private EditText etUsername;
@@ -54,12 +57,19 @@ public class SetUpProfile extends AppCompatActivity {
         bWelcome.setOnClickListener(new View.OnClickListener(){ // LOGIN
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString().trim();
+                final String username = etUsername.getText().toString().trim();
                 String firstC = etFirstC.getText().toString().trim();
                 String secondC = etSecondC.getText().toString().trim();
                 String thridC = etThirdC.getText().toString().trim();
                 String fourthC = etFourthC.getText().toString().trim();
-                String fifthC = etFifthC.getText().toString().trim();
+
+                String fifthC =etFifthC.getText().toString().trim();
+                final String email = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+
+                final String QuestID = email.substring(0, email.length()-17);
+
+                final String[] course_list = new String[] {firstC, secondC, thridC, fourthC, fifthC};
+
                 if(TextUtils.isEmpty(username)){
                     String message = getString(R.string.UserDisplayNameMissing);
                     etUsername.setHint(message);
@@ -75,6 +85,7 @@ public class SetUpProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+                                    FirebaseUserInfo.update_UserInfo(new UserPattern(new UserInfo(username, QuestID, course_list,  "" )));
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
                                     SetUpProfile.this.startActivity(loginIntent);
                                 }else{
