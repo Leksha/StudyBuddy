@@ -107,13 +107,13 @@ public class UserInfo {
         mAboutMe = aboutMe;
     }
 
-    public void PatternToUser(UserPattern Pattern){
-        mQuestID =  Pattern.getquest_id();
-        mDisplayName =  Pattern.getdisplay_name();
-        mAboutMe =  Pattern.getabout_me();
-
-        mCoursesList = new ArrayList<>(Pattern.getCourse());
-    }
+//    public void PatternToUser(UserPattern Pattern){
+//        mQuestID =  Pattern.getquest_id();
+//        mDisplayName =  Pattern.getdisplay_name();
+//        mAboutMe =  Pattern.getabout_me();
+//
+//        mCoursesList = new ArrayList<>(Pattern.getCourse());
+//    }
 
 
     // instance methods

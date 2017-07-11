@@ -58,9 +58,6 @@ public class UserProfileFragment extends Fragment {
     private List<Button> mCoursesButtons;
     private List<CourseInfo> mCoursesList;
   
-    private FirebaseAuth.AuthStateListener mAuthListener = FirebaseInstance.getAuthStateListener();
-    private  FirebaseAuth mAuth = FirebaseInstance.getFirebaseAuthInstance();
-    private FirebaseUser User = mAuth.getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -253,16 +250,6 @@ public class UserProfileFragment extends Fragment {
         mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getQuestID());
 
-        //User = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!= null){
-            mUserDisplayName.setText(User.getDisplayName());
-            mUserName.setText(User.getDisplayName());
-        }else{
-            mUserDisplayName.setText("User.getDisplay_name()");
-            mUserName.setText("User.getDisplay_name()");
-            //To do switch to login
-        }
-
         mUserAboutMe.setText(user.getAboutMe());
         int len = mCoursesList.size();
         for (int i=0; i<len; i++) {
@@ -332,7 +319,7 @@ public class UserProfileFragment extends Fragment {
         String answer;
         switch (index) {
             case 0: answer = user.getDisplayName(); break;
-            case 1: answer = user.getDisplayName(); break;
+            case 1: answer = user.getQuestID(); break;
             case 2: answer = user.getAboutMe(); break;
             default: answer = "Error"; break;
         }
@@ -343,7 +330,7 @@ public class UserProfileFragment extends Fragment {
     private void setTextForUserProfile(int index, String newText) {
         switch (index) {
             case 0: user.setDisplayName(newText); break;
-            case 1: user.setDisplayName(newText); break;
+            case 1: user.setQuestID(newText); break;
             case 2: user.setAboutMe(newText); break;
             default: break;
         }
