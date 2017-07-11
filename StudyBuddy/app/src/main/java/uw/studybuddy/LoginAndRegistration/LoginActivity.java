@@ -78,17 +78,12 @@ public class LoginActivity extends AppCompatActivity{
         mDevLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String email = "q73chen";
                 String password = "123qwe";
 
                 EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
                 EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
                 Button bLogin = (Button) findViewById(R.id.bSubmit);
-
-                etUsername.setText(email);
-                etPassword.setText(password);
-                bLogin.performClick();
 
                 etUsername.setText(email);
                 etPassword.setText(password);

@@ -1,5 +1,6 @@
 package uw.studybuddy;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener {
 
     private UserInfo user;
+    public static Activity fa;
 
     private boolean firstTimeHomePageInitialize = false;
 
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+
+        fa = this;
 
         // Setup UserInfo class
         setupUserProfile();

@@ -15,13 +15,24 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
+import uw.studybuddy.CourseInfo;
+import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.LoginAndRegistration.RegisterActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 
 /**
@@ -37,8 +48,15 @@ public class EventsListRecycleViewFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private DatabaseReference mDatabaseCourse;
+    private Query mQueryCourse;
+
     private RecyclerView rv;
     private String TAG = "EventsListRVFragment";
+
+    private DatabaseReference mJoinEvent;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +65,8 @@ public class EventsListRecycleViewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private boolean isJoinEvent = false;
 
     private OnFragmentInteractionListener mListener;
     private FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter;
@@ -83,47 +103,131 @@ public class EventsListRecycleViewFragment extends Fragment {
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mJoinEvent = FirebaseDatabase.getInstance().getReference().child("Participants");
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        mDatabaseCourse = FirebaseDatabase.getInstance().getReference().child("Event");
+        if(DisplayCourses.clickedCourse.equals("")){
+            mQueryCourse = mDatabaseCourse;
+        } else {
+            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(DisplayCourses.clickedCourse);
+        }
+
+        //String
+        mDatabase.keepSynced(true);
+        mJoinEvent.keepSynced(true);
 
         fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
                 EventInfo.class,
                 R.layout.event_cardview,
                 EventCardViewHolder.class,
-                mDatabase
+                mQueryCourse
         ) {
             @Override
-            protected void populateViewHolder(EventCardViewHolder viewHolder, EventInfo model, int position) {
+            protected void populateViewHolder(final EventCardViewHolder viewHolder, EventInfo model, int position) {
+                final String eventKey = getRef(position).getKey();
+
                 viewHolder.setCourse(model.getCourse());
-                viewHolder.setDescription(model.getDescription());
-                viewHolder.setLocation(model.getLocation());
-                viewHolder.setSubject(model.getSubject());
+                //viewHolder.setDescription(model.getDescription());
+                //viewHolder.setLocation(model.getLocation());
+                viewHolder.setTitle(model.getTitle());
+                viewHolder.setJoinEvent(eventKey, model.getUid());
+//                 viewHolder.setSubject(model.getSubject());
                 Log.d(TAG, "populateViewHolder");
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), "Clicked",Toast.LENGTH_LONG).show();
-                        //Intent clickedEvent = new Intent(getActivity(), ClickedEvent.class);
-                        //clickedEvent.putExtra()
+                        Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
+                        clickedEvent.putExtra("event_id", eventKey);
+                        startActivity(clickedEvent);
                     }
                 });
+
+                viewHolder.BjoinEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(viewHolder.BjoinEvent.getText() == "Review Event"){
+                            Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
+                            clickedEvent.putExtra("event_id", eventKey);
+                            startActivity(clickedEvent);
+                            return;
+                        }
+
+                        isJoinEvent = true;
+                        mJoinEvent.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (isJoinEvent) {
+                                    if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
+                                        //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
+                                        isJoinEvent = false;
+                                    } else {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(mCurrentUser.getEmail());
+                                        isJoinEvent = false;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                });
+                /*viewHolder.BleaveEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isJoinEvent = false;
+                        mJoinEvent.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (!isJoinEvent) {
+                                    if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
+                                        isJoinEvent = true;
+                                    } else {
+                                        Toast.makeText(getActivity(), "You did not join this event.", Toast.LENGTH_LONG).show();
+                                        isJoinEvent = true;
+                                    }
+                                }
+                            }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                });*/
             }
         };
+
     }
 
-    // can we show event earlier?
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         // Inflate the layout for this fragment
+        /*List courses = UserInfo.getCourses();
+        int numCourses = courses.size();*/
+
+
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
-//        rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(fbRecyclerAdapter);
+
         return rootView;
     }
+
+    // can we show event earlier?
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

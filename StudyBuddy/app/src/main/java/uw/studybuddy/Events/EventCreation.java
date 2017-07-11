@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,6 +42,10 @@ public class EventCreation extends AppCompatActivity {
     private Button btn_time;
     private Button mConfirm;
     //private ProgressDialog progressDialog;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    //private DatabaseReference mDatabaseUser;
 
 
     @Override
@@ -76,6 +82,11 @@ public class EventCreation extends AppCompatActivity {
 
         updateTextLable();
 
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        //mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getEmail()); email -14 quest id
+
 
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,9 +105,16 @@ public class EventCreation extends AppCompatActivity {
 
 
                 String title = subjectCreate.getText().toString().trim();
+                String uid = mCurrentUser.getUid();
+                String email = mCurrentUser.getEmail();
+                String questId = email.substring(0, email.length()-17);
+                String date = (Integer.toString(dateTime.get(Calendar.YEAR)) + " / " + Integer.toString(dateTime.get(Calendar.MONTH)) +
+                        " / " + Integer.toString(dateTime.get(Calendar.DAY_OF_MONTH)));
+                String time = (Integer.toString(dateTime.get(Calendar.HOUR_OF_DAY)) + " : " + Integer.toString(dateTime.get(Calendar.MINUTE)));
 
                 //create a new event, add to firebase
-                boolean eventCreationSuccess = FirebaseInstance.addNewEventToDatabase(course, title, location, description);
+                boolean eventCreationSuccess = FirebaseInstance.addNewEventToDatabase(course, title, location, description,
+                        uid, questId, date, time);
                 //on successful creation of the event: toast message
                 if (eventCreationSuccess) {
                     Toast.makeText(EventCreation.this, "Saving information...", Toast.LENGTH_LONG).show();

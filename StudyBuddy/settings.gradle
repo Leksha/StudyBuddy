@@ -1,1 +1,1 @@
-include ':app', ':firebase_library'
+include ':app'
