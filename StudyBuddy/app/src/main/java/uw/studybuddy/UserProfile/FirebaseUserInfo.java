@@ -120,21 +120,13 @@ public class FirebaseUserInfo {
         return;
     }
     //add a course to the database.
-    public static void add_mCourse(String subject, String num){
-        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
-        String key;
-        if(User.getDisplayName() == null) {
-            String email = User.getEmail();
-            key = email.substring(0, email.length() - 17);
-        }else {
-            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
-        }
-        String coursename = subject + num;
+    public static void add_mCourse(int index, String subject, String num){
+        String key  = get_QuestId();
+        String courseIndexSting = Integer.toString(index);
         if(key != null) {
             DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
-
             CourseInfo newcourse = new CourseInfo(subject, num);
-            mCourseReference.child(coursename).setValue(newcourse);
+            mCourseReference.child(courseIndexSting).setValue(newcourse);
         }
         return;
     }

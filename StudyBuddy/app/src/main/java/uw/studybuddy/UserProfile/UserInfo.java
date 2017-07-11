@@ -67,8 +67,8 @@ public class UserInfo {
 
     public static void addCourse(String subject, String catNum) {
         CourseInfo course = new CourseInfo(subject, catNum);
+        FirebaseUserInfo.add_mCourse(mCoursesList.size(), subject, catNum);
         mCoursesList.add(course);
-        FirebaseUserInfo.add_mCourse(subject, catNum);
     }
 
     public static void setAboutMe(String mAboutMe) {
