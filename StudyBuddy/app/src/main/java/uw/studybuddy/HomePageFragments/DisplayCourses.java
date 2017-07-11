@@ -78,7 +78,7 @@ public class DisplayCourses extends Fragment {
 //        UWAPI uwapi = new UWAPI();
 //        int text = uwapi.getCourseBySubject("ACC");
 
-        List courses = UserInfo.getCourses();
+        List courses = UserInfo.getCoursesList();
         int numCourses = courses.size();
         coursesButtons = new Button[numCourses];
 

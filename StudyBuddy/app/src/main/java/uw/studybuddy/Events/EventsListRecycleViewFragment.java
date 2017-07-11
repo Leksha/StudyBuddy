@@ -84,6 +84,10 @@ public class EventsListRecycleViewFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
+        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
+//        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
                 EventInfo.class,
                 R.layout.event_cardview,

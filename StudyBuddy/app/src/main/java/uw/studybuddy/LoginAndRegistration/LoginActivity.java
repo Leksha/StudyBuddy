@@ -88,9 +88,14 @@ public class LoginActivity extends AppCompatActivity{
 
                 etUsername.setText(email);
                 etPassword.setText(password);
+                bLogin.performClick();
+
+                etUsername.setText(email);
+                etPassword.setText(password);
                 bLogin.callOnClick();
             }
         });
+        mDevLoginButton.setEnabled(true);
     }
 
 
@@ -167,7 +172,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void SentConfirmation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //final EditText Auther = (EditText) findViewById(R.id.etConfirmationEmail);
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
