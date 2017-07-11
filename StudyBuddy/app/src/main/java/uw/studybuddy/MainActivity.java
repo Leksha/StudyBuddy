@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -33,12 +31,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import uw.studybuddy.Chat.ChatActivity;
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.LoginAndRegistration.SetUpProfile;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -51,6 +51,7 @@ import uw.studybuddy.UserProfile.UserPattern;
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
+        //ChatFragment.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
         FriendListFragment.OnListFragmentInteractionListener,
@@ -176,11 +177,8 @@ public class MainActivity extends AppCompatActivity
 //        else if (id == R.id.nav_map) {
 //
 //        }
-// else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+         else if (id == R.id.nav_event_chat) {
+        }
         else if (id == R.id.nav_log_out) {
 
         }
@@ -202,6 +200,11 @@ public class MainActivity extends AppCompatActivity
 
     public void GotoNewEvent(MenuItem item) {
         Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+    public void GotoEventChat(MenuItem item) {
+        Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
     }
 

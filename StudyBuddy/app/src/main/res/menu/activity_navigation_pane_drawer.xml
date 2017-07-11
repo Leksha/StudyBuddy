@@ -14,6 +14,10 @@
             android:id="@+id/nav_friend_list"
             android:icon="@drawable/friend_list_icon"
             android:title="Friend List" />
+        <item
+            android:id="@+id/nav_event_chat"
+            android:icon="@drawable/friend_list_icon"
+            android:title="Event Chat" />
         <!--<item-->
             <!--android:id="@+id/nav_map"-->
             <!--android:icon="@drawable/ic_menu_manage"-->
