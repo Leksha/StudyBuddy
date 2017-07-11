@@ -101,18 +101,6 @@ public class EventsListRecycleViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        /*List courses = UserInfo.getCourses();
-        int numCourses = courses.size();*/
-
-
-        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         mJoinEvent = FirebaseDatabase.getInstance().getReference().child("Participants");
@@ -130,9 +118,6 @@ public class EventsListRecycleViewFragment extends Fragment {
         mDatabase.keepSynced(true);
         mJoinEvent.keepSynced(true);
 
-        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-      
         fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
                 EventInfo.class,
                 R.layout.event_cardview,
@@ -221,22 +206,28 @@ public class EventsListRecycleViewFragment extends Fragment {
                 });*/
             }
         };
+
     }
 
-    // can we show event earlier?
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         // Inflate the layout for this fragment
+        /*List courses = UserInfo.getCourses();
+        int numCourses = courses.size();*/
+
+
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
-//        rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(fbRecyclerAdapter);
+
         return rootView;
     }
+
+    // can we show event earlier?
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
