@@ -80,6 +80,6 @@ public class UserPattern {
     }
 
     public void setabout_me(String about_me) {
-        about_me = about_me;
+        this.about_me = about_me;
     }
 }
