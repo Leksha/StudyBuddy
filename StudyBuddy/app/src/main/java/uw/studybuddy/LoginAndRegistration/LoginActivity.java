@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private FirebaseUser User;
-    private  boolean test = false;
+    private  boolean test = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,10 +2,7 @@ package uw.studybuddy.UserProfile;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,9 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import uw.studybuddy.CourseInfo;
-import uw.studybuddy.Events.EventCardViewHolder;
-import uw.studybuddy.Events.EventInfo;
-import uw.studybuddy.R;
 
 /**
  * Created by Yuna on 17/7/7.
@@ -53,14 +47,15 @@ public class FirebaseUserInfo {
         DatabaseReference databaseReference = database.getReference();
 
         //String key  = databaseReference.child("Users").push().getKey().toString();
-        DatabaseReference DestReference = getUsersTable().child(USER.getmQuestID().toString());
+        DatabaseReference DestReference = getUsersTable().child(USER.getquest_id().toString());
         DestReference.setValue(USER);
+
 
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
         //the user.getemail() should display the key now
         UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
-                .setDisplayName(USER.getmQuestID())
+                .setDisplayName(USER.getquest_id())
                 .build();
         User.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -75,17 +70,9 @@ public class FirebaseUserInfo {
     }
 
     public static void set_DisplayName(String name){
-        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference displayNameRef = getCurrentUserDisplayNameRef();
         //get the key
-        if(User.getDisplayName() == null) {
-            String email = User.getEmail();
-            String key = email.substring(0, email.length()-17);
-            getUsersTable().child(key).child(field_display_name).setValue(name);
-        }else {
-            getUsersTable().child(User.getDisplayName().toString()).child(field_display_name).setValue(name);
-        }
-
-        return;
+        displayNameRef.setValue(name);
     }
 
 
@@ -99,6 +86,10 @@ public class FirebaseUserInfo {
         String email = get_Email();
         String QuestID = email.substring(0, email.length()-17);
         return QuestID;
+    }
+
+    public static DatabaseReference getCurrentUserDisplayNameRef(){
+        return getCurrentUserRef().child(field_display_name);
     }
 
     public static DatabaseReference getCurrentUserRef() {

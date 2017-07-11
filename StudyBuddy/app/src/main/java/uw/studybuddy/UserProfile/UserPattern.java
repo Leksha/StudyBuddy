@@ -3,17 +3,12 @@ package uw.studybuddy.UserProfile;
 
 import android.util.Log;
 
-import com.endercrest.uwaterlooapi.courses.models.Course;
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import uw.studybuddy.CourseInfo;
-import uw.studybuddy.UserProfile.UserInfo;
 
 /**
  * Created by Yuna on 17/7/7.
@@ -24,9 +19,9 @@ public class UserPattern {
     private String TAG = "UserPattern";
 
     private String read;
-    private String mQuestID;
-    private String DisplayName;
-    private String About_me;
+    private String quest_id;
+    private String display_name;
+    private String about_me;
     //coursename : coursename
     private Map<String, CourseInfo> coursesList = new HashMap<>();
 
@@ -35,8 +30,8 @@ public class UserPattern {
 
 
     public UserPattern(){
-        mQuestID = "q79chen";
-        About_me ="I am testing!";
+        quest_id = "q79chen";
+        about_me ="I am testing!";
     }
 
     //update the Userinfo
@@ -46,10 +41,11 @@ public class UserPattern {
             String temp = value.getSubject() + "" + value.getCatalogNumber();
             coursesList.put((String) temp, (CourseInfo) value);
         }
-        About_me = User.getAboutMe();
-        mQuestID = User.getQuestID();
-        DisplayName = User.getDisplayName();
+        about_me = User.getAboutMe();
+        quest_id = User.getQuestID();
+        display_name = User.getDisplayName();
     }
+
     public List<CourseInfo> getCourse(){
         List<CourseInfo> temp = new ArrayList<CourseInfo>(coursesList.values());
         Log.d(TAG, "getCourse = " + coursesList.values() + " list: " + temp );
@@ -63,27 +59,27 @@ public class UserPattern {
         this.read = read;
     }
 
-    public String getmQuestID() {
-        return mQuestID;
+    public String getquest_id() {
+        return quest_id;
     }
 
-    public void setmQuestID(String mQuestID) {
-        this.mQuestID = mQuestID;
+    public void set_quest_id(String mQuestID) {
+        this.quest_id = mQuestID;
     }
 
-    public String getDisplayName() {
-        return DisplayName;
+    public String getdisplay_name() {
+        return display_name;
     }
 
-    public void setDisplayName(String displayName) {
-        DisplayName = displayName;
+    public void set_display_name(String display_name) {
+        this.display_name = display_name;
     }
 
-    public String getAbout_me() {
-        return About_me;
+    public String getabout_me() {
+        return about_me;
     }
 
     public void setAbout_me(String about_me) {
-        About_me = about_me;
+        about_me = about_me;
     }
 }

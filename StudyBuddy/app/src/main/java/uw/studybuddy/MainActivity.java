@@ -27,8 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -252,7 +250,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         if(temp != null){
-            user = new UserInfo(temp.getDisplayName(),temp.getmQuestID(),courseList ,temp.getAbout_me());
+            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me());
             updateNavigationDrawerUserInfo();
 
             // Only force the main activity to be initialized to home page once

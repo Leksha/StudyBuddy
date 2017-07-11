@@ -132,26 +132,21 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-
+        // Get display components from the view
         mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
         mUserName = (EditText)rootView.findViewById(R.id.user_profile_name);
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
+        // Get edit buttons from the view
         mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
-
         mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
-
-        User = FirebaseAuth.getInstance().getCurrentUser();
-        if(User!= null){
-
-            mUserDisplayName.setText(User.getDisplayName());
-        }
+        mUserDisplayName.setText(user.getDisplayName());
         mUserName.setText(user.getQuestID());
         mUserAboutMe.setText(user.getAboutMe());
 
@@ -263,8 +258,8 @@ public class UserProfileFragment extends Fragment {
             mUserDisplayName.setText(User.getDisplayName());
             mUserName.setText(User.getDisplayName());
         }else{
-            mUserDisplayName.setText("User.getDisplayName()");
-            mUserName.setText("User.getDisplayName()");
+            mUserDisplayName.setText("User.getDisplay_name()");
+            mUserName.setText("User.getDisplay_name()");
             //To do switch to login
         }
 
@@ -289,6 +284,7 @@ public class UserProfileFragment extends Fragment {
                 for (EditText e: userInfoEditTexts) {
                     if (e.isFocusable()) {
                         e.setFocusable(false);
+                        reloadFragment();
 
                     } else {
                         editable = true;
@@ -328,7 +324,6 @@ public class UserProfileFragment extends Fragment {
             });
         }
 
-
     }
 
 
@@ -337,7 +332,7 @@ public class UserProfileFragment extends Fragment {
         String answer;
         switch (index) {
             case 0: answer = user.getDisplayName(); break;
-            case 1: answer = user.getQuestID(); break;
+            case 1: answer = user.getDisplayName(); break;
             case 2: answer = user.getAboutMe(); break;
             default: answer = "Error"; break;
         }
@@ -348,7 +343,7 @@ public class UserProfileFragment extends Fragment {
     private void setTextForUserProfile(int index, String newText) {
         switch (index) {
             case 0: user.setDisplayName(newText); break;
-            case 1: user.setQuestID(newText); break;
+            case 1: user.setDisplayName(newText); break;
             case 2: user.setAboutMe(newText); break;
             default: break;
         }

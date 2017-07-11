@@ -108,9 +108,9 @@ public class UserInfo {
     }
 
     public void PatternToUser(UserPattern Pattern){
-        mQuestID =  Pattern.getmQuestID();
-        mDisplayName =  Pattern.getDisplayName();
-        mAboutMe =  Pattern.getAbout_me();
+        mQuestID =  Pattern.getquest_id();
+        mDisplayName =  Pattern.getdisplay_name();
+        mAboutMe =  Pattern.getabout_me();
 
         mCoursesList = new ArrayList<>(Pattern.getCourse());
     }
