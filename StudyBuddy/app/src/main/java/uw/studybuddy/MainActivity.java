@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
 
@@ -155,9 +155,11 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = FriendListFragment.class;
 
         }
-//        else if (id == R.id.nav_map) {
-//
-//        }
+        else if (id == R.id.nav_map) {
+            fragmentClass = MapFragment.class;
+//            FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().replace(R.id.nav_view, MapFragment).commit();
+        }
 // else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {
