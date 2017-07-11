@@ -1,6 +1,7 @@
 package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.List;
 
+import uw.studybuddy.Events.EventDescription;
+import uw.studybuddy.Events.EventsListRecycleViewFragment;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.UserInfo;
 
@@ -35,6 +40,8 @@ public class DisplayCourses extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public static String clickedCourse = "";
 
     private OnFragmentInteractionListener mListener;
 
@@ -78,7 +85,8 @@ public class DisplayCourses extends Fragment {
 //        UWAPI uwapi = new UWAPI();
 //        int text = uwapi.getCourseBySubject("ACC");
 
-        List courses = UserInfo.getCourses();
+        final List courses = UserInfo.getCoursesList();
+
         int numCourses = courses.size();
         coursesButtons = new Button[numCourses];
 
@@ -90,6 +98,17 @@ public class DisplayCourses extends Fragment {
         for (int i=0; i<numCourses; i++) {
             Button button = createButton(courses.get(i).toString());
             coursesButtons[i] = button;
+            final String coursename = courses.get(i).toString();
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickedCourse = coursename;
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    MainActivity.fa.finish();
+                    startActivity(intent);
+                    //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
+                }
+            });
             layout.addView(button,params);
         }
 

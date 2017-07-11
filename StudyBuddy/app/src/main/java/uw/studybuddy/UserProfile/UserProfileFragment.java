@@ -2,15 +2,9 @@ package uw.studybuddy.UserProfile;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,16 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import uw.studybuddy.CourseInfo;
-import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.R;
 
 
@@ -46,8 +37,8 @@ import uw.studybuddy.R;
  */
 public class UserProfileFragment extends Fragment {
 
+    private TextView mUserQuestId;
     private EditText mUserDisplayName;
-    private EditText mUserName;
     private EditText mUserAboutMe;
     private UserInfo user;
 
@@ -58,9 +49,6 @@ public class UserProfileFragment extends Fragment {
     private List<Button> mCoursesButtons;
     private List<CourseInfo> mCoursesList;
   
-    private FirebaseAuth.AuthStateListener mAuthListener = FirebaseInstance.getAuthStateListener();
-    private  FirebaseAuth mAuth = FirebaseInstance.getFirebaseAuthInstance();
-    private FirebaseUser User = mAuth.getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -132,31 +120,26 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-
+        // Get display components from the view
+        mUserQuestId = (TextView)rootView.findViewById(R.id.user_profile_quest_id);
         mUserDisplayName = (EditText)rootView.findViewById(R.id.user_profile_display_name);
-        mUserName = (EditText)rootView.findViewById(R.id.user_profile_name);
         mUserCoursesLayout = (LinearLayout)rootView.findViewById(R.id.user_profile_courses_linear_layout);
         mUserAboutMe = (EditText)rootView.findViewById(R.id.user_profile_about_me);
 
+        // Get edit buttons from the view
         mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
-
         mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
 
         // Update the user profile view with the right user info
-
-        User = FirebaseAuth.getInstance().getCurrentUser();
-        if(User!= null){
-
-            mUserDisplayName.setText(User.getDisplayName());
-        }
-        mUserName.setText(user.getName());
+        mUserQuestId.setText(user.getQuestID());
+        mUserDisplayName.setText(user.getDisplayName());
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        mCoursesList = UserInfo.getCourses();
+        mCoursesList = UserInfo.getCoursesList();
         int numCourses = mCoursesList.size();
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -256,17 +239,7 @@ public class UserProfileFragment extends Fragment {
         }
 
         mUserDisplayName.setText(user.getDisplayName());
-        mUserName.setText(user.getName());
-
-        //User = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!= null){
-            mUserDisplayName.setText(User.getDisplayName());
-            mUserName.setText(User.getDisplayName());
-        }else{
-            mUserDisplayName.setText("User.getDisplayName()");
-            mUserName.setText("User.getDisplayName()");
-            //To do switch to login
-        }
+        mUserQuestId.setText(user.getQuestID());
 
         mUserAboutMe.setText(user.getAboutMe());
         int len = mCoursesList.size();
@@ -277,7 +250,7 @@ public class UserProfileFragment extends Fragment {
 
 
     private void setListeners() {
-        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserName, mUserAboutMe};
+        final EditText[] userInfoEditTexts = {mUserDisplayName, mUserAboutMe};
         for (EditText e: userInfoEditTexts) {
             e.setFocusable(false);
         }
@@ -289,6 +262,7 @@ public class UserProfileFragment extends Fragment {
                 for (EditText e: userInfoEditTexts) {
                     if (e.isFocusable()) {
                         e.setFocusable(false);
+                        reloadFragment();
 
                     } else {
                         editable = true;
@@ -328,7 +302,6 @@ public class UserProfileFragment extends Fragment {
             });
         }
 
-
     }
 
 
@@ -337,8 +310,7 @@ public class UserProfileFragment extends Fragment {
         String answer;
         switch (index) {
             case 0: answer = user.getDisplayName(); break;
-            case 1: answer = user.getName(); break;
-            case 2: answer = user.getAboutMe(); break;
+            case 1: answer = user.getAboutMe(); break;
             default: answer = "Error"; break;
         }
         Log.d(TAG, answer);
@@ -348,8 +320,7 @@ public class UserProfileFragment extends Fragment {
     private void setTextForUserProfile(int index, String newText) {
         switch (index) {
             case 0: user.setDisplayName(newText); break;
-            case 1: user.setName(newText); break;
-            case 2: user.setAboutMe(newText); break;
+            case 1: user.setAboutMe(newText); break;
             default: break;
         }
         Log.d(TAG, newText);
