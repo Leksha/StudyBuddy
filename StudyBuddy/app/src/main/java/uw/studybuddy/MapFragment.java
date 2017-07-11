@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -35,6 +39,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    GoogleMap map;
+    MapView mMapView;
+    View mView;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,25 +78,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    GoogleMap map;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        return v;
+        return mView;
+
     }
 
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mMapView = (MapView) mView.findViewById(R.id.map1);
+        if(mMapView != null) {
+            mMapView.onCreate(null);
+            mMapView.onResume();
+        }
+
+//        MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map1);
+////        FragmentManager fm;
+////        fm = getFragmentManager();
+////        fm.beginTransaction().replace(R.id.map1, new SupportMapFragment()).commit();
+////        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map1);
+////        mapFragment.getMapAsync(this);
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -115,13 +134,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
 
-        LatLng pp = new LatLng(11.5448729, 104.8921668);
-        MarkerOptions option = new MarkerOptions();
-        option.position(pp).title("Random Location");
-        map.addMarker(option);
-        map.moveCamera(CameraUpdateFactory.newLatLng(pp));
+        MapsInitializer.initialize(getContext());
+        map = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(11.5448729, 104.8921668)).title("Random Location"));
+        //CameraPosition position = CameraPosition.builder().target(new LatLng(11.5448729, 104.8921668));
+
+//
+//        LatLng pp = new LatLng(11.5448729, 104.8921668);
+//        MarkerOptions option = new MarkerOptions();
+//        option.position(pp).title("Random Location");
+//        map.addMarker(option);
+//        map.moveCamera(CameraUpdateFactory.newLatLng(pp));
 
     }
 

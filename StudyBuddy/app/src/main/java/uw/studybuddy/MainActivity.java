@@ -50,6 +50,7 @@ import uw.studybuddy.UserProfile.UserPattern;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
@@ -171,12 +172,9 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = UserProfileFragment.class;
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
-
         }
         else if (id == R.id.nav_map) {
             fragmentClass = MapFragment.class;
-//            FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.nav_view, MapFragment).commit();
         }
 // else if (id == R.id.nav_share) {
 //
