@@ -13,26 +13,30 @@
         android:roundIcon="@drawable/main_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LoginAndRegistration.StudyBuddyWelcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginAndRegistration.LoginActivity" />
+        <activity android:name=".LoginAndRegistration.ForgetPassword" />
+        <activity android:name=".LoginAndRegistration.ResetPassword" />
+        <activity android:name=".LoginAndRegistration.RegisterActivity" />
+        <activity android:name=".LoginAndRegistration.Confirmation" />
+        <activity android:name=".LoginAndRegistration.SetUpProfile"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginAndRegistration.LoginActivity" />
-        <activity android:name=".LoginAndRegistration.RegisterActivity" />
-        <activity android:name=".LoginAndRegistration.Confirmation" />
-        <activity android:name=".LoginAndRegistration.SetUpProfile" />
-        <activity android:name=".Events.EventCreation" />
-        <activity android:name=".LoginAndRegistration.ForgetPassword" />
-        <activity android:name=".LoginAndRegistration.ResetPassword" />
-        <activity android:name=".LoginAndRegistration.StudyBuddyWelcome">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".FriendList" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Events.EventCreation" />
         <activity android:name=".Events.EventDescription"></activity>
+        <activity android:name=".Events.ClickedEvent"></activity>
     </application>
 
 </manifest>

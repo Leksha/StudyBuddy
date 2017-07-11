@@ -54,6 +54,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     private Query mQueryCourse;
 
     private RecyclerView rv;
+    private String TAG = "EventsListRVFragment";
 
     private DatabaseReference mJoinEvent;
 
@@ -68,6 +69,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     private boolean isJoinEvent = false;
 
     private OnFragmentInteractionListener mListener;
+    private FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter;
 
     public EventsListRecycleViewFragment() {
         // Required empty public constructor
@@ -94,7 +96,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -117,7 +119,6 @@ public class EventsListRecycleViewFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-
         mDatabaseCourse = FirebaseDatabase.getInstance().getReference().child("Event");
         if(DisplayCourses.clickedCourse.equals("")){
             mQueryCourse = mDatabaseCourse;
@@ -126,15 +127,13 @@ public class EventsListRecycleViewFragment extends Fragment {
         }
 
         //String
-
-
         mDatabase.keepSynced(true);
         mJoinEvent.keepSynced(true);
 
         rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder> fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
+      
+        fbRecyclerAdapter = new FirebaseRecyclerAdapter<EventInfo, EventCardViewHolder>(
                 EventInfo.class,
                 R.layout.event_cardview,
                 EventCardViewHolder.class,
@@ -149,6 +148,8 @@ public class EventsListRecycleViewFragment extends Fragment {
                 //viewHolder.setLocation(model.getLocation());
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setJoinEvent(eventKey, model.getUid());
+//                 viewHolder.setSubject(model.getSubject());
+                Log.d(TAG, "populateViewHolder");
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -156,8 +157,6 @@ public class EventsListRecycleViewFragment extends Fragment {
                         Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
                         clickedEvent.putExtra("event_id", eventKey);
                         startActivity(clickedEvent);
-
-
                     }
                 });
 
@@ -222,6 +221,19 @@ public class EventsListRecycleViewFragment extends Fragment {
                 });*/
             }
         };
+    }
+
+    // can we show event earlier?
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
+
+        rv = (RecyclerView)rootView.findViewById(R.id.events_list_recycler_view);
+//        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(fbRecyclerAdapter);
         return rootView;
     }

@@ -37,7 +37,7 @@
         android:layout_marginTop="24dp"
         android:background="@color/white"
         android:ems="10"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="sans-serif"
         android:hint="Name"
         android:inputType="textPersonName"
         android:textAlignment="viewEnd"

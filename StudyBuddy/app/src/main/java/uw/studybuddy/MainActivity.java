@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,17 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
@@ -28,9 +39,14 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 import uw.studybuddy.UserProfile.UserProfileFragment;
+
+import uw.studybuddy.UserProfile.UserPattern;
+
+
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
@@ -41,9 +57,10 @@ public class MainActivity extends AppCompatActivity
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
-    // Data required for the app
     private UserInfo user;
     public static Activity fa;
+
+    private boolean firstTimeHomePageInitialize = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +72,44 @@ public class MainActivity extends AppCompatActivity
 
         fa = this;
 
+        // Setup UserInfo class
+        setupUserProfile();
+      
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+
+    // Update the view if any changes made to user data
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (user == null) {
+//            user = UserInfo.getInstance();
+//        }
+//        updateNavigationDrawerUserInfo();
+//    }
+
+    private void setupHomepage(){
         // Setup the fragment to be displayed
         Fragment fragment = null;
-        Class fragmentClass = null;
-        fragmentClass = HomePage.class;
+        Class fragmentClass = HomePage.class;
         try {
             fragment = (Fragment)fragmentClass.newInstance();
         } catch (Exception e) {
@@ -67,39 +118,6 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        user = new UserInfo();
-
-    }
-
-    // Update the view if any changes made to user data
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (user == null) {
-            user = UserInfo.getInstance();
-        }
-        updateNavigationDrawerUserInfo();
     }
 
     @Override
@@ -146,15 +164,11 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-            System.out.println("Clicked on Home Page");
+//            recreate();
             fragmentClass = HomePage.class;
         } else if (id == R.id.nav_user_profile) {
             System.out.println("Clicked on User Profile");
-//            Intent userProfile = new Intent(MainActivity.this, UserProfileActivity.class);
-//            MainActivity.this.startActivity(userProfile);
             fragmentClass = UserProfileFragment.class;
-
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
 
@@ -191,24 +205,104 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+
+    public void LogOut(MenuItem item) {
+        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
+        fAuth.signOut();
+        
+        Intent newIntent = new Intent(this, LoginActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(newIntent);
+    }
+
+    // User setup-related code
+    private void setupUserProfile() {
+        // Updating the Display name on the user
+        FirebaseUser Users = FirebaseUserInfo.getCurrentFirebaseUser();
+        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(FirebaseUserInfo.get_QuestId())
+                .build();
+        Users.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                }
+            }
+        });
+
+        // Create UserInfo class
+
+        // Update User Profile when it is changed
+        setupUserProfileListener();
+        FirebaseUserInfo.set_UserRead("false");
+    }
+
+    // Updates UserInfo class when user data is changed
+    private void setupUserProfileListener() {
+        FirebaseUserInfo.getCurrentUserRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                updateUserInfoClass(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+    }
+
+
+    private void updateUserInfoClass(DataSnapshot dataSnapshot) {
+        UserPattern temp = dataSnapshot.getValue(UserPattern.class);
+
+        // Process courses table from database
+        List<CourseInfo> courseList = new ArrayList<>();
+        for (int i=0; i<7; i++) {
+            CourseInfo course;
+            course = dataSnapshot.child(FirebaseUserInfo.table_courses).child(Integer.toString(i)).getValue(CourseInfo.class);
+            if (course != null) {
+                courseList.add(course);
+            }
+        }
+        if(temp != null){
+            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me());
+            updateNavigationDrawerUserInfo();
+
+            // Only force the main activity to be initialized to home page once
+            if (!firstTimeHomePageInitialize) {
+                firstTimeHomePageInitialize = true;
+                setMainActivityToHomePage();
+            }
+        }
+    }
+
     private void updateNavigationDrawerUserInfo() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         ImageView userImage = (ImageView)headerView.findViewById(R.id.navigation_draw_user_image);
         TextView userName = (TextView)headerView.findViewById(R.id.navigation_draw_user_name);
 
-        userName.setText(user.getName().toString());
+        if(user != null && user.getDisplayName() != null) {
+            userName.setText(user.getDisplayName().toString());
+        }else{
+            userName.setText("Nooooo!");
+        }
     }
 
-    public void LogOut(MenuItem item) {
-        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
-        fAuth.signOut();
-        startActivity(new Intent(this, LoginActivity.class));
+    private void setMainActivityToHomePage() {
+        if (user != null) {
+            Fragment fragment = null;
+            Class fragmentClass = HomePage.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        }
     }
 
-    public void GoToFriendList(MenuItem item) {
-        startActivity(new Intent(this, FriendList.class));
-    }
 
     // OnFragmentInteractionListeners
     @Override
