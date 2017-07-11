@@ -83,7 +83,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(Friendlist, mListener));
+            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(this, Friendlist, mListener));
         }
         return view;
     }
@@ -114,6 +114,8 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.find_friend_dialog);
         dialog.setTitle("");
+
+
 
         //set the customeer dialog component
         TextView text_name = (TextView) dialog.findViewById(R.id.friend_name_DG);
