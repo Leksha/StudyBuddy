@@ -62,8 +62,8 @@ public class UserInfo {
 
     public static void deleteCourse(int index) {
         CourseInfo c = mCoursesList.get(index);
-        FirebaseUserInfo.remove_mCourse(c.getSubject(), c.getCatalogNumber());
         mCoursesList.remove(index);
+        FirebaseUserInfo.update_coursesList(mCoursesList);
     }
 
     public static void addCourse(String subject, String catNum) {

@@ -12,6 +12,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import uw.studybuddy.CourseInfo;
 
 /**
@@ -139,33 +143,20 @@ public class FirebaseUserInfo {
         getCurrentUserReadRef().setValue(val);
     }
 
-    public static void remove_mCourse(final String subject, String num){
-        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
-        String key;
-        if(User.getDisplayName() == null) {
-            String email = User.getEmail();
-            key = email.substring(0, email.length() - 17);
-        }else {
-            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
-        }
-        String coursename = subject + num;
-        if(key != null) {
-            DatabaseReference mCourseReference = getUsersTable().child(key).child(table_courses);
+    public static void update_coursesList(List<CourseInfo> newList) {
+        String key = get_QuestId();
 
-            mCourseReference.child(coursename).removeValue(new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    if (databaseError != null) { // No Errors
-                        Log.d(TAG, "Error removing course: " + databaseError.getMessage());
-                    } else {
-                        Log.d(TAG, "Success removing course: ");
-                    }
-                }
-            });
+        // Create new map to update course table for user
+        Map<String, CourseInfo> coursesMap = new HashMap<>();
+        for (int i = 0; i < newList.size(); i++) {
+            String indexString = Integer.toString(i);
+            coursesMap.put(indexString, (CourseInfo) newList.get(i));
+        }
+
+        if (key != null) {
+            getUsersTable().child(key).child(table_courses).setValue(coursesMap);
         }
     }
-
-
 
     //update the read filed to make the listener function run
     public static void listener_trigger(){
