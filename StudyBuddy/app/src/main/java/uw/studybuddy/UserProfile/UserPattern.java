@@ -3,6 +3,14 @@ package uw.studybuddy.UserProfile;
 
 import android.util.Log;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +54,17 @@ public class UserPattern {
         display_name = User.getDisplayName();
     }
 
-    public List<CourseInfo> getCourse(){
+    public List<CourseInfo> getcourse(){
         List<CourseInfo> temp = new ArrayList<CourseInfo>(coursesList.values());
         Log.d(TAG, "getCourse = " + coursesList.values() + " list: " + temp );
         return  temp;
+    }
+    public void setcourse(List<CourseInfo> temp){
+        //clear the courselist first
+        this.coursesList.clear();
+       for(int i =0; i < temp.size();i++){
+           this.coursesList.put(Integer.toString(i), temp.get(i));
+       }
     }
     public String getRead() {
         return read;
@@ -82,4 +97,29 @@ public class UserPattern {
     public void setabout_me(String about_me) {
         this.about_me = about_me;
     }
+
+
+    //store the information on that
+    public void get_user(DataSnapshot dataSnapshot,String key) {
+            List<CourseInfo> courseList = new ArrayList<>();
+            for (int i=0; i<7; i++) {
+                CourseInfo course;
+                course = dataSnapshot.child(key).child(FirebaseUserInfo.table_courses).child(Integer.toString(i)).getValue(CourseInfo.class);
+                if (course != null) {
+                    courseList.add(course);
+                }
+            }
+            UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
+
+            if(temp != null) {
+                setabout_me(temp.getabout_me());
+                setquest_id(temp.getquest_id());
+                setdisplay_name(temp.getdisplay_name());
+                if(courseList!=null) {
+                    setcourse(courseList);
+                }
+        }
+    }
+
+
 }

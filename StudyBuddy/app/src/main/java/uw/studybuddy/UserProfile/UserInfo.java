@@ -3,6 +3,8 @@ package uw.studybuddy.UserProfile;
 import android.media.Image;
 
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
