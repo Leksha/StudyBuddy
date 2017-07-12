@@ -1,6 +1,10 @@
 package uw.studybuddy.Events;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.util.List;
+
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
@@ -24,6 +31,7 @@ public class EventDescription extends AppCompatActivity {
     private String mPostKey = null;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseJoin;
+    private DatabaseReference mDatabaseJoinLoc;
 
     private TextView edCourse;
     private TextView edTitle;
@@ -36,6 +44,7 @@ public class EventDescription extends AppCompatActivity {
 
     private Button bDeleteEvent;
     private Button bAddFriend;
+    private Button bViewMap;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
@@ -56,12 +65,15 @@ public class EventDescription extends AppCompatActivity {
 
         bDeleteEvent = (Button) findViewById(R.id.BdeleteEvent);
         bAddFriend = (Button) findViewById(R.id.BaddFriend);
+        bViewMap = (Button) findViewById(R.id.btnOpenMap);
 
         mPostKey = getIntent().getExtras().getString("event_id");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         mDatabaseJoin = FirebaseDatabase.getInstance().getReference().child("Participants");
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+
+
 
         mDatabase.child(mPostKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,5 +149,46 @@ public class EventDescription extends AppCompatActivity {
                 finish();
             }
         });
+
+        final Geocoder coder = new Geocoder(this);
+
+
+        bViewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabase.child(mPostKey).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        List<Address> address;
+
+                        Intent intent = null;
+                        Intent chooser = null;
+
+                        if(dataSnapshot.getChildren() != null) {
+                            String location = (String) dataSnapshot.child("location").getValue();
+
+                            try {
+                                address = coder.getFromLocationName(location,5);
+                                Address loc = address.get(0);
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("geo:" + loc.getLatitude() + loc.getLongitude()));
+                                chooser = Intent.createChooser(intent, "Launch Maps");
+                                startActivity(chooser);
+                            } catch (IOException e) {
+                                Toast.makeText(EventDescription.this, "Location doesn't exist", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
     }
 }

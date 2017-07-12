@@ -99,13 +99,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMapView.onCreate(null);
             mMapView.onResume();
         }
-
-//        MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map1);
-////        FragmentManager fm;
-////        fm = getFragmentManager();
-////        fm.beginTransaction().replace(R.id.map1, new SupportMapFragment()).commit();
-////        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map1);
-////        mapFragment.getMapAsync(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -138,15 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         map = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(11.5448729, 104.8921668)).title("Random Location"));
-        //CameraPosition position = CameraPosition.builder().target(new LatLng(11.5448729, 104.8921668));
-
-//
-//        LatLng pp = new LatLng(11.5448729, 104.8921668);
-//        MarkerOptions option = new MarkerOptions();
-//        option.position(pp).title("Random Location");
-//        map.addMarker(option);
-//        map.moveCamera(CameraUpdateFactory.newLatLng(pp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.4722854, -80.5448576)).title("UW"));
 
     }
 
