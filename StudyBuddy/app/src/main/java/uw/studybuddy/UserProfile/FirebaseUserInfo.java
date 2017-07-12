@@ -38,6 +38,7 @@ public class FirebaseUserInfo {
     private static String field_user_name      = "user_name";
     private static String field_about_me       = "about_me";
     private static String field_read           = "read";
+    private static String field_nameList       = "namelist";
 
     // Tables in the user table
     public static String table_courses         = "course";
@@ -63,6 +64,8 @@ public class FirebaseUserInfo {
         DatabaseReference DestReference = getUsersTable().child(USER.getquest_id().toString());
         DestReference.setValue(USER);
 
+        //update the things to name list
+        update_name_list(USER.getdisplay_name());
 
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -82,10 +85,16 @@ public class FirebaseUserInfo {
         return;
     }
 
+    public static DatabaseReference get_namelist_ref(){
+        return FirebaseDatabase.getInstance().getReference().child(field_nameList);
+    }
+    public static void update_name_list(String name){
+        get_namelist_ref().child(name).setValue(get_QuestId());
+    }
+
     public static void set_DisplayName(String name){
         DatabaseReference displayNameRef = getCurrentUserDisplayNameRef();
         //get the key
-
         displayNameRef.setValue(name);
     }
 

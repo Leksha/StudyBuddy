@@ -145,6 +145,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             //FirebaseUserInfo.listener_trigger();
 
             if(Userholder.getdisplay_name() == null){
+
                 text_aboutme.setText("Sorry the User you search is not exist");
                 text_name.setText("");
                 //should set a sorry image for it later
@@ -205,4 +206,5 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             }
         });
     }
+
 }

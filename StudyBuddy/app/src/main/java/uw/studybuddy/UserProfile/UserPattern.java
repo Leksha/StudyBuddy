@@ -100,12 +100,23 @@ public class UserPattern {
 
 
     //store the information on that
-    public void get_user(DataSnapshot dataSnapshot,String key){
+    public void get_user(DataSnapshot dataSnapshot,String key) {
+
+        if (key == "") {
+            for(DataSnapshot value : dataSnapshot.getChildren()){
                 UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
                 setabout_me(temp.getabout_me());
                 setquest_id(temp.getquest_id());
                 setdisplay_name(temp.getdisplay_name());
+            }
 
+        } else {
+            UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
+            setabout_me(temp.getabout_me());
+            setquest_id(temp.getquest_id());
+            setdisplay_name(temp.getdisplay_name());
+        }
     }
+
 
 }
