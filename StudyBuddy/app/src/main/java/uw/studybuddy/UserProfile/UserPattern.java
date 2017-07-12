@@ -112,9 +112,11 @@ public class UserPattern {
 
         } else {
             UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
-            setabout_me(temp.getabout_me());
-            setquest_id(temp.getquest_id());
-            setdisplay_name(temp.getdisplay_name());
+            if(temp != null) {
+                setabout_me(temp.getabout_me());
+                setquest_id(temp.getquest_id());
+                setdisplay_name(temp.getdisplay_name());
+            }
         }
     }
 

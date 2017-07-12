@@ -39,6 +39,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     public Button bSearch;
     public EditText etSearch;
     private DataSnapshot dataSnapshot_FG;
+    private DataSnapshot dataSnapshot_FG_Name;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,7 +65,9 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        Setup_namelistListener();
         Setup_UsertableListener();
+
     }
 
     @Override
@@ -138,9 +141,15 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
             UserPattern Userholder = new UserPattern();
 
-            FirebaseUserInfo.getUsersTable().child(temp).child("read").setValue("1");
-
             Userholder.get_user(dataSnapshot_FG,temp);
+
+            if(Userholder.getdisplay_name() == null){
+                String key = get_key_from_namelist_byName(temp);
+                if(key != null) {
+                    Userholder.get_user(dataSnapshot_FG,key);
+                }
+            }
+
 
             //FirebaseUserInfo.listener_trigger();
 
@@ -207,4 +216,22 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         });
     }
 
+    public void Setup_namelistListener(){
+        FirebaseUserInfo.get_namelist_ref().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot_FG_Name = dataSnapshot;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public  String get_key_from_namelist_byName(String name){
+        String key  = dataSnapshot_FG_Name.child(name).getValue(String.class);
+        return key;
+    }
 }
