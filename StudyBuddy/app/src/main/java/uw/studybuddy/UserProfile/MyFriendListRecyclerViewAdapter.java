@@ -115,6 +115,8 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                         text_name.setText(Userholder.getdisplay_name());
                         text_aboutme.setText(Userholder.getabout_me());
                         course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
+                        dialogAddFriendButton.setClickable(false);
+                        dialogAddFriendButton.setVisibility(dialogAddFriendButton.GONE);
                         dialog.show();
                     }
 
