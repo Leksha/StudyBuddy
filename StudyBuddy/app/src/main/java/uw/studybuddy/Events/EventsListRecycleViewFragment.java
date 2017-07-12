@@ -24,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uw.studybuddy.CourseInfo;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
@@ -51,6 +53,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabaseCourse;
+    private DatabaseReference mDatabaseChat;
     private Query mQueryCourse;
 
     private RecyclerView rv;
@@ -104,6 +107,8 @@ public class EventsListRecycleViewFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         mJoinEvent = FirebaseDatabase.getInstance().getReference().child("Participants");
+        mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("EventChat");
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
@@ -125,7 +130,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                 mQueryCourse
         ) {
             @Override
-            protected void populateViewHolder(final EventCardViewHolder viewHolder, EventInfo model, int position) {
+            protected void populateViewHolder(final EventCardViewHolder viewHolder, final EventInfo model, int position) {
                 final String eventKey = getRef(position).getKey();
 
                 viewHolder.setCourse(model.getCourse());
@@ -163,10 +168,14 @@ public class EventsListRecycleViewFragment extends Fragment {
                                 if (isJoinEvent) {
                                     if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
                                         mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
+                                        mDatabaseChat.child(model.getCourse()+": " + model.getTitle()).removeValue();
                                         //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
                                         isJoinEvent = false;
                                     } else {
                                         mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(mCurrentUser.getEmail());
+                                        Map<String, Object> map = new HashMap<String, Object>();
+                                        map.put(model.getCourse()+": " + model.getTitle(), "");
+                                        mDatabaseChat.updateChildren(map);
                                         isJoinEvent = false;
                                     }
                                 }

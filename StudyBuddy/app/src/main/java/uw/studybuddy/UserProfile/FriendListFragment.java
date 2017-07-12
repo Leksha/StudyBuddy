@@ -1,5 +1,6 @@
 package uw.studybuddy.UserProfile;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import uw.studybuddy.R;
 
@@ -19,12 +24,14 @@ import uw.studybuddy.R;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class FriendListFragment extends Fragment {
+public class FriendListFragment extends Fragment implements Button.OnClickListener{
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    public Button bSearch;
+    public EditText etSearch;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,6 +63,13 @@ public class FriendListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friendlist_list, container, false);
+
+
+        bSearch = (Button)view.findViewById(R.id.find_friends_search_button_FG);
+
+        etSearch = (EditText) view.findViewById(R.id.find_friends_name_FG);
+        bSearch.setOnClickListener(this);
+
 
         //get friend list here
         String[] Friendlist = {"Yuna", "Waterloo", "1111", "hello", "noooooo", "just for texst", "lol", "I am sleepy", "I am sosososososo sleepy"};
@@ -90,6 +104,51 @@ public class FriendListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        String temp = etSearch.getText().toString();
+        //friend dialog
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.find_friend_dialog);
+        dialog.setTitle("");
+
+        //set the customeer dialog component
+        TextView text_name = (TextView) dialog.findViewById(R.id.friend_name_DG);
+        TextView text_aboutme = (TextView)dialog.findViewById(R.id.friend_about_me_DG);
+        ImageView image = (ImageView)dialog.findViewById(R.id.friend_photo_DG);
+        //default photo for now
+        image.setImageResource(R.drawable.friend1);
+        //now for testing
+        text_name.setText("hello");
+
+        Button dialogOKButton = (Button) dialog.findViewById(R.id.OK_Dialog_bt);
+        Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
+        dialogOKButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialogAddFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        if(temp == ""){
+            //do nothing
+            etSearch.setHintTextColor(getResources().getColor(R.color.errorhint));
+            etSearch.setTextColor(getResources().getColor(R.color.errorhint));
+
+        }else {
+            dialog.show();
+            //show the diaglog
+
+        }
     }
 
     /**

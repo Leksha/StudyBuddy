@@ -104,8 +104,8 @@ public class DisplayCourses extends Fragment {
                 public void onClick(View v) {
                     clickedCourse = coursename;
                     Intent intent = new Intent(getActivity(), MainActivity.class);
-                    MainActivity.fa.finish();
                     startActivity(intent);
+                    MainActivity.fa.finish();
                     //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
                 }
             });
