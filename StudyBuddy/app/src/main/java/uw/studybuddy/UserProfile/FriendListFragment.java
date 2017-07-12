@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +106,12 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
 
         List<String> Friend_temp = new ArrayList<String>();
-        Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
+
+        if(dataSnapshot_FriendList_FG == null){
+            Log.d("FriendList", "fail get FG");
+        }else {
+            Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
+        }
 
         //now try to get the friendlist from firebase
 
