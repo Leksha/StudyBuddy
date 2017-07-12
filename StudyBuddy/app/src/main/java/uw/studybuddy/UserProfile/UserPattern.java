@@ -121,5 +121,16 @@ public class UserPattern {
         }
     }
 
+    public static String transfer_list_courseInfo_toString(List<CourseInfo> list){
+        String result = "Course : ";
+        if(list == null){
+            return result;
+        }
+        for(CourseInfo value : list){
+            result = result + " " + value.getSubject() + value.getCatalogNumber() + " ";
+        }
+        return result;
+    }
+
 
 }

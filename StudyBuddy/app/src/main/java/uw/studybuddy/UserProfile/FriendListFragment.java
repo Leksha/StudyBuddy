@@ -203,7 +203,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             }else{
                 text_name.setText(Userholder.getdisplay_name());
                 text_aboutme.setText(Userholder.getabout_me());
-                course.setText(transfer_list_courseInfo_toString(Userholder.getcourse()));
+                course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
                 dialog.show();
             }
 
@@ -290,16 +290,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         return key;
     }
 
-    public static String transfer_list_courseInfo_toString(List<CourseInfo> list){
-        String result = "Course : ";
-        if(list == null){
-            return result;
-        }
-        for(CourseInfo value : list){
-            result = result + " " + value.getSubject() + value.getCatalogNumber() + " ";
-        }
-        return result;
-    }
+
 
     public void set_up_friendlist_Listener(){
         FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
