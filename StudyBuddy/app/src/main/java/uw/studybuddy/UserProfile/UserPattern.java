@@ -101,22 +101,23 @@ public class UserPattern {
 
     //store the information on that
     public void get_user(DataSnapshot dataSnapshot,String key) {
-
-        if (key == "") {
-            for(DataSnapshot value : dataSnapshot.getChildren()){
-                UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
-                setabout_me(temp.getabout_me());
-                setquest_id(temp.getquest_id());
-                setdisplay_name(temp.getdisplay_name());
+            List<CourseInfo> courseList = new ArrayList<>();
+            for (int i=0; i<7; i++) {
+                CourseInfo course;
+                course = dataSnapshot.child(key).child(FirebaseUserInfo.table_courses).child(Integer.toString(i)).getValue(CourseInfo.class);
+                if (course != null) {
+                    courseList.add(course);
+                }
             }
-
-        } else {
             UserPattern temp = dataSnapshot.child(key).getValue(UserPattern.class);
+
             if(temp != null) {
                 setabout_me(temp.getabout_me());
                 setquest_id(temp.getquest_id());
                 setdisplay_name(temp.getdisplay_name());
-            }
+                if(courseList!=null) {
+                    setcourse(courseList);
+                }
         }
     }
 
