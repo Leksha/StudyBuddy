@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+        set_friendlist_Listener();
 
         fa = this;
 
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         if(temp != null){
-            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me());
+            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me(), FriendListDataSnapshot);
             updateNavigationDrawerUserInfo();
 
             // Only force the main activity to be initialized to home page once

@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile;
 import android.media.Image;
 
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -28,7 +29,13 @@ public class UserInfo {
     private static String mAboutMe;
     private static Image mImage;
 
+    //add by Yuna
+    private static DataSnapshot mFriendlist_DS;
+
     // Getters
+
+
+
     public static String getDisplayName() {
         return mDisplayName;
     }
@@ -83,9 +90,9 @@ public class UserInfo {
 
 
     // Constructors
-    public UserInfo(String displayName, String questID, List<CourseInfo> courses, String aboutMe) {
+    public UserInfo(String displayName, String questID, List<CourseInfo> courses, String aboutMe, DataSnapshot dataSnapshot) {
         mDisplayName = displayName;
-
+        mFriendlist_DS = dataSnapshot;
         mQuestID = questID;
         UserInfo.mCoursesList = new ArrayList<>(courses);
 
@@ -122,7 +129,7 @@ public class UserInfo {
     // instance methods
     public static void initInstance(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
         if (instance == null) {
-            instance = new UserInfo(displayName, name, courses, aboutMe);
+            instance = new UserInfo(displayName, name, courses, aboutMe, mFriendlist_DS);
         }
     }
 
@@ -137,4 +144,11 @@ public class UserInfo {
     }
 
 
+    public static DataSnapshot getmFriendlist_DS() {
+        return mFriendlist_DS;
+    }
+
+    public static void setmFriendlist_DS(DataSnapshot mFriendlist_DS) {
+        UserInfo.mFriendlist_DS = mFriendlist_DS;
+    }
 }

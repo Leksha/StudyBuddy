@@ -50,6 +50,8 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
     private DataSnapshot dataSnapshot_FriendList_FG;
 
+    private UserInfo user;
+
     String CurrentID ;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,6 +77,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = UserInfo.getInstance();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -109,14 +112,15 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
         if(dataSnapshot_FriendList_FG == null){
             Log.d("FriendList", "fail get FG");
+            dataSnapshot_FriendList_FG = user.getmFriendlist_DS();
         }else {
-            Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
+            user.setmFriendlist_DS(dataSnapshot_FriendList_FG);
         }
 
         //now try to get the friendlist from firebase
 
 
-
+        Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
         // Set the adapter
         if (true) {
             Context context = view.getContext();
