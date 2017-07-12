@@ -138,6 +138,8 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             TextView text_name = (TextView) dialog.findViewById(R.id.friend_name_DG);
             TextView text_aboutme = (TextView)dialog.findViewById(R.id.friend_about_me_DG);
             ImageView image = (ImageView)dialog.findViewById(R.id.friend_photo_DG);
+            Button dialogOKButton = (Button) dialog.findViewById(R.id.OK_Dialog_bt);
+            Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
             //default photo for now
            TextView course = (TextView) dialog.findViewById(R.id.couse_DG);
             image.setImageResource(R.drawable.friend1);
@@ -162,17 +164,19 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                 text_aboutme.setText("Sorry the User you search is not exist");
                 text_name.setText("");
                 course.setText("");
+                Toast.makeText(getActivity(), "Sorry the User you search is not exist",
+                        Toast.LENGTH_LONG).show();
                 //should set a sorry image for it later
             }else{
                 text_name.setText(Userholder.getdisplay_name());
                 text_aboutme.setText(Userholder.getabout_me());
                 course.setText(transfer_list_courseInfo_toString(Userholder.getcourse()));
+                dialog.show();
             }
 
 
 
-            Button dialogOKButton = (Button) dialog.findViewById(R.id.OK_Dialog_bt);
-            Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
+
             dialogOKButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,7 +194,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                        if(!friendname.equals(CurrentName)){
 
                             FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(true);
-                           Toast.makeText(getActivity(), "You have added " + friendname + " to friend list",
+                           Toast.makeText(getActivity(), "Success: " + friendname + " is on friend list now",
                                    Toast.LENGTH_LONG).show();
 
                        }else{
@@ -201,9 +205,6 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                     dialog.dismiss();
                 }
             });
-            //set the dialog things here
-            dialog.show();
-            //show the diaglog
 
         }
     }
