@@ -34,7 +34,8 @@
         <activity android:name=".Events.EventCreation" />
         <activity android:name=".Events.EventDescription" />
         <activity android:name=".Chat.ChatActivity" />
-        <activity android:name=".Chat.chat_event"></activity>
+        <activity android:name=".Chat.chat_event" />
+        <activity android:name=".Notification.NotificationActivity"></activity>
     </application>
 
 </manifest>

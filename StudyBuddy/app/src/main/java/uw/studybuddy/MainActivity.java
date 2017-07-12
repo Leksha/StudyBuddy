@@ -208,6 +208,11 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void GotoNotification(MenuItem item) {
+        //Intent intent = new Intent(this, NotificationActivity.class);
+        //startActivity(intent);
+    }
+
 
     public void LogOut(MenuItem item) {
         FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
