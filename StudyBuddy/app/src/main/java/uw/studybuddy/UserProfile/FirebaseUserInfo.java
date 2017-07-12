@@ -8,10 +8,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +44,11 @@ public class FirebaseUserInfo {
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
+
+
+    public static String get_field_display_name(){
+        return field_display_name;
+    }
 
     public static DatabaseReference getUsersTable() {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
@@ -76,6 +85,7 @@ public class FirebaseUserInfo {
     public static void set_DisplayName(String name){
         DatabaseReference displayNameRef = getCurrentUserDisplayNameRef();
         //get the key
+
         displayNameRef.setValue(name);
     }
 
@@ -160,16 +170,11 @@ public class FirebaseUserInfo {
 
     //update the read filed to make the listener function run
     public static void listener_trigger(){
-        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
         String key;
-        if(User.getDisplayName() == null) {
-            String email = User.getEmail();
-            key = email.substring(0, email.length() - 17);
-        }else {
-            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
-        }
+        key = get_QuestId();
         DatabaseReference mReadReference = getUsersTable().child(key).child("read");
         mReadReference.setValue("true");
     }
+
 
 }

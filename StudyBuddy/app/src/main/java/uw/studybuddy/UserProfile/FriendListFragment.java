@@ -15,6 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import uw.studybuddy.R;
 
@@ -24,7 +29,8 @@ import uw.studybuddy.R;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class FriendListFragment extends Fragment implements Button.OnClickListener{
+public class FriendListFragment extends Fragment implements Button.OnClickListener
+{
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -32,6 +38,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     private OnListFragmentInteractionListener mListener;
     public Button bSearch;
     public EditText etSearch;
+    private DataSnapshot dataSnapshot_FG;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,6 +64,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        Setup_UsertableListener();
     }
 
     @Override
@@ -83,7 +91,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(this, Friendlist, mListener));
+            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(FriendListFragment.this, Friendlist, mListener));
         }
         return view;
     }
@@ -110,48 +118,64 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     public void onClick(View view) {
         String temp = etSearch.getText().toString();
         //friend dialog
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.find_friend_dialog);
-        dialog.setTitle("");
-
-
-
-        //set the customeer dialog component
-        TextView text_name = (TextView) dialog.findViewById(R.id.friend_name_DG);
-        TextView text_aboutme = (TextView)dialog.findViewById(R.id.friend_about_me_DG);
-        ImageView image = (ImageView)dialog.findViewById(R.id.friend_photo_DG);
-        //default photo for now
-        image.setImageResource(R.drawable.friend1);
-        //now for testing
-        text_name.setText("hello");
-
-        Button dialogOKButton = (Button) dialog.findViewById(R.id.OK_Dialog_bt);
-        Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
-        dialogOKButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialogAddFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
         if(temp == ""){
             //do nothing
             etSearch.setHintTextColor(getResources().getColor(R.color.errorhint));
             etSearch.setTextColor(getResources().getColor(R.color.errorhint));
 
         }else {
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.find_friend_dialog);
+            dialog.setTitle("");
+
+            //set the customeer dialog component
+            TextView text_name = (TextView) dialog.findViewById(R.id.friend_name_DG);
+            TextView text_aboutme = (TextView)dialog.findViewById(R.id.friend_about_me_DG);
+            ImageView image = (ImageView)dialog.findViewById(R.id.friend_photo_DG);
+            //default photo for now
+            image.setImageResource(R.drawable.friend1);
+            //now for testing
+
+            UserPattern Userholder = new UserPattern();
+
+            FirebaseUserInfo.getUsersTable().child(temp).child("read").setValue("1");
+
+            Userholder.get_user(dataSnapshot_FG,temp);
+
+            //FirebaseUserInfo.listener_trigger();
+
+            if(Userholder.getdisplay_name() == null){
+                text_aboutme.setText("Sorry the User you search is not exist");
+                text_name.setText("");
+                //should set a sorry image for it later
+            }else{
+                text_name.setText(Userholder.getdisplay_name());
+                text_aboutme.setText(Userholder.getabout_me());
+            }
+
+
+
+            Button dialogOKButton = (Button) dialog.findViewById(R.id.OK_Dialog_bt);
+            Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
+            dialogOKButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialogAddFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            //set the dialog things here
             dialog.show();
             //show the diaglog
 
         }
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -166,5 +190,19 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Uri uri);
+    }
+
+    public void Setup_UsertableListener(){
+        FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot_FG =dataSnapshot;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
