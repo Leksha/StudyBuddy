@@ -21,6 +21,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
+import uw.studybuddy.CourseInfo;
 import uw.studybuddy.R;
 
 /**
@@ -136,6 +139,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             TextView text_aboutme = (TextView)dialog.findViewById(R.id.friend_about_me_DG);
             ImageView image = (ImageView)dialog.findViewById(R.id.friend_photo_DG);
             //default photo for now
+           TextView course = (TextView) dialog.findViewById(R.id.couse_DG);
             image.setImageResource(R.drawable.friend1);
             //now for testing
 
@@ -157,10 +161,12 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
                 text_aboutme.setText("Sorry the User you search is not exist");
                 text_name.setText("");
+                course.setText("");
                 //should set a sorry image for it later
             }else{
                 text_name.setText(Userholder.getdisplay_name());
                 text_aboutme.setText(Userholder.getabout_me());
+                course.setText(transfer_list_courseInfo_toString(Userholder.getcourse()));
             }
 
 
@@ -233,5 +239,16 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     public  String get_key_from_namelist_byName(String name){
         String key  = dataSnapshot_FG_Name.child(name).getValue(String.class);
         return key;
+    }
+
+    public static String transfer_list_courseInfo_toString(List<CourseInfo> list){
+        String result = "Course : ";
+        if(list == null){
+            return result;
+        }
+        for(CourseInfo value : list){
+            result = result + " " + value.getSubject() + value.getCatalogNumber() + " ";
+        }
+        return result;
     }
 }

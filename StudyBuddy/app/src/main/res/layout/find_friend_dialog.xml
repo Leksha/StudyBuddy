@@ -33,13 +33,22 @@
         android:text="The user is too lazy to write down anything"
         android:layout_toRightOf="@id/friend_photo_DG"
         android:layout_below="@id/friend_name_DG"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/couse_DG"
+        android:text="Couse:"
+        android:layout_toRightOf="@id/friend_photo_DG"
+        android:layout_below="@id/friend_about_me_DG"
+        />
     <Button
         android:id="@+id/OK_Dialog_bt"
         android:text="Ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/friend_about_me_DG"
+        android:layout_below="@id/couse_DG"
         android:layout_alignParentRight="true"/>
     <Button
         android:id="@+id/add_Friend_bt"
@@ -48,7 +57,7 @@
         android:text="Add Friend"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@id/friend_about_me_DG"
+        android:layout_below="@id/couse_DG"
         android:layout_toLeftOf="@id/OK_Dialog_bt"
 
         />
