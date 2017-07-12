@@ -184,9 +184,19 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                 public void onClick(View view) {
                     //The friend is added  to the friendlist:
                     if(Userholder.getdisplay_name()!= null ){
-                        if( Userholder.getquest_id() != FirebaseUserInfo.get_QuestId()) {
-                            FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(Userholder.getquest_id()).setValue(true);
-                        }
+                        //if the friend is not user himself/herself
+                        String friendname = Userholder.getquest_id().toString();
+                        String CurrentName = FirebaseUserInfo.get_QuestId().toString();
+                       if(!friendname.equals(CurrentName)){
+
+                            FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(true);
+                           Toast.makeText(getActivity(), "You have added " + friendname + " to friend list",
+                                   Toast.LENGTH_LONG).show();
+
+                       }else{
+                           Toast.makeText(getActivity(), "Adding friend Failed",
+                                   Toast.LENGTH_LONG).show();
+                       }
                     }
                     dialog.dismiss();
                 }
