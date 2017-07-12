@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity
 
     private boolean firstTimeHomePageInitialize = false;
 
+    private DataSnapshot FriendListDataSnapshot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +173,6 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = UserProfileFragment.class;
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
-
         }
 //        else if (id == R.id.nav_map) {
 //
@@ -314,6 +315,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Uri uri) {
 
+    }
+
+
+    public void set_friendlist_Listener(){
+        FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        FriendListDataSnapshot = dataSnapshot;
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 }
 

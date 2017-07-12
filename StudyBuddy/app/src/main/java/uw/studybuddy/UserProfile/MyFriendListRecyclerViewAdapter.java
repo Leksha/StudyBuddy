@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.FriendListFragment.OnListFragmentInteractionListener;
@@ -25,11 +28,11 @@ import static android.app.PendingIntent.getActivity;
 public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendListRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private final String[] mValues;
+    private final List<String> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyFriendListRecyclerViewAdapter(FriendListFragment fragment, String[] items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MyFriendListRecyclerViewAdapter(FriendListFragment fragment, List<String> Friendlist,  OnListFragmentInteractionListener listener) {
+        mValues = Friendlist;
         mListener = listener;
         context = fragment.getContext();
     }
@@ -47,12 +50,12 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mContentView.setImageResource(mValues.get(position).content);
 
-        holder.mIdView.setText(mValues[position]);
+        holder.mIdView.setText(mValues.get(position));
 
 
 
         //change the icon based on name
-        String s = mValues[position];
+        String s = mValues.get(position);
         System.out.println(s);
 
         if(s.equals("Yuna")){
@@ -112,7 +115,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
 
     @Override
     public int getItemCount() {
-        return mValues.length;
+        return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -132,4 +135,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
             return super.toString() + " '"  + "'";
         }
     }
+
+
+
 }

@@ -187,5 +187,14 @@ public class FirebaseUserInfo {
         mReadReference.setValue("true");
     }
 
+    //dataSnapshot is the dataSnapshot of the friendlist
+    public static List<String> get_friend_list_fromDatabase(DataSnapshot dataSnapshot){
+        List<String> FriendList = new ArrayList<String>();
+        for(DataSnapshot value : dataSnapshot.getChildren()){
+            String result = value.getValue(String.class);
+            FriendList.add(result);
+        }
+        return FriendList;
+    }
 
 }

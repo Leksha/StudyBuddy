@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uw.studybuddy.CourseInfo;
@@ -41,23 +42,32 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     private OnListFragmentInteractionListener mListener;
     public Button bSearch;
     public EditText etSearch;
+    //Usertable
     private DataSnapshot dataSnapshot_FG;
+    //Friendlist
     private DataSnapshot dataSnapshot_FG_Name;
 
+    private DataSnapshot dataSnapshot_FriendList_FG;
+
+    String CurrentID ;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FriendListFragment() {
+
+    public FriendListFragment(){
+        set_up_friendlist_Listener();
     }
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FriendListFragment newInstance(int columnCount) {
+    public FriendListFragment newInstance(int columnCount) {
         FriendListFragment fragment = new FriendListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
+        set_up_friendlist_Listener();
         return fragment;
     }
 
@@ -68,14 +78,20 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        CurrentID = FirebaseUserInfo.get_QuestId().toString();
         Setup_namelistListener();
         Setup_UsertableListener();
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+
         View view = inflater.inflate(R.layout.fragment_friendlist_list, container, false);
 
 
@@ -86,7 +102,14 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
 
         //get friend list here
-        String[] Friendlist = {"Yuna", "Waterloo", "1111", "hello", "noooooo", "just for texst", "lol", "I am sleepy", "I am sosososososo sleepy"};
+
+
+        List<String> Friend_temp = new ArrayList<String>();
+        Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
+
+        //now try to get the friendlist from firebase
+
+
 
         // Set the adapter
         if (true) {
@@ -97,7 +120,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(FriendListFragment.this, Friendlist, mListener));
+            recyclerView.setAdapter(new MyFriendListRecyclerViewAdapter(FriendListFragment.this, Friend_temp, mListener));
         }
         return view;
     }
@@ -190,10 +213,9 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                     if(Userholder.getdisplay_name()!= null ){
                         //if the friend is not user himself/herself
                         String friendname = Userholder.getquest_id().toString();
-                        String CurrentName = FirebaseUserInfo.get_QuestId().toString();
-                       if(!friendname.equals(CurrentName)){
+                       if(!friendname.equals(CurrentID)){
 
-                            FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(true);
+                            FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(friendname);
                            Toast.makeText(getActivity(), "Success: " + friendname + " is on friend list now",
                                    Toast.LENGTH_LONG).show();
 
@@ -268,4 +290,21 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         }
         return result;
     }
+
+    public void set_up_friendlist_Listener(){
+        FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        dataSnapshot_FriendList_FG = dataSnapshot;
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                }
+                );
+    }
+
 }
