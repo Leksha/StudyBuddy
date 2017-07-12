@@ -40,8 +40,10 @@ public class FirebaseUserInfo {
     private static String field_read           = "read";
     private static String field_nameList       = "namelist";
 
+
     // Tables in the user table
     public static String table_courses         = "course";
+    public static String table_friend          = "friendlist";
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.

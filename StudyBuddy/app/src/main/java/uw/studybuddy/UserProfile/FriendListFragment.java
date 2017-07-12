@@ -143,7 +143,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             image.setImageResource(R.drawable.friend1);
             //now for testing
 
-            UserPattern Userholder = new UserPattern();
+            final UserPattern Userholder = new UserPattern();
 
             Userholder.get_user(dataSnapshot_FG,temp);
 
@@ -182,6 +182,12 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
             dialogAddFriendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //The friend is added  to the friendlist:
+                    if(Userholder.getdisplay_name()!= null ){
+                        if( Userholder.getquest_id() != FirebaseUserInfo.get_QuestId()) {
+                            FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(Userholder.getquest_id()).setValue(true);
+                        }
+                    }
                     dialog.dismiss();
                 }
             });
