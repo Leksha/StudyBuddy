@@ -2,6 +2,8 @@ package uw.studybuddy.Tutoring;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import uw.studybuddy.CustomCoursesSpinner;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.UserInfo;
 
@@ -119,17 +122,50 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
         builder.show();
     }
 
-    private void showContactDialog(Context context, TutorInfo tutor) {
+    private void showContactDialog(final Context context, final TutorInfo tutor) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_contact_tutor, null);
         builder.setTitle("Contact Tutor");
         builder.setView(view);
 
         // Get UI Components
-        TextView phone = (TextView) view.findViewById(R.id.dialog_contact_phone);
-        TextView email = (TextView) view.findViewById(R.id.dialog_contact_email);
+        final TextView phone = (TextView) view.findViewById(R.id.dialog_contact_phone);
+        final TextView email = (TextView) view.findViewById(R.id.dialog_contact_email);
         ImageButton phoneButton = (ImageButton) view.findViewById(R.id.dialog_contact_phone_button);
         ImageButton emailButton = (ImageButton) view.findViewById(R.id.dialog_contact_email_button);
+
+        phoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //For the dial pad
+                openPhoneDial(context, phone.getText().toString());
+            }
+        });
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //For the dial pad
+                openPhoneDial(context, phone.getText().toString());
+            }
+        });
+
+
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //For the email app
+                openEmailApp(context, email.getText().toString(), tutor);
+            }
+        });
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //For the email app
+                openEmailApp(context, email.getText().toString(), tutor);
+            }
+        });
 
         // Set the current values
         phone.setText(tutor.getPhoneNumber());
@@ -155,5 +191,29 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
 
         builder.create();
         builder.show();
+    }
+
+    private void openPhoneDial(Context context, String phoneNumber){
+        //For the dial pad
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        context.startActivity(intent);
+    }
+
+    private void openEmailApp(Context context, String email, TutorInfo tutor ) {
+        /* Create the Intent */
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                /* Fill it with Data */
+        String emailAddress = email;
+        String subject = "Tutor for " + tutor.getCourse();
+        String text = "Hi, my name is " + UserInfo.getDisplayName() + ".\nCould you help me study for this course?";
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{emailAddress});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+
+                /* Send it off to the Activity-Chooser */
+        context.startActivity(Intent.createChooser(emailIntent, "Email Tutor"));
     }
 }
