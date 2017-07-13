@@ -89,7 +89,7 @@ public class HomePage extends Fragment {
         Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class};
 
         setListeners(radioGroup, buttons, classes);
-        buttons[0].callOnClick();
+        buttons[1].callOnClick();
         return rootView;
     }
 
