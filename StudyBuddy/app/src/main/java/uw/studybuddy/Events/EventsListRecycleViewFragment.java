@@ -1,10 +1,12 @@
 package uw.studybuddy.Events;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -54,13 +56,15 @@ public class EventsListRecycleViewFragment extends Fragment {
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabaseCourse;
     private DatabaseReference mDatabaseChat;
+    private DatabaseReference mDatabaseNotification;
     private Query mQueryCourse;
+
+    UserInfo User;
 
     private RecyclerView rv;
     private String TAG = "EventsListRVFragment";
 
     private DatabaseReference mJoinEvent;
-
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -108,6 +112,7 @@ public class EventsListRecycleViewFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         mJoinEvent = FirebaseDatabase.getInstance().getReference().child("Participants");
         mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("EventChat");
+        mDatabaseNotification = FirebaseDatabase.getInstance().getReference().child("Notifications");
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
@@ -165,20 +170,43 @@ public class EventsListRecycleViewFragment extends Fragment {
                         mJoinEvent.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (isJoinEvent) {
+                                if (isJoinEvent)
                                     if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
                                         mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
-                                        mDatabaseChat.child(model.getCourse()+": " + model.getTitle()).removeValue();
+                                        mDatabaseChat.child(model.getCourse() + ": " + model.getTitle()).removeValue();
                                         //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
+                                        mDatabase.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                String questId = dataSnapshot.child(eventKey).child("questId").getValue().toString();
+                                                mDatabaseNotification.child(questId).child(eventKey).removeValue();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                         isJoinEvent = false;
                                     } else {
-                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(mCurrentUser.getEmail());
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(User.getInstance().getDisplayName());
                                         Map<String, Object> map = new HashMap<String, Object>();
-                                        map.put(model.getCourse()+": " + model.getTitle(), "");
+                                        map.put(model.getCourse() + ": " + model.getTitle(), "");
                                         mDatabaseChat.updateChildren(map);
+                                        mDatabase.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                String questId = dataSnapshot.child(eventKey).child("questId").getValue().toString();
+                                                mDatabaseNotification.child(questId).child(eventKey).setValue(User.getInstance().getDisplayName());
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                         isJoinEvent = false;
                                     }
-                                }
                             }
 
                             @Override

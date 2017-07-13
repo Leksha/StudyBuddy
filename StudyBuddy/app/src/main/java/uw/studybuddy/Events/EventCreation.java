@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 public class EventCreation extends AppCompatActivity {
 
@@ -45,7 +47,8 @@ public class EventCreation extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
-    //private DatabaseReference mDatabaseUser;
+
+    UserInfo mUser;
 
 
     @Override
@@ -85,9 +88,6 @@ public class EventCreation extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        //mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getEmail()); email -14 quest id
-
-
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,17 +111,17 @@ public class EventCreation extends AppCompatActivity {
                 String date = (Integer.toString(dateTime.get(Calendar.YEAR)) + " / " + Integer.toString(dateTime.get(Calendar.MONTH)) +
                         " / " + Integer.toString(dateTime.get(Calendar.DAY_OF_MONTH)));
                 String time = (Integer.toString(dateTime.get(Calendar.HOUR_OF_DAY)) + " : " + Integer.toString(dateTime.get(Calendar.MINUTE)));
+                String username = mUser.getInstance().getDisplayName();
 
                 //create a new event, add to firebase
                 boolean eventCreationSuccess = FirebaseInstance.addNewEventToDatabase(course, title, location, description,
-                        uid, questId, date, time);
+                        uid, questId, date, time, username);
                 //on successful creation of the event: toast message
                 if (eventCreationSuccess) {
                     Toast.makeText(EventCreation.this, "Saving information...", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(EventCreation.this, "Error occured.", Toast.LENGTH_LONG).show();
                 }
-
 
                 finish();
             }

@@ -39,6 +39,7 @@ import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.LoginAndRegistration.SetUpProfile;
+import uw.studybuddy.Notification.NotificationActivity;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -209,8 +210,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void GotoNotification(MenuItem item) {
-        //Intent intent = new Intent(this, NotificationActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, NotificationActivity.class);
+        startActivity(intent);
     }
 
 
