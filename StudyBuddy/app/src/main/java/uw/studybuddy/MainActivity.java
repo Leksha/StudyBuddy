@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity
                 String tutorPhone = phone.getText().toString();
                 String tutorEmail = email.getText().toString();
 
-                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance().getQuestID(), tutorPrice, tutorPhone, tutorEmail);
+                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
                 FirebaseTutor.addNewTutor(tutor);
             }
         });
