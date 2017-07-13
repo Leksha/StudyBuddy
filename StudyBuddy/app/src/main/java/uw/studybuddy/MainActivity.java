@@ -51,6 +51,7 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.Tutoring.FirebaseTutor;
 import uw.studybuddy.Tutoring.TutorInfo;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
@@ -358,9 +359,9 @@ public class MainActivity extends AppCompatActivity
                 String tutorPrice = price.getText().toString();
                 String tutorPhone = phone.getText().toString();
                 String tutorEmail = email.getText().toString();
-                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
-                String message = "New tutor: " + course + " " + tutorPrice + " " + tutorPhone + " " + tutorEmail;
-                Toast.makeText(context, message, Toast.LENGTH_LONG);
+
+                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance().getQuestID(), tutorPrice, tutorPhone, tutorEmail);
+                FirebaseTutor.addNewTutor(tutor);
             }
         });
         builder.show();

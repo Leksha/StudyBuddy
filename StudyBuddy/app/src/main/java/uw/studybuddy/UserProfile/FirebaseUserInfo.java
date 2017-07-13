@@ -47,9 +47,6 @@ public class FirebaseUserInfo {
 
 
     public static void update_UserInfo(UserPattern USER){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
-
         //String key  = databaseReference.child("Users").push().getKey().toString();
         DatabaseReference DestReference = getUsersTable().child(USER.getquest_id().toString());
         DestReference.setValue(USER);
