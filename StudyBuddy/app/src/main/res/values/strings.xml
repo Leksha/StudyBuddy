@@ -25,4 +25,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="UserDisplayNameMissing">Please type in your Nick Name</string>
     <string name="EmptyID">Please type in your Waterloo Quest ID</string>
+
+
+    <!-- Home Page Categories -->
+    <string name="homepage_cat1">EVENTS</string>
+    <string name="homepage_cat2">TUTORS</string>
+    <string name="homepage_cat3">BOOKS</string>
 </resources>

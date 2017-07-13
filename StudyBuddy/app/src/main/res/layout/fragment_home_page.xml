@@ -5,23 +5,84 @@
              tools:context="uw.studybuddy.HomePageFragments.HomePage"
               android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <!--<fragment-->
-        <!--android:id="@+id/homepage_find_friends"-->
-        <!--android:name="uw.studybuddy.HomePageFragments.FindFriends"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--tools:layout="@layout/fragment_find_friends">-->
-    <!--</fragment>-->
-
-    <fragment
-        android:id="@+id/homepage_display_courses"
-        android:name="uw.studybuddy.HomePageFragments.DisplayCourses"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_display_courses">
-    </fragment>
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ToggleButton
+            android:id="@+id/homepage_button_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:backgroundTint="@color/darkgreen"
+            android:checked="false"
+            android:textOff="@string/homepage_cat1"
+            android:textOn="@string/homepage_cat1"/>
+
+        <ToggleButton
+            android:id="@+id/homepage_button_tutors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:backgroundTint="@color/orange"
+            android:textOff="@string/homepage_cat2"
+            android:textOn="@string/homepage_cat2"/>
+
+        <ToggleButton
+            android:id="@+id/homepage_button_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:textOff="@string/homepage_cat3"
+            android:textOn="@string/homepage_cat3"/>
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MATH 225"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ECON 101"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PHIL 110"/>
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Econ 102"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STAT 311"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PHYS 121"/>
+    </android.support.design.widget.TabLayout>
+
+
+
+    <!--<fragment-->
+        <!--android:id="@+id/homepage_display_courses"-->
+        <!--android:name="uw.studybuddy.HomePageFragments.DisplayCourses"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:layout="@layout/fragment_display_courses">-->
+    <!--</fragment>-->
 
     <fragment
         android:id="@+id/homepage_events_list"

@@ -136,7 +136,7 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        mCoursesList = UserInfo.getCoursesList();
+        mCoursesList = UserInfo.getInstance().getCoursesList();
         int numCourses = mCoursesList.size();
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
