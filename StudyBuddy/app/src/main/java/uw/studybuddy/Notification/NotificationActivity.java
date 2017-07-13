@@ -99,7 +99,7 @@ public class NotificationActivity extends AppCompatActivity {
                     });*/
                     //joinname = (String) cur.getValue();
                     //Toast.makeText(NotificationActivity.this, joinname, Toast.LENGTH_LONG).show();
-                    set.add("Click to check new participants on your event. Event id: " + eventkey);
+                    set.add("You have new participants on your event! Event id: " + eventkey);
                 }
                 NotificationArrayList.clear();
                 NotificationArrayList.addAll(set);
