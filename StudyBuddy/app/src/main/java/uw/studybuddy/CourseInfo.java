@@ -60,6 +60,15 @@ public class CourseInfo {
         return course_list;
     }
 
+    public static String[] getCoursesStringArrayFromList(List<CourseInfo> courses){
+        int len = courses.size();
+        String[] arr = new String[len];
+        for (int i=0; i<len ; i++) {
+            arr[i] = courses.get(i).toString();
+        }
+        return arr;
+    }
+
     // Takes in a for example "cS    446" and returns <"CS", "446">
     public static Pair<String, String> processCourseString(String course) {
         char[] arr = course.toCharArray();

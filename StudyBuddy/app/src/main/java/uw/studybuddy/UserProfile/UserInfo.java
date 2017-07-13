@@ -35,7 +35,7 @@ public class UserInfo {
         return mQuestID;
     }
 
-    public static List getCoursesList() {
+    public List getCoursesList() {
         return mCoursesList;
     }
 
