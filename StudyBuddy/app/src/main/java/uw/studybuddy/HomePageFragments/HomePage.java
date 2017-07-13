@@ -1,11 +1,13 @@
 package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,25 +105,11 @@ public class HomePage extends Fragment {
     }
 
     private void setListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){
-        // Initialize
-        buttons[0].setChecked(false);
-        buttons[1].setChecked(false);
-
-        RadioGroup.OnCheckedChangeListener toggleListener = new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                // Update the buttons view
-                for (int i=0; i<group.getChildCount(); i++) {
-                    final ToggleButton view = (ToggleButton)group.getChildAt(i);
-                    view.setChecked(view.getId() == checkedId);
-                }
-                // Update the list view
-                setListFragmentTo(classes[checkedId]);
-            }
-        };
+        // Initialize the buttons
         for (int i=0; i<buttons.length; i++) {
             final int index = i;
             final ToggleButton tb = buttons[i];
+            tb.setChecked(false);
             tb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,7 +118,25 @@ public class HomePage extends Fragment {
                 }
             });
         }
-        radioGroup.setOnCheckedChangeListener(toggleListener);
+
+        // set changes on radio group
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                // Update the buttons view
+                for (int i=0; i<group.getChildCount(); i++) {
+                    final ToggleButton view = (ToggleButton)group.getChildAt(i);
+                    view.setChecked(view.getId() == checkedId);
+                    if (view.getId() == checkedId) {
+                        view.setBackgroundTintMode(PorterDuff.Mode.DARKEN);
+                    } else {
+                        view.setBackgroundTintMode(PorterDuff.Mode.LIGHTEN);
+                    }
+                }
+                // Update the list view
+                setListFragmentTo(classes[checkedId]);
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
