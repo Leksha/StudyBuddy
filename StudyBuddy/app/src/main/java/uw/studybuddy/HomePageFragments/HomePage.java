@@ -3,11 +3,16 @@ package uw.studybuddy.HomePageFragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.R;
@@ -33,6 +38,8 @@ public class HomePage extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ToggleButton[] buttons;
 
     public HomePage() {
         // Required empty public constructor
@@ -70,8 +77,17 @@ public class HomePage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
-        setListFragmentTo(TutorsListRecycleViewFragment.class);
 
+        RadioGroup radioGroup = (RadioGroup)rootView.findViewById(R.id.homepage_togglegroup);
+        ToggleButton eventsButton = (ToggleButton)rootView.findViewById(R.id.homepage_button_events);
+        ToggleButton tutorsButton = (ToggleButton)rootView.findViewById(R.id.homepage_button_tutors);
+
+        // Set appropriate list for the categories selected
+        buttons = new ToggleButton[]{eventsButton, tutorsButton};
+        Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class};
+
+        setListeners(radioGroup, buttons, classes);
+        buttons[0].callOnClick();
         return rootView;
     }
 
@@ -84,6 +100,37 @@ public class HomePage extends Fragment {
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.homepage_list, fragment).commit();
+    }
+
+    private void setListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){
+        // Initialize
+        buttons[0].setChecked(false);
+        buttons[1].setChecked(false);
+
+        RadioGroup.OnCheckedChangeListener toggleListener = new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                // Update the buttons view
+                for (int i=0; i<group.getChildCount(); i++) {
+                    final ToggleButton view = (ToggleButton)group.getChildAt(i);
+                    view.setChecked(view.getId() == checkedId);
+                }
+                // Update the list view
+                setListFragmentTo(classes[checkedId]);
+            }
+        };
+        for (int i=0; i<buttons.length; i++) {
+            final int index = i;
+            final ToggleButton tb = buttons[i];
+            tb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tb.setChecked(!((ToggleButton)v).isChecked());
+                    setListFragmentTo(classes[index]);
+                }
+            });
+        }
+        radioGroup.setOnCheckedChangeListener(toggleListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

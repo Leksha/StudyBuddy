@@ -5,12 +5,13 @@
              tools:context="uw.studybuddy.HomePageFragments.HomePage"
               android:orientation="vertical">
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/homepage_togglegroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:weightSum="1">
 
         <ToggleButton
             android:id="@+id/homepage_button_events"
@@ -18,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.33"
             android:backgroundTint="@color/darkgreen"
-            android:checked="false"
             android:textOff="@string/homepage_cat1"
             android:textOn="@string/homepage_cat1"/>
 
@@ -39,7 +39,7 @@
             android:backgroundTint="@color/colorAccent"
             android:textOff="@string/homepage_cat3"
             android:textOn="@string/homepage_cat3"/>
-    </LinearLayout>
+    </RadioGroup>
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
