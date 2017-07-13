@@ -46,18 +46,32 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setButton(boolean isTutor, final TutorInfo tutor) {
-        Button button = (Button)mView.findViewById(R.id.cardview_tutor_contact_button);
+        Button contactButton = (Button)mView.findViewById(R.id.cardview_tutor_contact_button);
+        Button editButton = (Button)mView.findViewById(R.id.cardview_tutor_edit);
+        Button deleteButton = (Button)mView.findViewById(R.id.cardview_tutor_delete);
+
         if (isTutor) {
-            button.setText(button_edit);
-            button.setOnClickListener(new View.OnClickListener() {
+            contactButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.VISIBLE);
+            deleteButton.setVisibility(View.VISIBLE);
+            editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showEditDialog(mView.getContext(), tutor);
                 }
             });
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDeleteDialog(mView.getContext(), tutor);
+                }
+            });
         } else {
-            button.setText(button_contact);
-            button.setOnClickListener(new View.OnClickListener() {
+            contactButton.setVisibility(View.VISIBLE);
+            editButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            contactButton.setText(button_contact);
+            contactButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showContactDialog(mView.getContext(), tutor);
@@ -66,7 +80,7 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void showEditDialog(Context context, TutorInfo tutor) {
+    private void showEditDialog(Context context, final TutorInfo tutor) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_register_tutor, null);
         builder.setTitle("Edit Tutor Information");
@@ -95,8 +109,11 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
                 String tutorPhone = phone.getText().toString();
                 String tutorEmail = email.getText().toString();
 
-                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
-                FirebaseTutor.addNewTutor(tutor);
+                tutor.setCourse(course);
+                tutor.setPrice(tutorPrice);
+                tutor.setPhoneNumber(tutorPhone);
+                tutor.setEmail(tutorEmail);
+                FirebaseTutor.updateTutor(tutor);
             }
         });
         builder.show();
@@ -119,6 +136,24 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
         email.setText(tutor.getEmail());
 
         builder.setNeutralButton("cancel", null);
+        builder.show();
+    }
+
+    private void showDeleteDialog(Context context, final TutorInfo tutorInfo) {
+        String message = "Are you sure you want to delete this message?";
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirm Delete");
+        builder.setMessage(message);
+
+        builder.setNeutralButton("cancel", null);
+        builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseTutor.deleteTutor(tutorInfo);
+            }
+        });
+
+        builder.create();
         builder.show();
     }
 }

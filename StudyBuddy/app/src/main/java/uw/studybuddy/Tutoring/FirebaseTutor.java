@@ -23,4 +23,8 @@ public class FirebaseTutor {
     public static void updateTutor(TutorInfo tutor) {
         addNewTutor(tutor);
     }
+
+    public static void deleteTutor(TutorInfo tutor) {
+        getTutorsTable().child(tutor.getUuid()).removeValue();
+    }
 }
