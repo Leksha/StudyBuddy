@@ -60,13 +60,14 @@ public class CourseInfo {
         return course_list;
     }
 
-    public static String[] getCoursesStringArrayFromList(List<CourseInfo> courses){
-        int len = courses.size();
-        String[] arr = new String[len];
+    public static List<String> getCourseStringsListFromList(List<CourseInfo> courseInfoList) {
+        int len = courseInfoList.size();
+        List<String> list = new ArrayList<>();
         for (int i=0; i<len ; i++) {
-            arr[i] = courses.get(i).toString();
+            String courseDesc = courseInfoList.get(i).toString();
+            list.add(courseDesc);
         }
-        return arr;
+        return list;
     }
 
     // Takes in a for example "cS    446" and returns <"CS", "446">

@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -338,19 +339,19 @@ public class MainActivity extends AppCompatActivity
     public void showNewTutorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_register_tutor, null);
-
-        // Get UI Components
-        final TextView price = (TextView)findViewById(R.id.tutor_price);
-        final TextView phone = (TextView)findViewById(R.id.tutor_phone_number);
-        final TextView email = (TextView)findViewById(R.id.tutor_email);
-
-//         Setup the courses spinner
-        final Spinner spinner = (Spinner)findViewById(R.id.tutor_courses_spinner);
-        CoursesSpinnerAdapter coursesSpinnerAdapter = new CoursesSpinnerAdapter(context);
-        spinner.setAdapter(coursesSpinnerAdapter);
-
         builder.setTitle("Register As Tutor");
         builder.setView(view);
+
+        // Get UI Components
+        final EditText price = (EditText)view.findViewById(R.id.tutor_price);
+        final EditText phone = (EditText)view.findViewById(R.id.tutor_phone_number);
+        final EditText email = (EditText)view.findViewById(R.id.tutor_email);
+
+//         Setup the courses spinner
+        final Spinner spinner = (Spinner)view.findViewById(R.id.tutor_courses_spinner);
+
+        addItemsOnCourseSpinner(spinner);
+        addListenerOnSpinnerItemSelection(spinner);
 
         builder.setNeutralButton("cancel",null);
         builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
@@ -361,12 +362,36 @@ public class MainActivity extends AppCompatActivity
                 String tutorPhone = phone.getText().toString();
                 String tutorEmail = email.getText().toString();
                 TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
-                String space = " ";
                 String message = "New tutor: " + course + " " + tutorPrice + " " + tutorPhone + " " + tutorEmail;
                 Toast.makeText(context, message, Toast.LENGTH_LONG);
             }
         });
         builder.show();
+    }
+
+    private void addItemsOnCourseSpinner(Spinner spinner) {
+        List coursesList = uw.studybuddy.UserProfile.UserInfo.getInstance().getCoursesList();
+        List<String> list = CourseInfo.getCourseStringsListFromList(coursesList);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addListenerOnSpinnerItemSelection(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(),
+                        "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 }
 
