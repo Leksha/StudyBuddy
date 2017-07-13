@@ -179,7 +179,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 String questId = dataSnapshot.child(eventKey).child("questId").getValue().toString();
-                                                mDatabaseNotification.child(questId).child(eventKey).removeValue();
+                                                mDatabaseNotification.child(questId).child(eventKey).child(mCurrentUser.getUid()).removeValue();
                                             }
 
                                             @Override
@@ -197,7 +197,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 String questId = dataSnapshot.child(eventKey).child("questId").getValue().toString();
-                                                mDatabaseNotification.child(questId).child(eventKey).setValue(User.getInstance().getDisplayName());
+                                                mDatabaseNotification.child(questId).child(eventKey).child(mCurrentUser.getUid()).setValue(User.getInstance().getDisplayName());
                                             }
 
                                             @Override

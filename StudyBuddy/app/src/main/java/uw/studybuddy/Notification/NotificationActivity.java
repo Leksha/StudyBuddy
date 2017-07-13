@@ -74,16 +74,32 @@ public class NotificationActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator iterator = dataSnapshot.getChildren().iterator();
 
-                Set<String> set = new HashSet<String>();
+                final Set<String> set = new HashSet<String>();
 
                 while (iterator.hasNext()){
                     // get names of all the events one by one
                     DataSnapshot cur = (DataSnapshot) iterator.next();
                     eventkey = (String) cur.getKey();
-                    joinname = (String) cur.getValue();
-                    //Toast.makeText(NotificationActivity.this, joinname, Toast.LENGTH_LONG).show();
-                    set.add(joinname + " joined your event, click to see details.");
+                    /*mDatabase.child(eventkey).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterator iter = dataSnapshot.getChildren().iterator();
 
+                            while (iter.hasNext()){
+                                DataSnapshot curr = (DataSnapshot) iter.next();
+                                joinname = (String) curr.getValue();
+                                set.add(joinname + " joined your event. Event id: " + eventkey);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });*/
+                    //joinname = (String) cur.getValue();
+                    //Toast.makeText(NotificationActivity.this, joinname, Toast.LENGTH_LONG).show();
+                    set.add("Click to check new participants on your event. Event id: " + eventkey);
                 }
                 NotificationArrayList.clear();
                 NotificationArrayList.addAll(set);
@@ -102,6 +118,9 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent clickedEvent = new Intent(NotificationActivity.this, EventDescription.class);
+                //Toast.makeText(NotificationActivity.this, , Toast.LENGTH_LONG).show();
+                //String message = ((TextView)view).getText().toString();
+                //eventkey = message.substring(message.length()-20);
                 clickedEvent.putExtra("event_id", eventkey);
                 startActivity(clickedEvent);
             }
