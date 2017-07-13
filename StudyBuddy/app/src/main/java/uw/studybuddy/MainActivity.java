@@ -348,10 +348,7 @@ public class MainActivity extends AppCompatActivity
         final EditText email = (EditText)view.findViewById(R.id.tutor_email);
 
 //         Setup the courses spinner
-        final Spinner spinner = (Spinner)view.findViewById(R.id.tutor_courses_spinner);
-
-        addItemsOnCourseSpinner(spinner);
-        addListenerOnSpinnerItemSelection(spinner);
+        final Spinner spinner = CustomCoursesSpinner.getSpinner(R.id.tutor_courses_spinner, context, view);
 
         builder.setNeutralButton("cancel",null);
         builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
@@ -367,31 +364,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         builder.show();
-    }
-
-    private void addItemsOnCourseSpinner(Spinner spinner) {
-        List coursesList = uw.studybuddy.UserProfile.UserInfo.getInstance().getCoursesList();
-        List<String> list = CourseInfo.getCourseStringsListFromList(coursesList);
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
-    public void addListenerOnSpinnerItemSelection(Spinner spinner) {
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(),
-                        "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 }
 
