@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.R;
 
 
@@ -66,7 +68,21 @@ public class HomePage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
+        setListFragmentTo(EventsListRecycleViewFragment.class);
+
+        return rootView;
+    }
+
+    private void setListFragmentTo(Class fragmentClass) {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.homepage_list, fragment).commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

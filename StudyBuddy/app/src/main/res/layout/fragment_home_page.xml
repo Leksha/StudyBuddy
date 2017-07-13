@@ -85,12 +85,10 @@
         <!--tools:layout="@layout/fragment_display_courses">-->
     <!--</fragment>-->
 
-    <fragment
-        android:id="@+id/homepage_events_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:name="uw.studybuddy.Events.EventsListRecycleViewFragment"
-        tools:layout="@layout/fragment_events_list">
-    </fragment>
+    <FrameLayout
+        android:id="@+id/homepage_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 
 </LinearLayout>
