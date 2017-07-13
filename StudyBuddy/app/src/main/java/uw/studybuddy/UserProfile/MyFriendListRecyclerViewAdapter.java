@@ -172,6 +172,8 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         }
     }
 
+
+
     public void Setup_UsertableListener(){
         FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -321,10 +321,11 @@ public class MainActivity extends AppCompatActivity
 
     public void set_friendlist_Listener(){
         FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         FriendListDataSnapshot = dataSnapshot;
+                        user.setmFriendlist_DS(dataSnapshot);
                     }
 
                     @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +53,8 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
     private UserInfo user;
 
+    ViewGroup container_FG;
+
     String CurrentID ;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -97,7 +100,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
 
         View view = inflater.inflate(R.layout.fragment_friendlist_list, container, false);
-
+        container_FG = container;
 
         bSearch = (Button)view.findViewById(R.id.find_friends_search_button_FG);
 
@@ -205,6 +208,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                 text_aboutme.setText(Userholder.getabout_me());
                 course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
                 dialog.show();
+
             }
 
 
@@ -235,6 +239,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                        }
                     }
                     dialog.dismiss();
+                    reloadFragment();
                 }
             });
 
@@ -286,6 +291,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     }
 
     public  String get_key_from_namelist_byName(String name){
+
         String key  = dataSnapshot_FG_Name.child(name).getValue(String.class);
         return key;
     }
@@ -306,6 +312,13 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                                                     }
                                                 }
                 );
+    }
+
+    //well....
+    private void reloadFragment() {
+        Log.d("ReLoad: ", "reloadFragment()");
+        FriendListFragment f = new FriendListFragment();
+        getFragmentManager().beginTransaction().replace(R.id.flContent, f).commit();
     }
 
 }
