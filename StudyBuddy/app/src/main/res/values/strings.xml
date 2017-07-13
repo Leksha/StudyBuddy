@@ -8,7 +8,12 @@
     <string name="find_friend_editText">Enter a friend\'s name ...</string>
     <string name="search_friend_button">Search</string>
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
+
+
+    <!-- Action Bar Titles -->
     <string name="action_new_event">New event</string>
+    <string name="action_new_tutor">Register as Tutor</string>
+    <string name="action_new_book">Add book</string>
 
     <!-- User profile related info strings -->
     <string name="user_name_title">Name:</string>

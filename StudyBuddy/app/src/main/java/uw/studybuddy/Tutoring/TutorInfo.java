@@ -11,12 +11,14 @@ public class TutorInfo {
     private UserInfo tutor;
     private String price;
     private String phoneNumber;
+    private String email;
 
-    public TutorInfo(String course, UserInfo tutor, String price, String phoneNumber) {
+    public TutorInfo(String course, UserInfo tutor, String price, String phoneNumber, String email) {
         this.course = course;
         this.tutor = tutor;
         this.price = price;
         this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
 }

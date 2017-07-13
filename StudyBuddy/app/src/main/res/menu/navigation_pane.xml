@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--<item-->
         <!--android:id="@+id/action_settings"-->
         <!--android:orderInCategory="100"-->
@@ -8,8 +9,23 @@
         <!--app:showAsAction="never" />-->
     <item
         android:id="@+id/action_new_event"
+        android:icon="@mipmap/ic_event"
+        android:onClick="GotoNewEvent"
         android:orderInCategory="100"
         android:title="@string/action_new_event"
-        android:onClick="GotoNewEvent"
-        />
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_new_tutor"
+        android:icon="@mipmap/ic_add_person"
+        android:orderInCategory="100"
+        android:title="@string/action_new_tutor"
+        app:showAsAction="ifRoom"/>
+
+    <!--<item-->
+        <!--android:id="@+id/action_new_book"-->
+        <!--android:icon="@mipmap/ic_book"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_new_book"-->
+        <!--app:showAsAction="ifRoom"/>-->
+
 </menu>

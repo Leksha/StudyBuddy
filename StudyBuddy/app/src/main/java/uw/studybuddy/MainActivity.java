@@ -1,6 +1,8 @@
 package uw.studybuddy;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,8 +22,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +39,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +50,7 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.Tutoring.TutorInfo;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -61,6 +73,8 @@ public class MainActivity extends AppCompatActivity
     public static Activity fa;
 
     private boolean firstTimeHomePageInitialize = false;
+
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +164,10 @@ public class MainActivity extends AppCompatActivity
 //        }
         if (id == R.id.action_new_event) {
         }
+        if (id == R.id.action_new_tutor) {
+            Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG);
+            showNewTutorDialog();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -198,21 +216,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void GotoNewEvent(MenuItem item) {
-        Intent intent = new Intent(this, EventCreation.class);
-        startActivity(intent);
-    }
-
-
-    public void LogOut(MenuItem item) {
-        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
-        fAuth.signOut();
-        
-        Intent newIntent = new Intent(this, LoginActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(newIntent);
     }
 
     // User setup-related code
@@ -314,6 +317,56 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Uri uri) {
 
+    }
+
+    public void GotoNewEvent(MenuItem item) {
+        Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+
+    public void LogOut(MenuItem item) {
+        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
+        fAuth.signOut();
+
+        Intent newIntent = new Intent(this, LoginActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(newIntent);
+    }
+
+    // Called when clicking on New Tutor on Action Bar
+    public void showNewTutorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_register_tutor, null);
+
+        // Get UI Components
+        final TextView price = (TextView)findViewById(R.id.tutor_price);
+        final TextView phone = (TextView)findViewById(R.id.tutor_phone_number);
+        final TextView email = (TextView)findViewById(R.id.tutor_email);
+
+//         Setup the courses spinner
+        final Spinner spinner = (Spinner)findViewById(R.id.tutor_courses_spinner);
+        CoursesSpinnerAdapter coursesSpinnerAdapter = new CoursesSpinnerAdapter(context);
+        spinner.setAdapter(coursesSpinnerAdapter);
+
+        builder.setTitle("Register As Tutor");
+        builder.setView(view);
+
+        builder.setNeutralButton("cancel",null);
+        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String course = spinner.getSelectedItem().toString();
+                String tutorPrice = price.getText().toString();
+                String tutorPhone = phone.getText().toString();
+                String tutorEmail = email.getText().toString();
+                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
+                String space = " ";
+                String message = "New tutor: " + course + " " + tutorPrice + " " + tutorPhone + " " + tutorEmail;
+                Toast.makeText(context, message, Toast.LENGTH_LONG);
+            }
+        });
+        builder.show();
     }
 }
 
