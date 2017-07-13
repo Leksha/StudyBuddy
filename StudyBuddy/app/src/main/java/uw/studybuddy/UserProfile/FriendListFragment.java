@@ -113,12 +113,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
         List<String> Friend_temp = new ArrayList<String>();
 
-        if(dataSnapshot_FriendList_FG == null){
-            Log.d("FriendList", "fail get FG");
-            dataSnapshot_FriendList_FG = user.getmFriendlist_DS();
-        }else {
-            user.setmFriendlist_DS(dataSnapshot_FriendList_FG);
-        }
+
 
         //now try to get the friendlist from firebase
 

@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +34,14 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
     private final List<String> mValues;
     private final OnListFragmentInteractionListener mListener;
     private DataSnapshot dataSnapshot_FG;
+    private UserInfo user;
 
     public MyFriendListRecyclerViewAdapter(FriendListFragment fragment, List<String> Friendlist,  OnListFragmentInteractionListener listener) {
         mValues = Friendlist;
         mListener = listener;
         context = fragment.getContext();
         Setup_UsertableListener();
+        user = UserInfo.getInstance();
 
     }
 
@@ -55,7 +58,6 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mPhotoView.setImageResource(mValues.get(position).content);
 
-        holder.mIdView.setText(mValues.get(position));
 
 
 
@@ -70,10 +72,31 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         }
 
 
+
+
+        final UserPattern Userholder = new UserPattern();
+
+        if(dataSnapshot_FG == null){
+            Log.d("UserTableFG", "fail get FG");
+            //need change
+            dataSnapshot_FG= user.getmUserTable_DS();
+        }else {
+            //update the dataSnapshot_FG
+            user.setmUserTable_DS(dataSnapshot_FG);
+        }
+        Userholder.get_user(dataSnapshot_FG,mValues.get(position));
+
+
+        if(Userholder.getdisplay_name() == null){
+            holder.mIdView.setText("The User is not exist " + mValues.get(position) );
+        }else{
+            holder.mIdView.setText(Userholder.getdisplay_name());
+        }
+
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String temp = holder.mIdView.getText().toString();
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
@@ -95,9 +118,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                     image.setImageResource(R.drawable.friend1);
                     //now for testing
 
-                    final UserPattern Userholder = new UserPattern();
 
-                    Userholder.get_user(dataSnapshot_FG,temp);
 
 
 
@@ -178,6 +199,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 dataSnapshot_FG =dataSnapshot;
             }
 

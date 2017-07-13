@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
         set_friendlist_Listener();
+        set_UserTable_Listener_ONCE();
 
         fa = this;
 
@@ -333,6 +334,20 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
+    }
+
+    public void  set_UserTable_Listener_ONCE(){
+        FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user.setmUserTable_DS(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 

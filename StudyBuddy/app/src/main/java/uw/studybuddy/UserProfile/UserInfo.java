@@ -31,6 +31,8 @@ public class UserInfo {
 
     //add by Yuna
     private static DataSnapshot mFriendlist_DS;
+    private static DataSnapshot mUserTable_DS;
+    //mUserTable_DS only get once
 
     // Getters
 
@@ -150,5 +152,13 @@ public class UserInfo {
 
     public static void setmFriendlist_DS(DataSnapshot mFriendlist_DS) {
         UserInfo.mFriendlist_DS = mFriendlist_DS;
+    }
+
+    public static DataSnapshot getmUserTable_DS() {
+        return mUserTable_DS;
+    }
+
+    public static void setmUserTable_DS(DataSnapshot mUserTable_DS) {
+        UserInfo.mUserTable_DS = mUserTable_DS;
     }
 }
