@@ -53,6 +53,7 @@ import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
 import uw.studybuddy.Tutoring.FirebaseTutor;
 import uw.studybuddy.Tutoring.TutorInfo;
+import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
+        TutorsListRecycleViewFragment.OnFragmentInteractionListener,
         FriendListFragment.OnListFragmentInteractionListener,
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
@@ -290,7 +292,7 @@ public class MainActivity extends AppCompatActivity
         if(user != null && user.getDisplayName() != null) {
             userName.setText(user.getDisplayName().toString());
         }else{
-            userName.setText("Nooooo!");
+            userName.setText("");
         }
     }
 

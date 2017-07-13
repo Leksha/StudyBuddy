@@ -17,6 +17,8 @@ public class TutorInfo {
     private String phoneNumber;
     private String email;
 
+    public TutorInfo(){}
+
     public TutorInfo(String course, UserInfo user, String price, String phoneNumber, String email) {
         this.uuid = UUID.randomUUID().toString();
         this.questId = user.getInstance().getQuestID();

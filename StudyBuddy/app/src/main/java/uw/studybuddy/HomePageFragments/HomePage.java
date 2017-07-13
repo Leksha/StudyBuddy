@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.R;
+import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
 
 
 /**
@@ -69,7 +70,7 @@ public class HomePage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
-        setListFragmentTo(EventsListRecycleViewFragment.class);
+        setListFragmentTo(TutorsListRecycleViewFragment.class);
 
         return rootView;
     }
