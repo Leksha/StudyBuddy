@@ -21,7 +21,7 @@
         android:id="@+id/find_friends_name_FG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/find_friend_editText"
+        android:hint="@string/find_friend_editText"
         android:layout_marginLeft="16dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/find_friends_search_button_FG"

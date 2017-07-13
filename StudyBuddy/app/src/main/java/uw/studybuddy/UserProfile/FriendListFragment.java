@@ -160,10 +160,10 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     public void onClick(View view) {
         String temp = etSearch.getText().toString();
         //friend dialog
-        if(temp == ""){
+        if(temp.equals("")){
             //do nothing
             etSearch.setHintTextColor(getResources().getColor(R.color.errorhint));
-            etSearch.setTextColor(getResources().getColor(R.color.errorhint));
+            return;
 
         }else {
             final Dialog dialog = new Dialog(getActivity());
