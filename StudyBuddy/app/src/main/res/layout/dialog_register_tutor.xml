@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical" android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="10dp"
+              android:layout_marginTop="15dp"
               android:layout_marginLeft="10dp">
 
     <LinearLayout
@@ -14,7 +14,8 @@
             android:id="@+id/textView3"
             android:layout_width="58dp"
             android:layout_height="match_parent"
-            android:text="Subject"/>
+            android:text="Subject"
+            android:textStyle="bold"/>
 
         <Spinner
             android:id="@+id/tutor_courses_spinner"
@@ -32,7 +33,8 @@
         <TextView
             android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:text="Price     $"/>
+            android:text="Price    $"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/tutor_price"
@@ -54,13 +56,15 @@
         <TextView
             android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:text="Phone #"/>
+            android:text="Phone #"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/tutor_phone_number"
             android:layout_width="188dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:maxLength="10"
             android:inputType="phone"/>
     </LinearLayout>
 
@@ -72,7 +76,8 @@
         <TextView
             android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:text="Email"/>
+            android:text="Email"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/tutor_email"

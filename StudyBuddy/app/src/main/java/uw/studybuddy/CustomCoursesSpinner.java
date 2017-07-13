@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,12 @@ import java.util.List;
  */
 
 public class CustomCoursesSpinner {
+    private static List<String> list;
+    private static Spinner spinner;
+
 
     public static Spinner getSpinner(int resourceId, Context context, View view){
-        Spinner spinner = (Spinner)view.findViewById(resourceId);
+        spinner = (Spinner)view.findViewById(resourceId);
         addItemsOnCourseSpinner(spinner, context);
         addListenerOnSpinnerItemSelection(spinner);
         return spinner;
@@ -25,7 +29,7 @@ public class CustomCoursesSpinner {
 
     private static void addItemsOnCourseSpinner(Spinner spinner, Context context) {
         List coursesList = uw.studybuddy.UserProfile.UserInfo.getInstance().getCoursesList();
-        List<String> list = CourseInfo.getCourseStringsListFromList(coursesList);
+        list = new ArrayList<>(CourseInfo.getCourseStringsListFromList(coursesList));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_item, list);
@@ -46,5 +50,9 @@ public class CustomCoursesSpinner {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    public static void setSelectedText(String course) {
+        spinner.setSelection(list.indexOf(course));
     }
 }
