@@ -84,7 +84,7 @@ public class TutorsListRecycleViewFragment extends Fragment {
                 viewHolder.setTutorName(model.getName());
                 viewHolder.setPrice(model.getPrice());
 
-                boolean isTutor = model.getQuestId() == uw.studybuddy.UserProfile.UserInfo.getInstance().getQuestID();
+                boolean isTutor = model.getQuestId().equals(uw.studybuddy.UserProfile.UserInfo.getInstance().getQuestID());
                 viewHolder.setButton(isTutor, model);
 
             }
