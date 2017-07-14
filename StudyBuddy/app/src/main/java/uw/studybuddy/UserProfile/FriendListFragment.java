@@ -116,8 +116,9 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
 
         //now try to get the friendlist from firebase
-
-
+        if(dataSnapshot_FriendList_FG == null) {
+            dataSnapshot_FriendList_FG = user.getmFriendlist_DS();
+        }
         Friend_temp = FirebaseUserInfo.get_friend_list_fromDatabase(dataSnapshot_FriendList_FG);
         // Set the adapter
         if (true) {
@@ -261,7 +262,9 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 dataSnapshot_FG =dataSnapshot;
+                user.setmUserTable_DS(dataSnapshot_FG);
             }
 
             @Override
@@ -299,6 +302,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                                                     @Override
                                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                                         dataSnapshot_FriendList_FG = dataSnapshot;
+                                                        user.setmFriendlist_DS(dataSnapshot_FriendList_FG);
                                                     }
 
                                                     @Override

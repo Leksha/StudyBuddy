@@ -201,6 +201,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 dataSnapshot_FG =dataSnapshot;
+                user.setmUserTable_DS(dataSnapshot_FG);
             }
 
             @Override
