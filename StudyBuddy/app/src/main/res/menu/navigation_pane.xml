@@ -21,8 +21,10 @@
 
     <item
         android:id="@+id/action_notification"
+        android:icon="@mipmap/ic_notification_neutral"
         android:onClick="GotoNotification"
         android:orderInCategory="100"
-        android:title="Notification" />
+        android:title="Notification"
+        app:showAsAction="always" />
 
 </menu>

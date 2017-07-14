@@ -84,7 +84,6 @@ public class NotificationActivity extends AppCompatActivity {
                         joinname = (String) value.getValue(String.class);
                         set.add(joinname + " joined your event. Event id: " + eventkey);
                     }
-
                     /*mDatabase.child(eventkey).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
