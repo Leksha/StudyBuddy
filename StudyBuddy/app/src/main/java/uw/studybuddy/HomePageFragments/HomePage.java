@@ -137,8 +137,8 @@ public class HomePage extends Fragment {
                     clickedCourse = "";
                 } else {
                     clickedCourse = tab.getText().toString();
-                    reloadListFragment();
                 }
+                reloadListFragment();
             }
 
             @Override
