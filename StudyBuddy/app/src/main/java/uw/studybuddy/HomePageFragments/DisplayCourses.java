@@ -39,7 +39,6 @@ public class DisplayCourses extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public static String clickedCourse = "";
     private TabLayout mTabLayout;
 
     private OnFragmentInteractionListener mListener;

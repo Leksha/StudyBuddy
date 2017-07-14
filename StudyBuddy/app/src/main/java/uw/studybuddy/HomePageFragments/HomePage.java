@@ -48,6 +48,9 @@ public class HomePage extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public static String clickedCourse = "";
+
+    private Class currentListClass;
     private ToggleButton[] buttons;
     private TabLayout mCoursesTabLayout;
     private TabLayout.Tab[] coursesTabItems;
@@ -104,6 +107,8 @@ public class HomePage extends Fragment {
         setupCoursesTabs(rootView);
 
         buttons[1].callOnClick();
+        mCoursesTabLayout.getTabAt(coursesTabItems.length-1).select();
+//        coursesTabItems[coursesTabItems.length - 1].select();
         return rootView;
     }
 
@@ -112,26 +117,44 @@ public class HomePage extends Fragment {
 
         final List courses = UserInfo.getInstance().getCoursesList();
         int numCourses = courses.size();
-        coursesTabItems = new TabLayout.Tab[numCourses];
+        coursesTabItems = new TabLayout.Tab[numCourses+1];
 
         for (int i=0; i<numCourses; i++) {
             final String coursename = courses.get(i).toString();
             TabLayout.Tab tab = mCoursesTabLayout.newTab().setText(coursename);
             mCoursesTabLayout.addTab(tab);
-//            addTab(coursename);
-//            tab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    clickedCourse = coursename;
-//                    Intent intent = new Intent(getActivity(), MainActivity.class);
-//                    MainActivity.fa.finish();
-//                    startActivity(intent);
-//                    //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
-//                }
-//            });
+            coursesTabItems[i] = tab;
         }
         TabLayout.Tab tab = mCoursesTabLayout.newTab().setIcon(R.mipmap.ic_clear);
         mCoursesTabLayout.addTab(tab);
+        coursesTabItems[numCourses-1] = tab;
+
+        mCoursesTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // The last icon clears the course selection
+                if (tab.getPosition() == courses.size()) {
+                    clickedCourse = "";
+                } else {
+                    clickedCourse = tab.getText().toString();
+                    reloadListFragment();
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void reloadListFragment() {
+       setListFragmentTo(currentListClass);
     }
 
     private void setListFragmentTo(Class fragmentClass) {
@@ -143,6 +166,7 @@ public class HomePage extends Fragment {
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.homepage_list, fragment).commit();
+        currentListClass = fragmentClass;
     }
 
     private void setCategoriesListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){

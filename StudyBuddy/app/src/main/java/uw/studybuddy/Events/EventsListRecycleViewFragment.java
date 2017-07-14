@@ -24,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import uw.studybuddy.HomePageFragments.DisplayCourses;
+import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.R;
 
 /**
@@ -99,10 +100,10 @@ public class EventsListRecycleViewFragment extends Fragment {
         mCurrentUser = mAuth.getCurrentUser();
 
         mDatabaseCourse = FirebaseDatabase.getInstance().getReference().child("Event");
-        if(DisplayCourses.clickedCourse.equals("")){
+        if(HomePage.clickedCourse.isEmpty()){
             mQueryCourse = mDatabaseCourse;
         } else {
-            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(DisplayCourses.clickedCourse);
+            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(HomePage.clickedCourse);
         }
 
         //String

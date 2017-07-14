@@ -71,7 +71,7 @@ public class TutorsListRecycleViewFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        mQueryCourse = FirebaseTutor.getTutorsTable();
+        mQueryCourse = FirebaseTutor.getFilteredQuery();
         fbRecyclerAdapter = new FirebaseRecyclerAdapter<TutorInfo, TutorCardViewHolder>(
                 TutorInfo.class,
                 R.layout.cardview_tutor,
