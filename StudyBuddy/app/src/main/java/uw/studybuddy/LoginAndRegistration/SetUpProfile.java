@@ -14,6 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class SetUpProfile extends AppCompatActivity {
     private EditText etThirdC;
     private EditText etFourthC;
     private EditText etFifthC;
+    private DataSnapshot FriendListDataSnapshot;
     //private DatabaseReference mDatabase;
     //private FirebaseAuth.AuthStateListener mAuthListener;
     //private FirebaseAuth mAuth;
@@ -86,7 +90,7 @@ public class SetUpProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    UserInfo newUser = new UserInfo(username, QuestID, course_list,  "Tell us about you" );
+                                    UserInfo newUser = new UserInfo(username, QuestID, course_list,  "Tell us about you",FriendListDataSnapshot);
                                     FirebaseUserInfo.update_UserInfo(new UserPattern(newUser));
 
                                     Intent loginIntent = new Intent(SetUpProfile.this, MainActivity.class);
@@ -106,6 +110,21 @@ public class SetUpProfile extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void set_friendlist_Listener(){
+        FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        FriendListDataSnapshot = dataSnapshot;
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 }

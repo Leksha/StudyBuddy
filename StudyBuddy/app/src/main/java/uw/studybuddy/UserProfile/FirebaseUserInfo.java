@@ -13,8 +13,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +45,22 @@ public class FirebaseUserInfo {
     private static String field_user_name      = "user_name";
     private static String field_about_me       = "about_me";
     private static String field_read           = "read";
+    private static String field_nameList       = "namelist";
+
 
     // Tables in the user table
     public static String table_courses         = "course";
+    public static String table_friend          = "friendlist";
 
     private static String emptyString = "";
 
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
+
+
+    public static String get_field_display_name(){
+        return field_display_name;
+    }
 
     public static DatabaseReference getUsersTable() {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
@@ -87,6 +98,8 @@ public class FirebaseUserInfo {
         DatabaseReference DestReference = getUsersTable().child(USER.getquest_id().toString());
         DestReference.setValue(USER);
 
+        //update the things to name list
+        update_name_list(USER.getdisplay_name());
 
         FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -104,6 +117,13 @@ public class FirebaseUserInfo {
         });
 
         return;
+    }
+
+    public static DatabaseReference get_namelist_ref(){
+        return FirebaseDatabase.getInstance().getReference().child(field_nameList);
+    }
+    public static void update_name_list(String name){
+        get_namelist_ref().child(name).setValue(get_QuestId());
     }
 
     public static void set_DisplayName(String name){
@@ -193,16 +213,20 @@ public class FirebaseUserInfo {
 
     //update the read filed to make the listener function run
     public static void listener_trigger(){
-        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
         String key;
-        if(User.getDisplayName() == null) {
-            String email = User.getEmail();
-            key = email.substring(0, email.length() - 17);
-        }else {
-            key  =FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
-        }
+        key = get_QuestId();
         DatabaseReference mReadReference = getUsersTable().child(key).child("read");
         mReadReference.setValue("true");
+    }
+
+    //dataSnapshot is the dataSnapshot of the friendlist
+    public static List<String> get_friend_list_fromDatabase(DataSnapshot dataSnapshot){
+        List<String> FriendList = new ArrayList<String>();
+        for(DataSnapshot value : dataSnapshot.getChildren()){
+            String result = value.getValue(String.class);
+            FriendList.add(result);
+        }
+        return FriendList;
     }
 
 }

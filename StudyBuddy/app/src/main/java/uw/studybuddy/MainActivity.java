@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity
     private boolean firstTimeHomePageInitialize = false;
 
     Context context = this;
+          
+    private DataSnapshot FriendListDataSnapshot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home Page");
+        set_friendlist_Listener();
+        set_UserTable_Listener_ONCE();
 
         fa = this;
 
@@ -200,7 +204,6 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = UserProfileFragment.class;
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
-
         }
 //        else if (id == R.id.nav_map) {
 //
@@ -279,7 +282,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         if(temp != null){
-            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me());
+            user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me(), FriendListDataSnapshot);
             updateNavigationDrawerUserInfo();
 
             // Only force the main activity to be initialized to home page once
@@ -343,6 +346,35 @@ public class MainActivity extends AppCompatActivity
         Intent newIntent = new Intent(this, LoginActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(newIntent);
+
+    public void set_friendlist_Listener(){
+        FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        FriendListDataSnapshot = dataSnapshot;
+                        user.setmFriendlist_DS(dataSnapshot);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public void  set_UserTable_Listener_ONCE(){
+        FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user.setmUserTable_DS(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 
