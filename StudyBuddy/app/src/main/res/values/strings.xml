@@ -11,9 +11,9 @@
 
 
     <!-- Action Bar Titles -->
-    <string name="action_new_event">New event</string>
+    <string name="action_new_event">Create event</string>
     <string name="action_new_tutor">Register as Tutor</string>
-    <string name="action_new_book">Add book</string>
+    <string name="action_new_resource">Add to Resources</string>
 
     <!-- User profile related info strings -->
     <string name="user_name_title">Name:</string>

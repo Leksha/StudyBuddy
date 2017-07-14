@@ -19,11 +19,9 @@
         android:orderInCategory="100"
         android:title="@string/action_new_tutor"/>
 
-    <!--<item-->
-        <!--android:id="@+id/action_new_book"-->
-        <!--android:icon="@mipmap/ic_book"-->
-        <!--android:orderInCategory="100"-->
-        <!--android:title="@string/action_new_book"-->
-        <!--app:showAsAction="ifRoom"/>-->
+    <item
+        android:id="@+id/action_new_resource"
+        android:orderInCategory="100"
+        android:title="@string/action_new_resource"/>
 
 </menu>

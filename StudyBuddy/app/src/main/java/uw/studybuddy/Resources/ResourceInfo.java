@@ -1,5 +1,7 @@
 package uw.studybuddy.Resources;
 
+import android.widget.Button;
+
 import java.util.UUID;
 
 import uw.studybuddy.UserProfile.UserInfo;
@@ -10,19 +12,23 @@ import uw.studybuddy.UserProfile.UserInfo;
 
 public class ResourceInfo {
     private String uuid;
+    private String questId;
     private String course;
     private String title;
     private String postedBy;
     private String link;
+    private boolean isAnonymous;
 
     public ResourceInfo(){}
 
-    public ResourceInfo(String course, String title, UserInfo user, String link) {
+    public ResourceInfo(String course, String title, UserInfo user, String link, boolean isAnonymous) {
         this.uuid = UUID.randomUUID().toString();
         this.course = course;
         this.title = title;
+        this.questId = user.getQuestID();
         this.postedBy = user.getDisplayName();
         this.link = link;
+        this.isAnonymous = isAnonymous;
     }
 
     public String getUuid() {
@@ -55,5 +61,21 @@ public class ResourceInfo {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        isAnonymous = anonymous;
     }
 }

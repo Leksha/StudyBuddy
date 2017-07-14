@@ -1,6 +1,7 @@
 package uw.studybuddy;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -166,11 +167,15 @@ public class MainActivity extends AppCompatActivity
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-        if (id == R.id.action_new_event) {
+        if (id == R.id.action_new_event) {}
+
+        else if (id == R.id.action_new_tutor) {
+//            Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG);
+            Dialogs.showNewTutorDialog(context);
         }
-        if (id == R.id.action_new_tutor) {
-            Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG);
-            showNewTutorDialog();
+
+        else if (id == R.id.action_new_resource) {
+            Dialogs.showNewResourceDialog(context);
         }
 
         return super.onOptionsItemSelected(item);
@@ -336,37 +341,6 @@ public class MainActivity extends AppCompatActivity
         Intent newIntent = new Intent(this, LoginActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(newIntent);
-    }
-
-    // Called when clicking on New Tutor on Action Bar
-    public void showNewTutorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_register_tutor, null);
-        builder.setTitle("Register As Tutor");
-        builder.setView(view);
-
-        // Get UI Components
-        final EditText price = (EditText)view.findViewById(R.id.tutor_price);
-        final EditText phone = (EditText)view.findViewById(R.id.tutor_phone_number);
-        final EditText email = (EditText)view.findViewById(R.id.tutor_email);
-
-//         Setup the courses spinner
-        final Spinner spinner = CustomCoursesSpinner.getSpinner(R.id.tutor_courses_spinner, context, view);
-
-        builder.setNeutralButton("cancel",null);
-        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String course = spinner.getSelectedItem().toString();
-                String tutorPrice = price.getText().toString();
-                String tutorPhone = phone.getText().toString();
-                String tutorEmail = email.getText().toString();
-
-                TutorInfo tutor = new TutorInfo(course, UserInfo.getInstance(), tutorPrice, tutorPhone, tutorEmail);
-                FirebaseTutor.addNewTutor(tutor);
-            }
-        });
-        builder.show();
     }
 }
 

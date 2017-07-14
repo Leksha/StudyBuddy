@@ -40,11 +40,7 @@ public class CustomCoursesSpinner {
     public static void addListenerOnSpinnerItemSelection(Spinner spinner) {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(),
-                        "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

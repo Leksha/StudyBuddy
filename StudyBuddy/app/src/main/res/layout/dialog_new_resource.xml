@@ -17,7 +17,7 @@
             android:textStyle="bold"/>
 
         <Spinner
-            android:id="@+id/resource_courses_spinner"
+            android:id="@+id/new_resource_courses_spinner"
             android:layout_width="110dp"
             android:layout_height="wrap_content"/>
 
@@ -37,7 +37,7 @@
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/resource_title"
+            android:id="@+id/new_resource_title"
             android:layout_width="198dp"
             android:layout_height="wrap_content"
             android:maxLength="20"/>
@@ -55,12 +55,22 @@
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/tutor_phone_number"
+            android:id="@+id/new_resource_link"
             android:layout_width="198dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            android:maxLength="10"/>
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_paste"
+            android:layout_width="38dp"
+            android:layout_height="36dp"
+            android:background="@mipmap/ic_paste"/>
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/anonymous_checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post as anonymous"
+        android:layout_marginLeft="22dp"/>
 
 </LinearLayout>
