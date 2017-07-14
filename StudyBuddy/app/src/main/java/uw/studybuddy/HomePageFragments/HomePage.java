@@ -95,9 +95,10 @@ public class HomePage extends Fragment {
         RadioGroup radioGroup = (RadioGroup)rootView.findViewById(R.id.homepage_togglegroup);
         ToggleButton eventsButton = (ToggleButton)rootView.findViewById(R.id.homepage_button_events);
         ToggleButton tutorsButton = (ToggleButton)rootView.findViewById(R.id.homepage_button_tutors);
+        ToggleButton resourcesButton = (ToggleButton)rootView.findViewById(R.id.homepage_button_resources);
 
         // Set appropriate list for the categories selected
-        buttons = new ToggleButton[]{eventsButton, tutorsButton};
+        buttons = new ToggleButton[]{eventsButton, tutorsButton, resourcesButton};
         Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class};
 
         setCategoriesListeners(radioGroup, buttons, classes);

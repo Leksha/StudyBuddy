@@ -32,7 +32,7 @@
             android:textOn="@string/homepage_cat2"/>
 
         <ToggleButton
-            android:id="@+id/homepage_button_books"
+            android:id="@+id/homepage_button_resources"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.33"

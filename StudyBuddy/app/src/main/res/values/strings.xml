@@ -35,5 +35,5 @@
     <!-- Home Page Categories -->
     <string name="homepage_cat1">EVENTS</string>
     <string name="homepage_cat2">TUTORS</string>
-    <string name="homepage_cat3">BOOKS</string>
+    <string name="homepage_cat3">RESOURCES</string>
 </resources>
