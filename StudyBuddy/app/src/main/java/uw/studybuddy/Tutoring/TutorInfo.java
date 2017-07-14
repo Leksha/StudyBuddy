@@ -10,8 +10,8 @@ import uw.studybuddy.UserProfile.UserInfo;
 
 public class TutorInfo {
     private String uuid;
+    private String displayName;
     private String questId;
-    private String name;
     private String course;
     private String price;
     private String phoneNumber;
@@ -22,7 +22,6 @@ public class TutorInfo {
     public TutorInfo(String course, UserInfo user, String price, String phoneNumber, String email) {
         this.uuid = UUID.randomUUID().toString();
         this.questId = user.getInstance().getQuestID();
-        this.name = user.getInstance().getDisplayName();
         this.course = course;
         this.price = price;
         this.phoneNumber = phoneNumber;
@@ -43,14 +42,6 @@ public class TutorInfo {
 
     public void setQuestId(String questId) {
         this.questId = questId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCourse() {

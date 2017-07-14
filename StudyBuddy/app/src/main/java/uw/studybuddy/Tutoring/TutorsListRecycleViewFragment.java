@@ -81,8 +81,8 @@ public class TutorsListRecycleViewFragment extends Fragment {
             @Override
             protected void populateViewHolder(TutorCardViewHolder viewHolder, TutorInfo model, int position) {
                 viewHolder.setCourse(model.getCourse());
-                viewHolder.setTutorName(model.getName());
                 viewHolder.setPrice(model.getPrice());
+                viewHolder.setTutorNameWithQuestId(model.getQuestId());
 
                 boolean isTutor = model.getQuestId().equals(uw.studybuddy.UserProfile.UserInfo.getInstance().getQuestID());
                 viewHolder.setButton(isTutor, model);

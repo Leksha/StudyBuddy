@@ -17,6 +17,7 @@ import android.widget.TextView;
 import uw.studybuddy.CustomCoursesSpinner;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.UserInfo;
 
 /**
@@ -38,9 +39,13 @@ public class TutorCardViewHolder extends RecyclerView.ViewHolder {
         cour.setText(course);
     }
 
-    public void setTutorName(String name){
+    public void setTutorNameWithQuestId(String questId){
+        FirebaseUserInfo.setUserDisplayNameWithQuestId(questId, this);
+    }
+
+    public void setTutorName(String displayName) {
         TextView tutorName = (TextView)mView.findViewById(R.id.cardview_tutor_name);
-        tutorName.setText(name);
+        tutorName.setText(displayName);
     }
 
     public void setPrice(String price){
