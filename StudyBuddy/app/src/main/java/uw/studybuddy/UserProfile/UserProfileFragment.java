@@ -210,9 +210,8 @@ public class UserProfileFragment extends Fragment {
         builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String sub = edit_dialog_course_subject.getText().toString();
+                String sub = edit_dialog_course_subject.getText().toString().toUpperCase();
                 String num = edit_dialog_course_number.getText().toString();
-                String text = sub + " " + num;
                 if (isAdd) {
                     user.addCourse(sub, num);
                 } else {
