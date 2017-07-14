@@ -1,10 +1,13 @@
 package uw.studybuddy.HomePageFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Display;
@@ -16,9 +19,13 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.List;
+
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
+import uw.studybuddy.UserProfile.UserInfo;
 
 
 /**
@@ -42,6 +49,8 @@ public class HomePage extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ToggleButton[] buttons;
+    private TabLayout mCoursesTabLayout;
+    private TabLayout.Tab[] coursesTabItems;
 
     public HomePage() {
         // Required empty public constructor
@@ -88,9 +97,41 @@ public class HomePage extends Fragment {
         buttons = new ToggleButton[]{eventsButton, tutorsButton};
         Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class};
 
-        setListeners(radioGroup, buttons, classes);
+        setCategoriesListeners(radioGroup, buttons, classes);
+
+
+        // Create the courses tabs
+        setupCoursesTabs(rootView);
+
         buttons[1].callOnClick();
         return rootView;
+    }
+
+    private void setupCoursesTabs(View view) {
+        mCoursesTabLayout = (TabLayout)view.findViewById(R.id.homepage_courses_tablayout);
+
+        final List courses = UserInfo.getInstance().getCoursesList();
+        int numCourses = courses.size();
+        coursesTabItems = new TabLayout.Tab[numCourses];
+
+        for (int i=0; i<numCourses; i++) {
+            final String coursename = courses.get(i).toString();
+            TabLayout.Tab tab = mCoursesTabLayout.newTab().setText(coursename);
+            mCoursesTabLayout.addTab(tab);
+//            addTab(coursename);
+//            tab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    clickedCourse = coursename;
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    MainActivity.fa.finish();
+//                    startActivity(intent);
+//                    //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
+//                }
+//            });
+        }
+        TabLayout.Tab tab = mCoursesTabLayout.newTab().setIcon(R.mipmap.ic_clear);
+        mCoursesTabLayout.addTab(tab);
     }
 
     private void setListFragmentTo(Class fragmentClass) {
@@ -104,7 +145,7 @@ public class HomePage extends Fragment {
         fragmentManager.beginTransaction().replace(R.id.homepage_list, fragment).commit();
     }
 
-    private void setListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){
+    private void setCategoriesListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){
         // Initialize the buttons
         for (int i=0; i<buttons.length; i++) {
             final int index = i;

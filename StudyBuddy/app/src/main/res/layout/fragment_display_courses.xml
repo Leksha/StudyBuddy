@@ -10,27 +10,11 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:scrollbars="horizontal">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/display_courses_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.design.widget.TabLayout>
 
-        <LinearLayout
-            android:id="@+id/display_courses_horizontalScroll_linear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal">
-
-            <!--<Button-->
-                <!--android:id="@+id/course_bubble_1"-->
-                <!--android:layout_width="85dp"-->
-                <!--android:layout_height="85dp"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:background="@drawable/round_button"-->
-                <!--android:gravity="center_vertical|center_horizontal"-->
-                <!--android:text="Potions"-->
-                <!--android:textColor="#fff"/>-->
-
-        </LinearLayout>
     </HorizontalScrollView>
 </FrameLayout>
