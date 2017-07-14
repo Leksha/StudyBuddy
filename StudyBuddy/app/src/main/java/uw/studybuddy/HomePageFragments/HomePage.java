@@ -24,6 +24,7 @@ import java.util.List;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.Resources.ResourcesListRecycleViewFragment;
 import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
 import uw.studybuddy.UserProfile.UserInfo;
 
@@ -99,7 +100,8 @@ public class HomePage extends Fragment {
 
         // Set appropriate list for the categories selected
         buttons = new ToggleButton[]{eventsButton, tutorsButton, resourcesButton};
-        Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class};
+        Class[] classes = {EventsListRecycleViewFragment.class, TutorsListRecycleViewFragment.class,
+                ResourcesListRecycleViewFragment.class};
 
         setCategoriesListeners(radioGroup, buttons, classes);
 

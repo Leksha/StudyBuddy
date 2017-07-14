@@ -52,6 +52,7 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.Resources.ResourcesListRecycleViewFragment;
 import uw.studybuddy.Tutoring.FirebaseTutor;
 import uw.studybuddy.Tutoring.TutorInfo;
 import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
         TutorsListRecycleViewFragment.OnFragmentInteractionListener,
+        ResourcesListRecycleViewFragment.OnFragmentInteractionListener,
         FriendListFragment.OnListFragmentInteractionListener,
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
