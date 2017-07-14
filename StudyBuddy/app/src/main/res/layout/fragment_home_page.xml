@@ -5,30 +5,67 @@
              tools:context="uw.studybuddy.HomePageFragments.HomePage"
               android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <!--<fragment-->
-        <!--android:id="@+id/homepage_find_friends"-->
-        <!--android:name="uw.studybuddy.HomePageFragments.FindFriends"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--tools:layout="@layout/fragment_find_friends">-->
-    <!--</fragment>-->
-
-    <fragment
-        android:id="@+id/homepage_display_courses"
-        android:name="uw.studybuddy.HomePageFragments.DisplayCourses"
+    <RadioGroup
+        android:id="@+id/homepage_togglegroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_display_courses">
-    </fragment>
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <fragment
-        android:id="@+id/homepage_events_list"
-        android:layout_width="wrap_content"
+        <ToggleButton
+            android:id="@+id/homepage_button_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:backgroundTint="@color/darkgreen"
+            android:textOff="@string/homepage_cat1"
+            android:textOn="@string/homepage_cat1"/>
+
+        <ToggleButton
+            android:id="@+id/homepage_button_tutors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:backgroundTint="@color/orange"
+            android:textOff="@string/homepage_cat2"
+            android:textOn="@string/homepage_cat2"/>
+
+        <ToggleButton
+            android:id="@+id/homepage_button_resources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:backgroundTint="@color/colorAccent"
+            android:textOff="@string/homepage_cat3"
+            android:textOn="@string/homepage_cat3"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="uw.studybuddy.Events.EventsListRecycleViewFragment"
-        tools:layout="@layout/fragment_events_list">
-    </fragment>
+        android:orientation="horizontal">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/homepage_courses_tablayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.design.widget.TabLayout>
+
+    </LinearLayout>
+
+
+    <!--<fragment-->
+        <!--android:id="@+id/homepage_display_courses"-->
+        <!--android:name="uw.studybuddy.HomePageFragments.DisplayCourses"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:layout="@layout/fragment_display_courses">-->
+    <!--</fragment>-->
+
+    <FrameLayout
+        android:id="@+id/homepage_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 
 </LinearLayout>

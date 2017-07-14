@@ -1,6 +1,9 @@
 package uw.studybuddy;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,8 +23,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +41,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +52,10 @@ import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.FindFriends;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.LoginAndRegistration.LoginActivity;
+import uw.studybuddy.Resources.ResourcesListRecycleViewFragment;
+import uw.studybuddy.Tutoring.FirebaseTutor;
+import uw.studybuddy.Tutoring.TutorInfo;
+import uw.studybuddy.Tutoring.TutorsListRecycleViewFragment;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.FriendListFragment;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -53,6 +70,8 @@ public class MainActivity extends AppCompatActivity
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
+        TutorsListRecycleViewFragment.OnFragmentInteractionListener,
+        ResourcesListRecycleViewFragment.OnFragmentInteractionListener,
         FriendListFragment.OnListFragmentInteractionListener,
         UserProfileFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     private boolean firstTimeHomePageInitialize = false;
 
+    Context context = this;
+          
     private DataSnapshot FriendListDataSnapshot;
 
     @Override
@@ -152,7 +173,15 @@ public class MainActivity extends AppCompatActivity
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-        if (id == R.id.action_new_event) {
+        if (id == R.id.action_new_event) {}
+
+        else if (id == R.id.action_new_tutor) {
+//            Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG);
+            Dialogs.showNewTutorDialog(context);
+        }
+
+        else if (id == R.id.action_new_resource) {
+            Dialogs.showNewResourceDialog(context);
         }
 
         return super.onOptionsItemSelected(item);
@@ -201,21 +230,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void GotoNewEvent(MenuItem item) {
-        Intent intent = new Intent(this, EventCreation.class);
-        startActivity(intent);
-    }
-
-
-    public void LogOut(MenuItem item) {
-        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
-        fAuth.signOut();
-        
-        Intent newIntent = new Intent(this, LoginActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(newIntent);
     }
 
     // User setup-related code
@@ -288,7 +302,7 @@ public class MainActivity extends AppCompatActivity
         if(user != null && user.getDisplayName() != null) {
             userName.setText(user.getDisplayName().toString());
         }else{
-            userName.setText("Nooooo!");
+            userName.setText("");
         }
     }
 
@@ -319,6 +333,20 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void GotoNewEvent(MenuItem item) {
+        Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+
+    public void LogOut(MenuItem item) {
+        FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();
+        fAuth.signOut();
+
+        Intent newIntent = new Intent(this, LoginActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(newIntent);
+    }
 
     public void set_friendlist_Listener(){
         FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)

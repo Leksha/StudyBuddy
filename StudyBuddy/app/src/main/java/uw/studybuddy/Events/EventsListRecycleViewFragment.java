@@ -11,8 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,16 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
-
-import uw.studybuddy.CourseInfo;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.HomePage;
-import uw.studybuddy.LoginAndRegistration.LoginActivity;
-import uw.studybuddy.LoginAndRegistration.RegisterActivity;
 import uw.studybuddy.R;
-import uw.studybuddy.UserProfile.UserInfo;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,10 +100,10 @@ public class EventsListRecycleViewFragment extends Fragment {
         mCurrentUser = mAuth.getCurrentUser();
 
         mDatabaseCourse = FirebaseDatabase.getInstance().getReference().child("Event");
-        if(DisplayCourses.clickedCourse.equals("")){
+        if(HomePage.clickedCourse.isEmpty()){
             mQueryCourse = mDatabaseCourse;
         } else {
-            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(DisplayCourses.clickedCourse);
+            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(HomePage.clickedCourse);
         }
 
         //String

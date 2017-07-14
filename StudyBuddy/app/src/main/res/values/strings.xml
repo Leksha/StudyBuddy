@@ -8,7 +8,12 @@
     <string name="find_friend_editText">Enter a friend\'s name ...</string>
     <string name="search_friend_button">Search</string>
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
-    <string name="action_new_event">New event</string>
+
+
+    <!-- Action Bar Titles -->
+    <string name="action_new_event">Create event</string>
+    <string name="action_new_tutor">Register as Tutor</string>
+    <string name="action_new_resource">Add to Resources</string>
 
     <!-- User profile related info strings -->
     <string name="user_name_title">Name:</string>
@@ -25,4 +30,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="UserDisplayNameMissing">Please type in your Nick Name</string>
     <string name="EmptyID">Please type in your Waterloo Quest ID</string>
+
+
+    <!-- Home Page Categories -->
+    <string name="homepage_cat1">EVENTS</string>
+    <string name="homepage_cat2">TUTORS</string>
+    <string name="homepage_cat3">RESOURCES</string>
 </resources>

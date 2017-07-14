@@ -1,6 +1,7 @@
 package uw.studybuddy.UserProfile;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -21,6 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventCardViewHolder;
+import uw.studybuddy.Events.EventsListRecycleViewFragment;
+import uw.studybuddy.Resources.ResourceCardViewHolder;
+import uw.studybuddy.Tutoring.TutorCardViewHolder;
+import uw.studybuddy.Tutoring.TutorInfo;
 
 /**
  * Created by Yuna on 17/7/7.
@@ -45,6 +52,8 @@ public class FirebaseUserInfo {
     public static String table_courses         = "course";
     public static String table_friend          = "friendlist";
 
+    private static String emptyString = "";
+
     //update the whole User profile to the firebase
     //if the child is existed in the firebase, then override it.
 
@@ -57,11 +66,34 @@ public class FirebaseUserInfo {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
     }
 
+    public static DatabaseReference getUserWithQuestId(String questId) {
+        return getUsersTable().child(questId);
+    }
+
+    public static String setUserDisplayNameWithQuestId(String questId, final RecyclerView.ViewHolder viewHolder) {
+        DatabaseReference userRef = getUserWithQuestId(questId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String displayName = snapshot.child(field_display_name).getValue().toString();
+                // Get the user's display name
+                if (viewHolder.getClass() == TutorCardViewHolder.class) {
+                    ((TutorCardViewHolder)viewHolder).setTutorName(displayName);
+                }
+                else if (viewHolder.getClass() == ResourceCardViewHolder.class) {
+                    ((ResourceCardViewHolder)viewHolder).setDisplayName(displayName);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
+        return emptyString;
+    }
+
 
     public static void update_UserInfo(UserPattern USER){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
-
         //String key  = databaseReference.child("Users").push().getKey().toString();
         DatabaseReference DestReference = getUsersTable().child(USER.getquest_id().toString());
         DestReference.setValue(USER);

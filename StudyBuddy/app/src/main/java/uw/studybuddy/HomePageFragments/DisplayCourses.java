@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,12 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.List;
 
-import uw.studybuddy.Events.EventDescription;
-import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -35,13 +34,12 @@ public class DisplayCourses extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Button[] coursesButtons;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public static String clickedCourse = "";
+    private TabLayout mTabLayout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,37 +80,34 @@ public class DisplayCourses extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_display_courses, container, false);
 
-//        UWAPI uwapi = new UWAPI();
-//        int text = uwapi.getCourseBySubject("ACC");
-
-        final List courses = UserInfo.getCoursesList();
-
-        int numCourses = courses.size();
-        coursesButtons = new Button[numCourses];
-
-        LinearLayout layout = (LinearLayout)rootView.findViewById(R.id.display_courses_horizontalScroll_linear);
-        layout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        int diameter = 150;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter);
-        params.setMargins(2,2,2,2);
-        for (int i=0; i<numCourses; i++) {
-            Button button = createButton(courses.get(i).toString());
-            coursesButtons[i] = button;
-            final String coursename = courses.get(i).toString();
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickedCourse = coursename;
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    MainActivity.fa.finish();
-                    startActivity(intent);
-                    //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
-                }
-            });
-            layout.addView(button,params);
-        }
+//        final List courses = UserInfo.getInstance().getCoursesList();
+//
+//        int numCourses = courses.size();
+//        coursesTabItems = new TabItem[numCourses];
+//
+//        mTabLayout = (TabLayout)rootView.findViewById(R.id.display_courses_tab_layout);
+////        layout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+//
+//        for (int i=0; i<numCourses; i++) {
+//            final String coursename = courses.get(i).toString();
+//            addTab(coursename);
+//            mTabLayout.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    clickedCourse = coursename;
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    MainActivity.fa.finish();
+//                    startActivity(intent);
+//                    //Toast.makeText(getActivity(), clickedCourse, Toast.LENGTH_LONG).show();
+//                }
+//            });
+//        }
 
         return rootView;
+    }
+
+    private void addTab(String title) {
+        mTabLayout.addTab(mTabLayout.newTab().setText(title));
     }
 
     private Button createButton(String name) {

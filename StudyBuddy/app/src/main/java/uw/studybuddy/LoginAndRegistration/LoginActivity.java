@@ -67,6 +67,8 @@ public class LoginActivity extends AppCompatActivity{
 
 
         setupDevLoginActivity();
+        Button mDevLoginButton = (Button)findViewById(R.id.dev_login_button);
+//        mDevLoginButton.callOnClick();
 
 
     }
@@ -78,7 +80,7 @@ public class LoginActivity extends AppCompatActivity{
         mDevLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = "q73chen";
+                String email = "lramdene";
                 String password = "123qwe";
 
                 EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);

@@ -17,9 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +136,7 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
 
         // Add the courses buttons
-        mCoursesList = UserInfo.getCoursesList();
+        mCoursesList = UserInfo.getInstance().getCoursesList();
         int numCourses = mCoursesList.size();
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -182,7 +179,7 @@ public class UserProfileFragment extends Fragment {
     // Using the same dialog to add and edit courses
     private void showDialog(final int index, Button button, final boolean isAdd) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.edit_course_name_dialog, null);
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.dialog_edit_course_name, null);
         final EditText edit_dialog_course_subject = (EditText) view.findViewById(R.id.edit_course_subject);
         final EditText edit_dialog_course_number = (EditText) view.findViewById(R.id.edit_course_number);
         builder.setView(view);
