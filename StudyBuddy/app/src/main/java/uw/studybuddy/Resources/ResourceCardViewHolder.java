@@ -34,10 +34,10 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
 
     public void setUserNameWithQuestId(String questId, boolean isAnonymous){
         if (isAnonymous) {
+            TextView header = (TextView)mView.findViewById(R.id.cardview_resource_by);
             TextView name = (TextView)mView.findViewById(R.id.cardview_resource_username);
-            TextView header = (TextView)mView.findViewById(R.id.cardview_resource_title_header);
-            name.setVisibility(View.GONE);
             header.setVisibility(View.GONE);
+            name.setVisibility(View.GONE);
         } else {
             FirebaseUserInfo.setUserDisplayNameWithQuestId(questId, this);
         }
