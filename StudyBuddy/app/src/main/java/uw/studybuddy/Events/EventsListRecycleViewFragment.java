@@ -173,7 +173,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                                 if (isJoinEvent)
                                     if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
                                         mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
-                                        mDatabaseChat.child(model.getCourse() + ": " + model.getTitle()).removeValue();
+                                        //mDatabaseChat.child(model.getCourse() + ": " + model.getTitle()).removeValue();
                                         //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
                                         mDatabase.addValueEventListener(new ValueEventListener() {
                                             @Override

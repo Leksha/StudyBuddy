@@ -178,8 +178,8 @@ public class MainActivity extends AppCompatActivity
 //        else if (id == R.id.nav_map) {
 //
 //        }
-         else if (id == R.id.nav_event_chat) {
-        }
+//         else if (id == R.id.nav_event_chat) {
+//        }
         else if (id == R.id.nav_log_out) {
 
         }

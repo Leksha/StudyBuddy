@@ -80,6 +80,11 @@ public class NotificationActivity extends AppCompatActivity {
                     // get names of all the events one by one
                     DataSnapshot cur = (DataSnapshot) iterator.next();
                     eventkey = (String) cur.getKey();
+                    for(DataSnapshot value : cur.getChildren()){
+                        joinname = (String) value.getValue(String.class);
+                        set.add(joinname + " joined your event. Event id: " + eventkey);
+                    }
+
                     /*mDatabase.child(eventkey).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,7 +104,7 @@ public class NotificationActivity extends AppCompatActivity {
                     });*/
                     //joinname = (String) cur.getValue();
                     //Toast.makeText(NotificationActivity.this, joinname, Toast.LENGTH_LONG).show();
-                    set.add("You have new participants on your event! Event id: " + eventkey);
+                    //set.add("You have new participants on your event! Event id: " + eventkey);
                 }
                 NotificationArrayList.clear();
                 NotificationArrayList.addAll(set);
@@ -119,8 +124,8 @@ public class NotificationActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent clickedEvent = new Intent(NotificationActivity.this, EventDescription.class);
                 //Toast.makeText(NotificationActivity.this, , Toast.LENGTH_LONG).show();
-                //String message = ((TextView)view).getText().toString();
-                //eventkey = message.substring(message.length()-20);
+                String message = ((TextView)view).getText().toString();
+                eventkey = message.substring(message.length()-20);
                 clickedEvent.putExtra("event_id", eventkey);
                 startActivity(clickedEvent);
             }

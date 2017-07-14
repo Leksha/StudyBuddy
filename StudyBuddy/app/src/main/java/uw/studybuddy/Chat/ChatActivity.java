@@ -32,6 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -45,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
+    UserInfo User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,10 @@ public class ChatActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("EventChat");//.child(mCurrentUser.getDisplayName());
 
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
-        username = mCurrentUser.getDisplayName();
+        username = User.getInstance().getDisplayName();
         //requestEvent();
 
         //retrieve data
