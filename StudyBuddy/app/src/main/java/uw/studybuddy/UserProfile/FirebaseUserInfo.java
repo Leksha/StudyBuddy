@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventCardViewHolder;
+import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.Resources.ResourceCardViewHolder;
 import uw.studybuddy.Tutoring.TutorCardViewHolder;
 import uw.studybuddy.Tutoring.TutorInfo;
