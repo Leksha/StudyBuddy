@@ -346,6 +346,7 @@ public class MainActivity extends AppCompatActivity
         Intent newIntent = new Intent(this, LoginActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(newIntent);
+    }
 
     public void set_friendlist_Listener(){
         FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend)
