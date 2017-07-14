@@ -15,7 +15,6 @@ public class ResourceInfo {
     private String questId;
     private String course;
     private String title;
-    private String postedBy;
     private String link;
     private boolean isAnonymous;
 
@@ -26,7 +25,6 @@ public class ResourceInfo {
         this.course = course;
         this.title = title;
         this.questId = user.getQuestID();
-        this.postedBy = user.getDisplayName();
         this.link = link;
         this.isAnonymous = isAnonymous;
     }
@@ -47,12 +45,12 @@ public class ResourceInfo {
         this.course = course;
     }
 
-    public String getPostedBy() {
-        return postedBy;
+    public String getQuestId() {
+        return questId;
     }
 
-    public void setPostedBy(String postedBy) {
-        this.postedBy = postedBy;
+    public void setQuestId(String questId) {
+        this.questId = questId;
     }
 
     public String getLink() {

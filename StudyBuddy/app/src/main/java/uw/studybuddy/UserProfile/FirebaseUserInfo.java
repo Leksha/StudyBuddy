@@ -45,6 +45,18 @@ public class FirebaseUserInfo {
         return FirebaseDatabase.getInstance().getReference().child(table_users);
     }
 
+    public static DatabaseReference getUserWithQuestId(String questId) {
+        return getUsersTable().child(questId);
+    }
+
+    public static DatabaseReference getUserDisplayNameWithQuestId(String questId) {
+        DatabaseReference user = getUserWithQuestId(questId);
+        if (user != null) {
+            return user.child(field_display_name);
+        }
+        return null;
+    }
+
 
     public static void update_UserInfo(UserPattern USER){
         //String key  = databaseReference.child("Users").push().getKey().toString();
