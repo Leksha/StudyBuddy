@@ -1,5 +1,7 @@
 package uw.studybuddy.Resources;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -48,9 +50,15 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
         name.setText(displayName);
     }
 
-    public void setLink(String link){
+    public void setLink(final String link){
         TextView url = (TextView)mView.findViewById(R.id.cardview_resource_link);
         url.setText(link);
+
+        url.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            }
+        });
     }
 
     public void setButton(boolean isCreator, final ResourceInfo resourceInfo) {
