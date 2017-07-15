@@ -46,6 +46,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import uw.studybuddy.CourseChat.CoursesChatActivity;
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
@@ -335,6 +336,11 @@ public class MainActivity extends AppCompatActivity
 
     public void GotoNewEvent(MenuItem item) {
         Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+    public void GotoCourseChat(MenuItem item) {
+        Intent intent = new Intent(this, CoursesChatActivity.class);
         startActivity(intent);
     }
 

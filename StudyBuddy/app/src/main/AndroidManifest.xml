@@ -33,7 +33,9 @@
         <activity android:name=".FriendList" />
         <activity android:name=".Events.EventCreation" />
         <activity android:name=".Events.EventDescription" />
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".CourseChat.CoursesChatActivity" />
+        <activity android:name=".CourseChat.CurrentCourseChat"></activity>
     </application>
 
 </manifest>

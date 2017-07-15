@@ -24,4 +24,10 @@
         android:orderInCategory="100"
         android:title="@string/action_new_resource"/>
 
+    <item
+        android:id="@+id/action_course_chat"
+        android:orderInCategory="100"
+        android:title="Course Chat"
+        android:onClick="GotoCourseChat"/>
+
 </menu>
