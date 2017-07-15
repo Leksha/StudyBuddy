@@ -54,6 +54,7 @@ public class EventCreation extends AppCompatActivity {
     private FirebaseUser mCurrentUser;
     //private DatabaseReference mDatabaseUser;
 
+    uw.studybuddy.UserProfile.UserInfo User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +123,11 @@ public class EventCreation extends AppCompatActivity {
                 String date = (Integer.toString(dateTime.get(Calendar.YEAR)) + " / " + Integer.toString(dateTime.get(Calendar.MONTH)) +
                         " / " + Integer.toString(dateTime.get(Calendar.DAY_OF_MONTH)));
                 String time = (Integer.toString(dateTime.get(Calendar.HOUR_OF_DAY)) + " : " + Integer.toString(dateTime.get(Calendar.MINUTE)));
+                String username = User.getInstance().getDisplayName();
 
                 //create a new event, add to firebase
                 boolean eventCreationSuccess = FirebaseInstance.addNewEventToDatabase(course, title, location, description,
-                        uid, questId, date, time);
+                        uid, questId, date, time, username);
                 //on successful creation of the event: toast message
                 if (eventCreationSuccess) {
                     Toast.makeText(EventCreation.this, "Saving information...", Toast.LENGTH_LONG).show();

@@ -13,7 +13,7 @@ public class EventInfo {
     private String date;
     private String time;
     private String questId;
-    private String holder; // holder's user name
+    private String username;
     private String[] participants;
 
 
@@ -90,19 +90,19 @@ public class EventInfo {
         this.questId = questId;
     }
 
-    public String getHolder() {
-        return holder;
-    }
-
-    public void setHolder(String holder) {
-        this.holder = holder;
-    }
-
     public String[] getParticipants() {
         return participants;
     }
 
     public void setParticipants(String[] participants) {
         this.participants = participants;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
