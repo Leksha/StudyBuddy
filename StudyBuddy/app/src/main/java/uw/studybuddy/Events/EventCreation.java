@@ -15,6 +15,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +50,15 @@ public class EventCreation extends AppCompatActivity {
     private Button btn_date;
     private Button btn_time;
     private Button mConfirm;
+    private Button btn_LaunchMap;
     //private ProgressDialog progressDialog;
 
+    private String mPostKey = null;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
-    //private DatabaseReference mDatabaseUser;
+    private DatabaseReference mDatabase;
+
+    int PLACE_PICKER_REQUEST = 1;
 
 
     @Override
@@ -62,6 +75,7 @@ public class EventCreation extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.Text_date_time);
         btn_date = (Button) findViewById(R.id.btn_datePicker);
         btn_time = (Button) findViewById((R.id.btn_timePicker));
+        btn_LaunchMap = (Button) findViewById(R.id.btn_launchmap);
 
         mConfirm = (Button)findViewById(R.id.btn_confirm_event_setup);
         //progressDialog = new ProgressDialog(this);
@@ -82,8 +96,10 @@ public class EventCreation extends AppCompatActivity {
 
         updateTextLable();
 
+        //mPostKey = getIntent().getExtras().getString("event_id");
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
         //mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getEmail()); email -14 quest id
 
@@ -126,6 +142,45 @@ public class EventCreation extends AppCompatActivity {
                 finish();
             }
         });
+
+        btn_LaunchMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mDatabase.child(mPostKey).addValueEventListener(new ValueEventListener() {
+                    //@Override
+                    //public void onDataChange(DataSnapshot dataSnapshot) {
+                        //int PLACE_PICKER_REQUEST = 199;
+                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                        Intent intent;
+                        try {
+                            intent = builder.build(EventCreation.this);
+                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+                        } catch (GooglePlayServicesNotAvailableException e) {
+                            e.printStackTrace();
+                        } catch (GooglePlayServicesRepairableException e) {
+                            e.printStackTrace();
+                        }
+                        //}
+                    }
+
+                   // @Override
+                    //public void onCancelled(DatabaseError databaseError) {
+
+                    //}
+                //});
+            //}
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PLACE_PICKER_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                String address = String.format("Place: %s",place.getName());
+                locationCreate.setText(address);
+            }
+        }
     }
 
     private void updateDate(){
