@@ -11,8 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,16 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
-
-import uw.studybuddy.CourseInfo;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.HomePage;
-import uw.studybuddy.LoginAndRegistration.LoginActivity;
-import uw.studybuddy.LoginAndRegistration.RegisterActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.UserInfo;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +58,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    UserInfo User;
 
     private boolean isJoinEvent = false;
 
@@ -108,10 +102,10 @@ public class EventsListRecycleViewFragment extends Fragment {
         mCurrentUser = mAuth.getCurrentUser();
 
         mDatabaseCourse = FirebaseDatabase.getInstance().getReference().child("Event");
-        if(DisplayCourses.clickedCourse.equals("")){
+        if(HomePage.clickedCourse.isEmpty()){
             mQueryCourse = mDatabaseCourse;
         } else {
-            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(DisplayCourses.clickedCourse);
+            mQueryCourse = mDatabaseCourse.orderByChild("course").equalTo(HomePage.clickedCourse);
         }
 
         //String
@@ -130,7 +124,7 @@ public class EventsListRecycleViewFragment extends Fragment {
 
                 viewHolder.setCourse(model.getCourse());
                 //viewHolder.setDescription(model.getDescription());
-                //viewHolder.setLocation(model.getLocation());
+                viewHolder.setDate("Date: "+model.getDate()+" | Time: "+ model.getTime());
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setJoinEvent(eventKey, model.getUid());
 //                 viewHolder.setSubject(model.getSubject());
@@ -149,7 +143,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        if(viewHolder.BjoinEvent.getText() == "Review Event"){
+                        if(viewHolder.BjoinEvent.getText() == "Review"){
                             Intent clickedEvent = new Intent(getActivity(), EventDescription.class);
                             clickedEvent.putExtra("event_id", eventKey);
                             startActivity(clickedEvent);
@@ -166,7 +160,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                                         //Toast.makeText(getActivity(), "You have joined this event.", Toast.LENGTH_LONG).show();
                                         isJoinEvent = false;
                                     } else {
-                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(mCurrentUser.getEmail());
+                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(User.getInstance().getDisplayName());
                                         isJoinEvent = false;
                                     }
                                 }
@@ -179,31 +173,6 @@ public class EventsListRecycleViewFragment extends Fragment {
                         });
                     }
                 });
-                /*viewHolder.BleaveEvent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        isJoinEvent = false;
-                        mJoinEvent.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (!isJoinEvent) {
-                                    if (dataSnapshot.child(eventKey).hasChild(mCurrentUser.getUid())) {
-                                        mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).removeValue();
-                                        isJoinEvent = true;
-                                    } else {
-                                        Toast.makeText(getActivity(), "You did not join this event.", Toast.LENGTH_LONG).show();
-                                        isJoinEvent = true;
-                                    }
-                                }
-                            }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                });*/
             }
         };
 
@@ -226,8 +195,6 @@ public class EventsListRecycleViewFragment extends Fragment {
 
         return rootView;
     }
-
-    // can we show event earlier?
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

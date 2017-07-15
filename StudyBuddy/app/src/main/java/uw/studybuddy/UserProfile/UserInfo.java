@@ -3,6 +3,9 @@ package uw.studybuddy.UserProfile;
 import android.media.Image;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +29,15 @@ public class UserInfo {
     private static String mAboutMe;
     private static Image mImage;
 
+    //add by Yuna
+    private static DataSnapshot mFriendlist_DS;
+    private static DataSnapshot mUserTable_DS;
+    //mUserTable_DS only get once
+
     // Getters
+
+
+
     public static String getDisplayName() {
         return mDisplayName;
     }
@@ -35,7 +46,7 @@ public class UserInfo {
         return mQuestID;
     }
 
-    public static List getCoursesList() {
+    public List getCoursesList() {
         return mCoursesList;
     }
 
@@ -46,7 +57,7 @@ public class UserInfo {
     public static void setQuestID(String mName) { UserInfo.mQuestID = mName; }
 
     public static void updateCourseInfo(int index, String subject, String number) {
-        CourseInfo newCourse = new CourseInfo(subject, number);
+        CourseInfo newCourse = new CourseInfo(subject.toUpperCase(), number);
         mCoursesList.set(index, newCourse);
         FirebaseUserInfo.update_courseInfo(index, subject, number);
     }
@@ -81,9 +92,9 @@ public class UserInfo {
 
 
     // Constructors
-    public UserInfo(String displayName, String questID, List<CourseInfo> courses, String aboutMe) {
+    public UserInfo(String displayName, String questID, List<CourseInfo> courses, String aboutMe, DataSnapshot dataSnapshot) {
         mDisplayName = displayName;
-
+        mFriendlist_DS = dataSnapshot;
         mQuestID = questID;
         UserInfo.mCoursesList = new ArrayList<>(courses);
 
@@ -120,7 +131,7 @@ public class UserInfo {
     // instance methods
     public static void initInstance(String displayName, String name, List<CourseInfo> courses, String aboutMe) {
         if (instance == null) {
-            instance = new UserInfo(displayName, name, courses, aboutMe);
+            instance = new UserInfo(displayName, name, courses, aboutMe, mFriendlist_DS);
         }
     }
 
@@ -135,4 +146,19 @@ public class UserInfo {
     }
 
 
+    public static DataSnapshot getmFriendlist_DS() {
+        return mFriendlist_DS;
+    }
+
+    public static void setmFriendlist_DS(DataSnapshot mFriendlist_DS) {
+        UserInfo.mFriendlist_DS = mFriendlist_DS;
+    }
+
+    public static DataSnapshot getmUserTable_DS() {
+        return mUserTable_DS;
+    }
+
+    public static void setmUserTable_DS(DataSnapshot mUserTable_DS) {
+        UserInfo.mUserTable_DS = mUserTable_DS;
+    }
 }

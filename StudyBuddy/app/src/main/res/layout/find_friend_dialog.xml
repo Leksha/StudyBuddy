@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/friend_photo_DG"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+
+        android:src="@drawable/friend1"
+        />
+
+    <TextView
+        android:id="@+id/friend_name_DG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StudyBuddy"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/friend_photo_DG"/>
+
+    <TextView
+        android:id="@+id/friend_about_me_DG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:layout_marginTop="10dp"
+        android:text="The user is too lazy to write down anything"
+        android:layout_toRightOf="@id/friend_photo_DG"
+        android:layout_below="@id/friend_name_DG"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/couse_DG"
+        android:text="Couse:"
+        android:layout_toRightOf="@id/friend_photo_DG"
+        android:layout_below="@id/friend_about_me_DG"
+        />
+    <Button
+        android:id="@+id/OK_Dialog_bt"
+        android:text="Ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/couse_DG"
+        android:layout_alignParentRight="true"/>
+    <Button
+        android:id="@+id/add_Friend_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Friend"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@id/couse_DG"
+        android:layout_toLeftOf="@id/OK_Dialog_bt"
+
+        />
+
+
+
+</RelativeLayout>

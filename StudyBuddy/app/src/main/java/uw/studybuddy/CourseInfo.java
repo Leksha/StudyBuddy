@@ -60,6 +60,16 @@ public class CourseInfo {
         return course_list;
     }
 
+    public static List<String> getCourseStringsListFromList(List<CourseInfo> courseInfoList) {
+        int len = courseInfoList.size();
+        List<String> list = new ArrayList<>();
+        for (int i=0; i<len ; i++) {
+            String courseDesc = courseInfoList.get(i).toString();
+            list.add(courseDesc);
+        }
+        return list;
+    }
+
     // Takes in a for example "cS    446" and returns <"CS", "446">
     public static Pair<String, String> processCourseString(String course) {
         char[] arr = course.toCharArray();
@@ -74,5 +84,6 @@ public class CourseInfo {
         String catNum = course.substring(substr);
         return new Pair<>(subject.toUpperCase(), catNum);
     }
+    
 
 }

@@ -65,7 +65,7 @@ public class FirebaseInstance {
     //when creating an event
     static boolean retVal = true;
     public static boolean addNewEventToDatabase(String course, String title, String location, String description,
-                                                String uid, final String questId, String date, String time){
+                                                String uid, final String questId, String date, String time, String username){
         final HashMap<String, String> dataMap = new HashMap<String, String>();
         final DatabaseReference curDB = getDatabaseInstance().child("Event");
         /*mDatabaseUserInfo = getDatabaseInstance().child("Users");
@@ -93,6 +93,7 @@ public class FirebaseInstance {
             dataMap.put("questId", questId);
             dataMap.put("date", date);
             dataMap.put("time", time);
+            dataMap.put("username", username);
 
             curDB.push().setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

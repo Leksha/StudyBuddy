@@ -52,12 +52,12 @@ public class EventCardViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(eventkey).hasChild(mCurrentUser.getUid())) {
-                    BjoinEvent.setText("Leave Event");
+                    BjoinEvent.setText("Leave");
                 } else if (mCurrentUser.getUid().equals(uid)) {
-                    BjoinEvent.setText("Review Event");
+                    BjoinEvent.setText("Review");
                     //BjoinEvent.setVisibility(View.INVISIBLE);
                 } else {
-                    BjoinEvent.setText("Join Event");
+                    BjoinEvent.setText("Join");
                 }
             }
 
@@ -69,10 +69,10 @@ public class EventCardViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    /*public void setDescription(String description){
-        TextView desc = (TextView)mView.findViewById(R.id.tvDescription);
-        desc.setText(description);
-    }*/
+    public void setDate(String date){
+        TextView dat = (TextView)mView.findViewById(R.id.tvDate);
+        dat.setText(date);
+    }
     public void setCourse(String course){
         TextView cour = (TextView)mView.findViewById(R.id.tvCourse);
         cour.setText(course);

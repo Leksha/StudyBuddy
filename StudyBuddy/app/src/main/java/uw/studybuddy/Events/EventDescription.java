@@ -25,6 +25,7 @@ import java.util.List;
 
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.UserInfo;
 
 public class EventDescription extends AppCompatActivity {
 
@@ -48,6 +49,8 @@ public class EventDescription extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
+
+    UserInfo User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +87,8 @@ public class EventDescription extends AppCompatActivity {
                 String location = (String) dataSnapshot.child("location").getValue();
                 String date = (String) dataSnapshot.child("date").getValue();
                 String time = (String) dataSnapshot.child("time").getValue();
-                final String questId = (String) dataSnapshot.child("questId").getValue();
                 String uid = (String) dataSnapshot.child("uid").getValue();
+                final String username = (String) dataSnapshot.child("username").getValue();
 
                 edCourse.setText(course);
                 edTime.setText(time);
@@ -93,7 +96,7 @@ public class EventDescription extends AppCompatActivity {
                 edLocation.setText(location);
                 edDescription.setText(description);
                 edTitle.setText(title);
-                edQuestId.setText(questId);
+                edQuestId.setText(username);
 
                 if(mCurrentUser.getUid().equals(uid)){
                     bDeleteEvent.setVisibility(View.VISIBLE);
@@ -106,7 +109,7 @@ public class EventDescription extends AppCompatActivity {
                 bAddFriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(EventDescription.this, "You have sent friend request to "+questId, Toast.LENGTH_LONG).show();
+                        Toast.makeText(EventDescription.this, "You have sent friend request to "+username, Toast.LENGTH_LONG).show();
                     }
                 });
 
