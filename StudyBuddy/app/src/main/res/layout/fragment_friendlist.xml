@@ -12,7 +12,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-
         android:src="@drawable/friend1" >
     </de.hdodenhof.circleimageview.CircleImageView>
 
@@ -25,5 +24,13 @@
         android:text="@+id/label"
         android:textSize="30px" >
     </TextView>
+
+    <ImageView
+        android:id="@+id/remove_friend_button"
+        android:src="@mipmap/ic_remove_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

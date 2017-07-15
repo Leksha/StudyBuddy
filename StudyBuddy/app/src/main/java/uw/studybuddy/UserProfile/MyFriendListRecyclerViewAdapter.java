@@ -35,6 +35,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
     private final OnListFragmentInteractionListener mListener;
     private DataSnapshot dataSnapshot_FG;
     private UserInfo user;
+    private FriendListFragment current_fragment;
 
     public MyFriendListRecyclerViewAdapter(FriendListFragment fragment, List<String> Friendlist,  OnListFragmentInteractionListener listener) {
         mValues = Friendlist;
@@ -42,6 +43,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         context = fragment.getContext();
         Setup_UsertableListener();
         user = UserInfo.getInstance();
+        current_fragment = fragment;
 
     }
 
@@ -59,40 +61,49 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         //holder.mPhotoView.setImageResource(mValues.get(position).content);
 
 
-
-
         //change the icon based on name
         String s = mValues.get(position);
         System.out.println(s);
 
-        if(s.equals("Yuna")){
+        if (s.equals("Yuna")) {
             holder.mPhotoView.setImageResource(R.drawable.friend1);
-        }else{
+        } else {
             holder.mPhotoView.setImageResource(R.drawable.friend2);
         }
 
 
-
-
         final UserPattern Userholder = new UserPattern();
 
-        if(dataSnapshot_FG == null){
+        if (dataSnapshot_FG == null) {
             Log.d("UserTableFG", "fail get FG");
             //need change
-            dataSnapshot_FG= user.getmUserTable_DS();
-        }else {
+            dataSnapshot_FG = user.getmUserTable_DS();
+        } else {
             //update the dataSnapshot_FG
             user.setmUserTable_DS(dataSnapshot_FG);
         }
-        Userholder.get_user(dataSnapshot_FG,mValues.get(position));
+        Userholder.get_user(dataSnapshot_FG, mValues.get(position));
 
+        final String QuestID = mValues.get(position);
 
-        if(Userholder.getdisplay_name() == null){
-            holder.mIdView.setText("The User is not exist " + mValues.get(position) );
-        }else{
+        if (Userholder.getdisplay_name() == null) {
+            holder.mIdView.setText("The User is not exist " + mValues.get(position));
+        } else {
             holder.mIdView.setText(Userholder.getdisplay_name());
         }
 
+        holder.mRemoveIcon.setOnClickListener
+                (new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context, "The Friend is removed",
+                                Toast.LENGTH_LONG).show();
+                        dataSnapshot_FG.child(user.getQuestID()).child(FirebaseUserInfo.table_friend).child(QuestID).getRef()
+                                .removeValue();
+                        reloadFragment();
+
+                    }
+                });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,12 +190,14 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         public final View mView;
         public final TextView mIdView;
         public final ImageView mPhotoView;
+        public final ImageView mRemoveIcon;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.label_FG);
             mPhotoView = (ImageView) view.findViewById(R.id.logo_FG);
+            mRemoveIcon = (ImageView) view.findViewById(R.id.remove_friend_button);
         }
 
         @Override
@@ -211,6 +224,11 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         });
     }
 
+    private void reloadFragment() {
+        Log.d("ReLoad: ", "reloadFragment()");
+        FriendListFragment f = new FriendListFragment();
+        current_fragment.getFragmentManager().beginTransaction().replace(R.id.flContent, f).commit();
+    }
 
 
 
