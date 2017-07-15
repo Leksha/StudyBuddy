@@ -12,22 +12,23 @@
         android:icon="@mipmap/ic_event"
         android:onClick="GotoNewEvent"
         android:orderInCategory="100"
-        android:title="@string/action_new_event"/>
-    <item
-        android:id="@+id/action_new_tutor"
-        android:icon="@mipmap/ic_add_person"
-        android:orderInCategory="100"
-        android:title="@string/action_new_tutor"/>
+        android:title="@string/action_new_event" />
 
     <item
         android:id="@+id/action_new_resource"
         android:orderInCategory="100"
         android:title="@string/action_new_resource"/>
-
+    
     <item
         android:id="@+id/action_course_chat"
-        android:orderInCategory="100"
-        android:title="Course Chat"
-        android:onClick="GotoCourseChat"/>
+        android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
+        android:title=""
+        android:onClick="GotoCourseChat"
+        app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_new_tutor"
+        android:icon="@mipmap/ic_add_person"
+        android:orderInCategory="101"
+        android:title="@string/action_new_tutor" />
 </menu>

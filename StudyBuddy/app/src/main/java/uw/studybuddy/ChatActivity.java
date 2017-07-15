@@ -41,9 +41,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        bSend = (Button) findViewById(R.id.BsendMessage);
-        receivedMsg = (TextView) findViewById(R.id.tvReceivedMsg);
-        sendMsg = (EditText) findViewById(R.id.edSendMessage);
+        bSend = (Button) findViewById(R.id.BFriendsend);
+        receivedMsg = (TextView) findViewById(R.id.tvFriendReceived);
+        sendMsg = (EditText) findViewById(R.id.edFriendSend);
 
         chatname = getIntent().getExtras().get("chatname").toString();
         friendname = getIntent().getExtras().get("friendname").toString();
