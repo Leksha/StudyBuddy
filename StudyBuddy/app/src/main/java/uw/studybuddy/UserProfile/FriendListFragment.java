@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    public Button bSearch;
+    public ImageButton bSearch;
     public EditText etSearch;
     //Usertable
     private DataSnapshot dataSnapshot_FG;
@@ -102,7 +103,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
         View view = inflater.inflate(R.layout.fragment_friendlist_list, container, false);
         container_FG = container;
 
-        bSearch = (Button)view.findViewById(R.id.find_friends_search_button_FG);
+        bSearch = (ImageButton)view.findViewById(R.id.find_friends_search_button_FG);
 
         etSearch = (EditText) view.findViewById(R.id.find_friends_name_FG);
         bSearch.setOnClickListener(this);
