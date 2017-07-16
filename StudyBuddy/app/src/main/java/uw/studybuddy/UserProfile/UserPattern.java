@@ -132,5 +132,16 @@ public class UserPattern {
         return result;
     }
 
+    public static List<String> list_courseInfo_toString(List<CourseInfo> list){
+        List<String> result = new ArrayList<>();
+        if(list == null){
+            return result;
+        }
+        for(CourseInfo value : list){
+            result.add(value.getSubject() + " " + value.getCatalogNumber());
+        }
+        return result;
+    }
+
 
 }
