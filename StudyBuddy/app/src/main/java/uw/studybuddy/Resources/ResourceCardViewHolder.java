@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -67,15 +68,22 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setLink(final String link){
-        TextView url = (TextView)mView.findViewById(R.id.cardview_resource_link);
-        url.setText(link);
+//        TextView url = (TextView)mView.findViewById(R.id.cardview_resource_link);
+//        url.setText(link);
 
         WebView webView = (WebView)mView.findViewById(R.id.cardview_resource_webview);
+        webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+                return false;
+            }
+        });
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(link);
 
-        url.setOnClickListener(new View.OnClickListener() {
+        webView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
             }
