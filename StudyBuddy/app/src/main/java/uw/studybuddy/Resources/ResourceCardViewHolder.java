@@ -89,7 +89,7 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //showDeleteDialog(mView.getContext(), resourceInfo);
+                    showDeleteDialog(mView.getContext(), resourceInfo);
                 }
             });
         } else {
@@ -141,6 +141,24 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
                 FirebaseResourceInfo.updateResource(resourceInfo);
             }
         });
+        builder.show();
+    }
+
+    private void showDeleteDialog(Context context, final ResourceInfo resourceInfo) {
+        String message = "Are you sure you want to delete this resource?";
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirm Delete");
+        builder.setMessage(message);
+
+        builder.setNeutralButton("cancel", null);
+        builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseResourceInfo.deleteResource(resourceInfo);
+            }
+        });
+
+        builder.create();
         builder.show();
     }
 }
