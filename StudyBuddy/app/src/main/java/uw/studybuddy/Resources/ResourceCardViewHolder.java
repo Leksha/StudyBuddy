@@ -190,12 +190,13 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
 
                 // Send email to admin
                 BackgroundMail bm = new BackgroundMail(context);
+                String subject = "Flagged Resource";
                 String email = "studybuddycs446@gmail.com";
                 String password = "studybuddy123";
                 bm.setGmailUserName(email);
                 bm.setGmailPassword(password);
                 bm.setMailTo(email);
-                bm.setFormSubject(password);
+                bm.setFormSubject(subject);
                 bm.setFormBody(title + by + message + reason);
                 bm.send();
             }
