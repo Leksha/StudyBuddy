@@ -50,13 +50,13 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
         TextView titleView = (TextView)mView.findViewById(R.id.cardview_resource_title);
         titleView.setText(title);
 
-        titleView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-                return false;
-            }
-        });
+//        titleView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+//                return false;
+//            }
+//        });
     }
 
     public void setUserNameWithQuestId(String questId, boolean isAnonymous){
@@ -83,8 +83,8 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
         webView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                showWebDialog(mView.getContext(), link);
-//                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+//                showWebDialog(mView.getContext(), link);
+                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
                 return false;
             }
         });
