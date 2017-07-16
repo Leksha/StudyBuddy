@@ -22,7 +22,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +51,6 @@ public class EventCreation extends AppCompatActivity {
 
     Calendar dateTime = Calendar.getInstance();
     private TextView textView;
-//    private TextView courseCreate;
     private TextView descriptionCreate;
     private TextView locationCreate;
     private TextView subjectCreate;
@@ -58,9 +60,10 @@ public class EventCreation extends AppCompatActivity {
     private Button btn_time;
     private Button mConfirm;
     private Button btn_LaunchMap;
-    //private ProgressDialog progressDialog;
 
-    private String mPostKey = null;
+
+    private String address;
+    private String eventKey;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabase;
@@ -90,7 +93,6 @@ public class EventCreation extends AppCompatActivity {
         btn_LaunchMap = (Button) findViewById(R.id.btn_launchmap);
 
         mConfirm = (Button)findViewById(R.id.btn_confirm_event_setup);
-        //progressDialog = new ProgressDialog(this);
 
         btn_date.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -108,12 +110,10 @@ public class EventCreation extends AppCompatActivity {
 
         updateTextLable();
 
-        //mPostKey = getIntent().getExtras().getString("event_id");
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
-        //mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getEmail()); email -14 quest id
 
 
         mConfirm.setOnClickListener(new View.OnClickListener() {
@@ -159,40 +159,38 @@ public class EventCreation extends AppCompatActivity {
         btn_LaunchMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mDatabase.child(mPostKey).addValueEventListener(new ValueEventListener() {
-                    //@Override
-                    //public void onDataChange(DataSnapshot dataSnapshot) {
-                        //int PLACE_PICKER_REQUEST = 199;
-                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                        Intent intent;
-                        try {
-                            intent = builder.build(EventCreation.this);
-                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
-
-                        } catch (GooglePlayServicesNotAvailableException e) {
-                            e.printStackTrace();
-                        } catch (GooglePlayServicesRepairableException e) {
-                            e.printStackTrace();
-                        }
-                        //}
-                    }
-
-                   // @Override
-                    //public void onCancelled(DatabaseError databaseError) {
-
-                    //}
-                //});
-            //}
+                  startPlacePickerActivity();
+            }
         });
     }
 
+    private void startPlacePickerActivity() {
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            Intent intent = builder.build(EventCreation.this);
+            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String displaySelectedPlaceFromPlacePicker(Intent data) {
+        Place placeSelected = PlacePicker.getPlace(data, EventCreation.this);
+        String addr = placeSelected.getAddress().toString();
+        locationCreate.setText(addr);
+        return addr;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PLACE_PICKER_REQUEST) {
-            if(resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this, data);
-                String address = String.format("Place: %s",place.getName());
-                locationCreate.setText(address);
-            }
+        if(requestCode == PLACE_PICKER_REQUEST && resultCode == EventCreation.RESULT_OK) {
+            address = displaySelectedPlaceFromPlacePicker(data);
+            eventKey = mDatabase.push().getKey();
+            mDatabase.child(eventKey).child("location").setValue(address);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

@@ -142,7 +142,6 @@ public class EventDescription extends AppCompatActivity {
 
             }
         });
-        //Toast.makeText(EventDescription.this, eventKey, Toast.LENGTH_LONG).show();
 
         bDeleteEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +152,6 @@ public class EventDescription extends AppCompatActivity {
             }
         });
 
-        final Geocoder coder = new Geocoder(this);
-
 
         bViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,22 +160,16 @@ public class EventDescription extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        List<Address> address;
-
-                        Intent intent = null;
-                        Intent chooser = null;
 
                         if(dataSnapshot.getChildren() != null) {
                             String location = (String) dataSnapshot.child("location").getValue();
 
-                            try {
-                                address = coder.getFromLocationName(location,5);
-                                Address loc = address.get(0);
-                                intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse("geo:" + loc.getLatitude() + loc.getLongitude()));
-                                chooser = Intent.createChooser(intent, "Launch Maps");
-                                startActivity(chooser);
-                            } catch (IOException e) {
+                            if(location != null) {
+                                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location);
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage("com.google.android.apps.maps");
+                                startActivity(mapIntent);
+                            } else {
                                 Toast.makeText(EventDescription.this, "Location doesn't exist", Toast.LENGTH_SHORT).show();
                             }
                         }

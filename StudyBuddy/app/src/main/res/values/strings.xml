@@ -8,6 +8,7 @@
     <string name="find_friend_editText">Enter a friend\'s name ...</string>
     <string name="search_friend_button">Search</string>
     <string name="print_friend_info_textView">Your friend\'s info is printed here</string>
+    <string name="google_maps_key">AIzaSyCBQFIMRRQ7aRxCYP8OIUXnbMZWu8_u6J8</string>
 
 
     <!-- Action Bar Titles -->
