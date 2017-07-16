@@ -2,6 +2,7 @@ package uw.studybuddy.UserProfile;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,18 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
+import uw.studybuddy.ChatActivity;
+import uw.studybuddy.Events.EventCreation;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.FriendListFragment.OnListFragmentInteractionListener;
 
@@ -35,6 +44,11 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
     private final OnListFragmentInteractionListener mListener;
     private DataSnapshot dataSnapshot_FG;
     private UserInfo user;
+    private String chatKey;
+
+    UserInfo User;
+
+    private DatabaseReference mDatabaseChat;
 
     public MyFriendListRecyclerViewAdapter(FriendListFragment fragment, List<String> Friendlist,  OnListFragmentInteractionListener listener) {
         mValues = Friendlist;
@@ -57,7 +71,7 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         //holder.mItem = mValues.get(position);
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mPhotoView.setImageResource(mValues.get(position).content);
-
+        mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("FriendChat");
 
 
 
@@ -136,8 +150,9 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                         text_name.setText(Userholder.getdisplay_name());
                         text_aboutme.setText(Userholder.getabout_me());
                         course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
-                        dialogAddFriendButton.setClickable(false);
-                        dialogAddFriendButton.setVisibility(dialogAddFriendButton.GONE);
+                        dialogAddFriendButton.setText("Chat");
+                        //dialogAddFriendButton.setClickable(false);
+                        //dialogAddFriendButton.setVisibility(dialogAddFriendButton.GONE);
                         dialog.show();
                     }
 
@@ -154,13 +169,26 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                         @Override
                         public void onClick(View view) {
                             //The friend is added  to the friendlist:
-                            if(Userholder.getdisplay_name()!= null ){
+                            /*if(Userholder.getdisplay_name()!= null ){
                                 //if the friend is not user himself/herself
                                 String friendname = Userholder.getquest_id().toString();
                                 FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(friendname);
                                 Toast.makeText(context, "Success: " + friendname + " is on friend list now",
                                             Toast.LENGTH_LONG).show();
+                            }*/
+                            HashMap<String, Object> dataMap = new HashMap<String, Object>();
+                            String cur = User.getInstance().getDisplayName();
+                            String friend = Userholder.getdisplay_name();
+                            if(friend.compareTo(cur) < 0){
+                                chatKey = friend + " and " + cur;
+                            } else {
+                                chatKey = cur + " and " + friend;
                             }
+                            mDatabaseChat.child(chatKey).updateChildren(dataMap);
+                            Intent intent = new Intent(context, ChatActivity.class);
+                            intent.putExtra("chatname", chatKey);
+                            intent.putExtra("friendname", friend);
+                            context.startActivity(intent);
                             dialog.dismiss();
                         }
                     });

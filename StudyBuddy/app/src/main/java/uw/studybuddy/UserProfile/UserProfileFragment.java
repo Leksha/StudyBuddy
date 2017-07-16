@@ -2,6 +2,8 @@ package uw.studybuddy.UserProfile;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.CursorJoiner;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import uw.studybuddy.CourseInfo;
@@ -41,6 +47,10 @@ public class UserProfileFragment extends Fragment {
 
     private Button mUserEditButton;
     private Button mAddCourseButton;
+
+    private ImageButton mImage;
+    private static final int GALLERY_REQUEST = 1;
+    private Uri mImageUri = null;
 
     private LinearLayout mUserCoursesLayout;
     private List<Button> mCoursesButtons;
@@ -127,6 +137,8 @@ public class UserProfileFragment extends Fragment {
         mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
         mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
+        mImage = (ImageButton) rootView.findViewById(R.id.user_profile_image);
+
         // For the purpose of the demo, we will create a user to display
         user = UserInfo.getInstance();
 
@@ -143,6 +155,16 @@ public class UserProfileFragment extends Fragment {
         int diameter = 100;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter-10);
         params.setMargins(2,2,2,2);
+
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GALLERY_REQUEST);
+            }
+        });
 
         for (int i=0; i<numCourses; i++) {
             final Button button = createButton(mCoursesList.get(i));
@@ -164,6 +186,29 @@ public class UserProfileFragment extends Fragment {
         mUserAboutMe.setText(user.getAboutMe());
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_REQUEST && resultCode == getActivity().RESULT_OK){
+
+            Uri imageUri = data.getData();
+
+            CropImage.activity().setAspectRatio(1, 1).start(getContext(), this);
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == getActivity().RESULT_OK) {
+                mImageUri = result.getUri();
+                mImage.setImageURI(mImageUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
     }
 
     private Button createButton(CourseInfo course) {
