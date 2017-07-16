@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -65,6 +69,11 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
     public void setLink(final String link){
         TextView url = (TextView)mView.findViewById(R.id.cardview_resource_link);
         url.setText(link);
+
+        WebView webView = (WebView)mView.findViewById(R.id.cardview_resource_webview);
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(link);
 
         url.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -207,5 +216,21 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
 
 
 
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            view.loadUrl(request.getUrl().toString());
+            return true;
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }

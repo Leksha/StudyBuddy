@@ -10,18 +10,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginTop="2dp"
+        android:layout_height="167dp"
         android:layout_marginBottom="2dp"
         android:layout_marginRight="2dp"
-        android:gravity="center">
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.85"
+            android:layout_width="213dp"
+            android:layout_height="fill_parent"
             android:orientation="vertical">
 
             <TextView
@@ -81,6 +80,12 @@
                     android:layout_height="wrap_content"
                     android:text="link"/>
             </LinearLayout>
+
+            <WebView
+                android:id="@+id/cardview_resource_webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </WebView>
         </LinearLayout>
 
         <LinearLayout
@@ -94,11 +99,13 @@
             android:layout_width="43dp"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_flag"/>
+
         <Button
             android:id="@+id/cardview_resource_delete"
             android:layout_width="43dp"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_delete"/>
+
         <Button
             android:id="@+id/cardview_resource_edit"
             android:layout_width="43dp"
