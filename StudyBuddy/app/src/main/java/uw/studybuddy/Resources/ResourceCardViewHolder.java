@@ -75,19 +75,32 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
         webView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+                showWebDialog(mView.getContext(), link);
+//                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
                 return false;
             }
         });
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(link);
+    }
 
-        webView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-            }
-        });
+    private void showWebDialog(Context context, String url) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View view = LayoutInflater.from(context).inflate(R.layout.dialog_webview, null);
+        WebView webView = (WebView)view.findViewById(R.id.webview);
+        webView.setVerticalScrollBarEnabled(true);
+        webView.setHorizontalScrollBarEnabled(true);
+
+        builder.setView(view);
+//        builder.setNeutralButton("Done", null);
+        builder.create();
+
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
+
+        builder.show();
     }
 
     public void setButton(boolean isCreator, final ResourceInfo resourceInfo) {
@@ -241,4 +254,5 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             return true;
         }
     }
+
 }
