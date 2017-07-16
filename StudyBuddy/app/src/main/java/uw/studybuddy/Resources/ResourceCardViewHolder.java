@@ -10,15 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.kristijandraca.backgroundmaillibrary.BackgroundMail;
+
 import uw.studybuddy.CustomCoursesSpinner;
 import uw.studybuddy.R;
-import uw.studybuddy.Tutoring.FirebaseTutor;
-import uw.studybuddy.Tutoring.TutorInfo;
+
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 
 /**
@@ -99,7 +101,7 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             flagButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // showContactDialog(mView.getContext(), resourceInfo);
+                    showFlagDialog(mView.getContext(), resourceInfo);
                 }
             });
         }
@@ -160,5 +162,49 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
 
         builder.create();
         builder.show();
+    }
+
+    private void showFlagDialog(final Context context, final ResourceInfo resourceInfo) {
+        /* Create the Intent */
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                /* Fill it with Data */
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View view = LayoutInflater.from(context).inflate(R.layout.dialog_flag_resource, null);
+        builder.setView(view);
+        builder.setTitle("Flag Resource As");
+
+        final RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.flag_radiogroup);
+
+
+        builder.setNeutralButton("cancel", null);
+        builder.setPositiveButton("Flag", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton)view.findViewById(selectedId);
+                String title = "The following resource has been flagged.\n\n";
+                String message = "ID: " + resourceInfo.getUuid().toString() + "\n";
+                String by = "By: " + resourceInfo.getQuestId() + "\n";
+                String reason = "Reason: " + radioButton.getText().toString() + "\n";
+
+                // Send email to admin
+                BackgroundMail bm = new BackgroundMail(context);
+                String email = "studybuddycs446@gmail.com";
+                String password = "studybuddy123";
+                bm.setGmailUserName(email);
+                bm.setGmailPassword(password);
+                bm.setMailTo(email);
+                bm.setFormSubject(password);
+                bm.setFormBody(title + by + message + reason);
+                bm.send();
+            }
+        });
+
+        builder.create();
+        builder.show();
+
+
+
     }
 }
