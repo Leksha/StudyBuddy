@@ -1,13 +1,23 @@
 package uw.studybuddy.Resources;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import uw.studybuddy.CustomCoursesSpinner;
 import uw.studybuddy.R;
+import uw.studybuddy.Tutoring.FirebaseTutor;
 import uw.studybuddy.Tutoring.TutorInfo;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 
@@ -73,13 +83,13 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //showEditDialog(mView.getContext(), tutor);
+                    showEditDialog(mView.getContext(), resourceInfo);
                 }
             });
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //showDeleteDialog(mView.getContext(), tutor);
+                    //showDeleteDialog(mView.getContext(), resourceInfo);
                 }
             });
         } else {
@@ -89,9 +99,48 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             flagButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // showContactDialog(mView.getContext(), tutor);
+                   // showContactDialog(mView.getContext(), resourceInfo);
                 }
             });
         }
+    }
+
+    private void showEditDialog(Context context, final ResourceInfo resourceInfo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_new_resource, null);
+        builder.setTitle("Edit Resource");
+        builder.setView(view);
+
+//         Setup the courses spinner
+        final Spinner spinner = CustomCoursesSpinner.getSpinner(R.id.new_resource_courses_spinner, context, view);
+        CustomCoursesSpinner.setSelectedText(resourceInfo.getCourse());
+
+        // Get UI Components
+        final EditText title = (EditText) view.findViewById(R.id.new_resource_title);
+        final EditText link = (EditText) view.findViewById(R.id.new_resource_link);
+        final CheckBox anonymous = (CheckBox) view.findViewById(R.id.anonymous_checkBox);
+
+        // Set the current values
+        title.setText(resourceInfo.getTitle());
+        link.setText(resourceInfo.getLink());
+        anonymous.setChecked(resourceInfo.isAnonymous());
+
+        builder.setNeutralButton("cancel", null);
+        builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String course = spinner.getSelectedItem().toString();
+                String newTitle = title.getText().toString();
+                String newLink = link.getText().toString();
+                boolean newAnonymous = anonymous.isChecked();
+
+                resourceInfo.setCourse(course);
+                resourceInfo.setTitle(newTitle);
+                resourceInfo.setLink(newLink);
+                resourceInfo.setAnonymous(newAnonymous);
+                FirebaseResourceInfo.updateResource(resourceInfo);
+            }
+        });
+        builder.show();
     }
 }

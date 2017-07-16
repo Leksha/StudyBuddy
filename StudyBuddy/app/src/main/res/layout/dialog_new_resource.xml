@@ -70,7 +70,7 @@
         android:id="@+id/anonymous_checkBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Post as anonymous"
-        android:layout_marginLeft="22dp"/>
+        android:layout_marginLeft="22dp"
+        android:text="Post as anonymous"/>
 
 </LinearLayout>
