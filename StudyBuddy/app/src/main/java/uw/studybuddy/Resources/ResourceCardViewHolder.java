@@ -46,9 +46,17 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
         cour.setText(course);
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title, final String link) {
         TextView titleView = (TextView)mView.findViewById(R.id.cardview_resource_title);
         titleView.setText(title);
+
+        titleView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+                return false;
+            }
+        });
     }
 
     public void setUserNameWithQuestId(String questId, boolean isAnonymous){

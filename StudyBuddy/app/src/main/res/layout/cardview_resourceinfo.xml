@@ -18,104 +18,107 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="119dp"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.02"
-                android:orientation="vertical"
-                android:weightSum="1">
-
-                <TextView
-                    android:id="@+id/cardview_resource_course"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Course"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/cardview_resource_title_header"
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:text="Title: "
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/cardview_resource_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_weight="0.63"/>
-
-                <TextView
-                    android:id="@+id/cardview_resource_by"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="By    :"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/cardview_resource_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="35dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Link :"-->
-            <!--android:textStyle="bold"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/cardview_resource_link"-->
-            <!--android:layout_width="160dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="link"/>-->
-            <!--</LinearLayout>-->
-
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:foregroundGravity="bottom">
-
-                <Button
-                    android:id="@+id/cardview_resource_edit"
-                    android:layout_width="43dp"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/ic_edit"/>
-
-                <Button
-                    android:id="@+id/cardview_resource_delete"
-                    android:layout_width="43dp"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/ic_delete"/>
-
-                <Button
-                    android:id="@+id/cardview_resource_flag_button"
-                    android:layout_width="43dp"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/ic_flag"/>
-
-            </GridLayout>
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
             <WebView
                 android:id="@+id/cardview_resource_webview"
-                android:layout_width="243dp"
-                android:layout_height="match_parent">
+                android:layout_width="170dp"
+                android:layout_height="146dp"
+                android:layout_weight="0.42"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical">
             </WebView>
+
+            <LinearLayout
+                android:layout_width="119dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.02"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/cardview_resource_course"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Course"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cardview_resource_title_header"
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:text="Title: "
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cardview_resource_title"
+                        android:layout_width="107dp"
+                        android:layout_height="41dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/cardview_resource_by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="By    :"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cardview_resource_username"
+                        android:layout_width="108dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Link :"-->
+                <!--android:textStyle="bold"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/cardview_resource_link"-->
+                <!--android:layout_width="160dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="link"/>-->
+                <!--</LinearLayout>-->
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foregroundGravity="right">
+
+                    <Button
+                        android:id="@+id/cardview_resource_delete"
+                        android:layout_width="43dp"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_delete"/>
+                    <Button
+                        android:id="@+id/cardview_resource_edit"
+                        android:layout_width="43dp"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_edit"/>
+                    <Button
+                        android:id="@+id/cardview_resource_flag_button"
+                        android:layout_width="43dp"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_flag"/>
+
+                </GridLayout>
+            </LinearLayout>
         </LinearLayout>
 
 
