@@ -40,6 +40,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -284,6 +285,11 @@ public class MainActivity extends AppCompatActivity
         }
         if(temp != null){
             user = new UserInfo(temp.getdisplay_name(),temp.getquest_id(),courseList ,temp.getabout_me(), FriendListDataSnapshot);
+            if(temp.getImage() == null){
+                user.setmImage(Uri.parse("android.resource://uw.studybuddy/mipmap/ic_default_user"));
+            }else {
+                user.setmImage(Uri.parse(temp.getImage()));
+            }
             updateNavigationDrawerUserInfo();
 
             // Only force the main activity to be initialized to home page once
@@ -302,6 +308,12 @@ public class MainActivity extends AppCompatActivity
 
         if(user != null && user.getDisplayName() != null) {
             userName.setText(user.getDisplayName().toString());
+            /*if(user.getmImage() != null){
+                Picasso.with(MainActivity.this).load(user.getmImage()).into(userImage);
+            }*/
+            String imageTemp = user.getmImage().toString();
+
+            Picasso.with(MainActivity.this).load(Uri.parse(imageTemp)).into(userImage);
         }else{
             userName.setText("");
         }

@@ -20,7 +20,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.net.URI;
@@ -50,11 +61,16 @@ public class UserProfileFragment extends Fragment {
 
     private ImageButton mImage;
     private static final int GALLERY_REQUEST = 1;
-    private Uri mImageUri = null;
+    private Uri mImageUri;// = null;
 
     private LinearLayout mUserCoursesLayout;
     private List<Button> mCoursesButtons;
     private List<CourseInfo> mCoursesList;
+
+    private StorageReference mStorage;
+    private DatabaseReference mDatabase;
+
+    private String questId;
   
 
     // TODO: Rename parameter arguments, choose names that match
@@ -100,6 +116,7 @@ public class UserProfileFragment extends Fragment {
         }
 
 
+        Setup_UsertableListener();
         /*mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -137,6 +154,9 @@ public class UserProfileFragment extends Fragment {
         mUserEditButton = (Button)rootView.findViewById(R.id.user_profile_edit_button);
         mAddCourseButton = (Button)rootView.findViewById(R.id.add_course_button);
 
+        mStorage = FirebaseStorage.getInstance().getReference().child("Profile_image");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mImage = (ImageButton) rootView.findViewById(R.id.user_profile_image);
 
         // For the purpose of the demo, we will create a user to display
@@ -144,8 +164,27 @@ public class UserProfileFragment extends Fragment {
 
         // Update the user profile view with the right user info
         mUserQuestId.setText(user.getQuestID());
+        questId = user.getQuestID();
         mUserDisplayName.setText(user.getDisplayName());
         mUserAboutMe.setText(user.getAboutMe());
+        
+        //Toast.makeText(getActivity(), user.getAboutMe(), Toast.LENGTH_LONG).show();
+        /*UserPattern Userholder = new UserPattern();
+
+        Userholder.get_user(UserInfo.getInstance().getmUserTable_DS(), user.getDisplayName());
+        String temp_uri = Userholder.getImage();*/
+        String temp_uri = user.getmUserTable_DS().child(questId).child("image").getValue(String.class);
+        if(temp_uri != null){
+            mImageUri = Uri.parse(temp_uri);
+            if(mImageUri != null) {
+                //Toast.makeText(getActivity(), mImageUri.toString(), Toast.LENGTH_LONG).show();
+                Picasso.with(getContext()).load(mImageUri).into(mImage);
+            }
+        } else {
+            mImageUri = Uri.parse("android.resource://uw.studybuddy/mipmap/ic_default_user");
+            UserInfo.setmImage(mImageUri);
+            Picasso.with(getContext()).load(mImageUri).into(mImage);
+        }
 
         // Add the courses buttons
         mCoursesList = UserInfo.getInstance().getCoursesList();
@@ -205,6 +244,17 @@ public class UserProfileFragment extends Fragment {
             if (resultCode == getActivity().RESULT_OK) {
                 mImageUri = result.getUri();
                 mImage.setImageURI(mImageUri);
+                StorageReference filepath = mStorage.child(mImageUri.getLastPathSegment());
+                filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    // if image upload successfully
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests") Uri cur = taskSnapshot.getDownloadUrl();
+                        String downloadUri = cur.toString();
+                        user.setmImage(cur);
+                        mDatabase.child(questId).child("image").setValue(downloadUri);
+                    }
+                });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
@@ -219,6 +269,21 @@ public class UserProfileFragment extends Fragment {
         button.setClickable(true);
         button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         return button;
+    }
+
+    public void Setup_UsertableListener(){
+        FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserInfo.getInstance().setmUserTable_DS(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     // Using the same dialog to add and edit courses

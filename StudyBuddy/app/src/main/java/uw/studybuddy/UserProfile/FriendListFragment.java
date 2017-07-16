@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +204,8 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                 text_name.setText(Userholder.getdisplay_name());
                 text_aboutme.setText(Userholder.getabout_me());
                 course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
+                String uri_temp = Userholder.getImage();
+                Picasso.with(getContext()).load(uri_temp).into(image);
                 dialog.show();
 
             }

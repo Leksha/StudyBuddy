@@ -19,7 +19,8 @@
         android:background="@android:color/transparent"
         android:clickable="true"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/harry_potter_user_image"/>
+        app:srcCompat="@drawable/harry_potter_user_image"
+        />
 
     <TextView
         android:id="@+id/navigation_draw_user_name"

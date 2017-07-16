@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,11 +22,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import uw.studybuddy.ChatActivity;
 import uw.studybuddy.FirebaseInstance;
 import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.FirebaseUserInfo;
+import uw.studybuddy.UserProfile.UserInfo;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -53,6 +57,7 @@ public class LoginActivity extends AppCompatActivity{
         final Button bLogin = (Button) findViewById(R.id.bSubmit);
         final TextView registerLink = (TextView) findViewById(R.id.tvRegisterNow);
         final CheckBox cbShowPSD = (CheckBox) findViewById(R.id.cbShowPSD);
+        ImageView image = (ImageView) findViewById(R.id.user_sign_in_icon);
 
 
         cbShowPSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -87,6 +92,7 @@ public class LoginActivity extends AppCompatActivity{
                 EditText etUsername = (EditText) findViewById(R.id.etEmailLogin);
                 EditText etPassword = (EditText) findViewById(R.id.etPasswordLogin);
                 Button bLogin = (Button) findViewById(R.id.bSubmit);
+                ImageView imageView = (ImageView) findViewById(R.id.user_sign_in_icon);
 
                 etUsername.setText(email);
                 etPassword.setText(password);
