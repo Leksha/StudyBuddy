@@ -16,6 +16,7 @@
         <EditText
             android:id="@+id/edit_course_subject"
             android:layout_marginLeft="10dp"
+            android:hint="e.g CS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -35,6 +36,7 @@
             android:id="@+id/edit_course_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="e.g 446"
             android:layout_marginLeft="8dp"/>
     </LinearLayout>
 
