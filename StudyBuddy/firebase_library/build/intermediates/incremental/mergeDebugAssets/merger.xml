@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/apalissery/Documents/UW/Spring 2017 (Study)/CS 446/StudyBuddy/StudyBuddy/firebase_library/src/main/assets"/><source path="/Users/apalissery/Documents/UW/Spring 2017 (Study)/CS 446/StudyBuddy/StudyBuddy/firebase_library/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/apalissery/Documents/UW/Spring 2017 (Study)/CS 446/StudyBuddy/StudyBuddy/firebase_library/src/debug/assets"/></dataSet></merger>
