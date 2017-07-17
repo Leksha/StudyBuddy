@@ -5,7 +5,7 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              tools:context="uw.studybuddy.Events.EventCreation"
-                                             android:background="@drawable/leaf_two"
+                                             android:background="@drawable/leaf_two_2"
                                              tools:layout_editor_absoluteY="81dp"
                                              tools:layout_editor_absoluteX="0dp">
 
@@ -119,7 +119,7 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="-1dp"
         android:gravity="center"
         android:text="Your Event will Begin at :"
         android:textAlignment="center"
@@ -149,7 +149,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="13dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_datePicker" />
 
     <Button
