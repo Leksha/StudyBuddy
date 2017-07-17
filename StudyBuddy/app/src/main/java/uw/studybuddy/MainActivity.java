@@ -46,6 +46,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import uw.studybuddy.CourseChat.CoursesChatActivity;
 import uw.studybuddy.Events.EventCreation;
 import uw.studybuddy.Events.EventsListRecycleViewFragment;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
@@ -67,6 +68,7 @@ import uw.studybuddy.UserProfile.UserPattern;
 
 public class MainActivity extends AppCompatActivity
         implements HomePage.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener,
         FindFriends.OnFragmentInteractionListener,
         DisplayCourses.OnFragmentInteractionListener,
         EventsListRecycleViewFragment.OnFragmentInteractionListener,
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -205,9 +207,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_friend_list) {
             fragmentClass = FriendListFragment.class;
         }
-//        else if (id == R.id.nav_map) {
-//
-//        }
+        else if (id == R.id.nav_map) {
+            fragmentClass = MapFragment.class;
+        }
 // else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {
@@ -335,6 +337,11 @@ public class MainActivity extends AppCompatActivity
 
     public void GotoNewEvent(MenuItem item) {
         Intent intent = new Intent(this, EventCreation.class);
+        startActivity(intent);
+    }
+
+    public void GotoCourseChat(MenuItem item) {
+        Intent intent = new Intent(this, CoursesChatActivity.class);
         startActivity(intent);
     }
 

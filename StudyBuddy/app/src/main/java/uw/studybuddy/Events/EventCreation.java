@@ -18,6 +18,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +51,6 @@ public class EventCreation extends AppCompatActivity {
 
     Calendar dateTime = Calendar.getInstance();
     private TextView textView;
-//    private TextView courseCreate;
     private TextView descriptionCreate;
     private TextView locationCreate;
     private TextView subjectCreate;
@@ -48,11 +59,16 @@ public class EventCreation extends AppCompatActivity {
     private Button btn_date;
     private Button btn_time;
     private Button mConfirm;
-    //private ProgressDialog progressDialog;
+    private Button btn_LaunchMap;
 
+
+    private String address;
+    private String eventKey;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
-    //private DatabaseReference mDatabaseUser;
+    private DatabaseReference mDatabase;
+
+    int PLACE_PICKER_REQUEST = 1;
 
     uw.studybuddy.UserProfile.UserInfo User;
 
@@ -74,9 +90,9 @@ public class EventCreation extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.Text_date_time);
         btn_date = (Button) findViewById(R.id.btn_datePicker);
         btn_time = (Button) findViewById((R.id.btn_timePicker));
+        btn_LaunchMap = (Button) findViewById(R.id.btn_launchmap);
 
         mConfirm = (Button)findViewById(R.id.btn_confirm_event_setup);
-        //progressDialog = new ProgressDialog(this);
 
         btn_date.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,8 +112,8 @@ public class EventCreation extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
 
-        //mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getEmail()); email -14 quest id
 
 
         mConfirm.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +155,41 @@ public class EventCreation extends AppCompatActivity {
                 finish();
             }
         });
+
+        btn_LaunchMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  startPlacePickerActivity();
+            }
+        });
+    }
+
+    private void startPlacePickerActivity() {
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            Intent intent = builder.build(EventCreation.this);
+            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String displaySelectedPlaceFromPlacePicker(Intent data) {
+        Place placeSelected = PlacePicker.getPlace(data, EventCreation.this);
+        String addr = placeSelected.getAddress().toString();
+        locationCreate.setText(addr);
+        return addr;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PLACE_PICKER_REQUEST && resultCode == EventCreation.RESULT_OK) {
+            address = displaySelectedPlaceFromPlacePicker(data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     // Setup the dropdown list for course field
@@ -156,9 +207,9 @@ public class EventCreation extends AppCompatActivity {
         courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(),
+                /*Toast.makeText(parent.getContext(),
                         "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
