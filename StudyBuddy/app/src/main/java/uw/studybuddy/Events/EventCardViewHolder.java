@@ -1,8 +1,11 @@
 package uw.studybuddy.Events;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import uw.studybuddy.R;
 
@@ -77,10 +81,10 @@ public class EventCardViewHolder extends RecyclerView.ViewHolder {
         TextView cour = (TextView)mView.findViewById(R.id.tvCourse);
         cour.setText(course);
     }
-    /*public void setLocation(String location){
-        TextView loc = (TextView)mView.findViewById(R.id.tvLocation);
-        loc.setText(location);
-    }*/
+    public void setImage(Context ctx, Uri image){
+        ImageView user_image = (ImageView) mView.findViewById(R.id.EventUserImage);
+        Picasso.with(ctx).load(image).into(user_image);
+    }
     public void setTitle(String title){
         TextView til = (TextView)mView.findViewById(R.id.tvSubject);
         til.setText(title);

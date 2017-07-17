@@ -1,5 +1,6 @@
 package uw.studybuddy.UserProfile;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +47,8 @@ public class FirebaseUserInfo {
     private static String field_about_me       = "about_me";
     private static String field_read           = "read";
     private static String field_nameList       = "namelist";
+    private static String field_user_image     = "image";
+    //private static String field_
 
 
     // Tables in the user table
@@ -132,6 +135,10 @@ public class FirebaseUserInfo {
         displayNameRef.setValue(name);
     }
 
+    public static void set_Image(Uri imageUri){
+        DatabaseReference ImageUri = getCurrentUserRef().child(field_user_image);
+        ImageUri.setValue(imageUri.toString());
+    }
 
     // Getters
 
@@ -229,4 +236,7 @@ public class FirebaseUserInfo {
         return FriendList;
     }
 
+    public static String getField_user_image() {
+        return field_user_image;
+    }
 }

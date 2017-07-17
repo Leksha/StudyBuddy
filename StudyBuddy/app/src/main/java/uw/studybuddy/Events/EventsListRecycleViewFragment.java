@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -26,7 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.HomePage;
 import uw.studybuddy.R;
+import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.UserInfo;
+import uw.studybuddy.UserProfile.UserPattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +48,7 @@ public class EventsListRecycleViewFragment extends Fragment {
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabaseCourse;
     private Query mQueryCourse;
+    private UserInfo user_temp;
 
     private RecyclerView rv;
     private String TAG = "EventsListRVFragment";
@@ -91,6 +95,10 @@ public class EventsListRecycleViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+
+        Setup_UsertableListener();
+
+        user_temp = UserInfo.getInstance();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -124,7 +132,21 @@ public class EventsListRecycleViewFragment extends Fragment {
 
                 viewHolder.setCourse(model.getCourse());
                 //viewHolder.setDescription(model.getDescription());
+                //viewHolder.setImage(getContext(), User.getInstance().getmImage());
                 viewHolder.setDate("Date: "+model.getDate()+" | Time: "+ model.getTime());
+                UserPattern Userholder = new UserPattern();
+
+                Userholder.get_user(user_temp.getmUserTable_DS(), model.getQuestId());
+                String Url_temp ;
+                if(user_temp.getmUserTable_DS() == null || model.getQuestId() == null){
+                    Url_temp = "android.resource://uw.studybuddy/mipmap/ic_default_user";
+                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                }else{
+                    Url_temp = Userholder.getImage();
+                }
+
+                viewHolder.setImage(getContext(), Uri.parse(Url_temp));
+
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setJoinEvent(eventKey, model.getUid());
 //                 viewHolder.setSubject(model.getSubject());
@@ -176,6 +198,21 @@ public class EventsListRecycleViewFragment extends Fragment {
             }
         };
 
+    }
+
+    public void Setup_UsertableListener(){
+        FirebaseUserInfo.getUsersTable().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                User.getInstance().setmUserTable_DS(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

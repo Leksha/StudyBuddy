@@ -1,6 +1,7 @@
 package uw.studybuddy.UserProfile;
 
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -36,6 +37,9 @@ public class UserPattern {
     //quest id , displayname
     public Map<String, String> friend_list = new HashMap<>();
 
+    //photo Url
+    private String image;
+
 
     public UserPattern(){
         quest_id = "";
@@ -52,6 +56,7 @@ public class UserPattern {
         about_me = User.getAboutMe();
         quest_id = User.getQuestID();
         display_name = User.getDisplayName();
+        image = User.getmImage().toString();
     }
 
     public List<CourseInfo> getcourse(){
@@ -115,6 +120,7 @@ public class UserPattern {
                 setabout_me(temp.getabout_me());
                 setquest_id(temp.getquest_id());
                 setdisplay_name(temp.getdisplay_name());
+                setImage(temp.getImage());
                 if(courseList!=null) {
                     setcourse(courseList);
                 }
@@ -144,4 +150,11 @@ public class UserPattern {
     }
 
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
