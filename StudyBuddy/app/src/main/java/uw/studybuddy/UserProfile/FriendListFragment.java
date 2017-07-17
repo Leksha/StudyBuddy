@@ -23,12 +23,15 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.kristijandraca.backgroundmaillibrary.BackgroundMail;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import uw.studybuddy.CourseInfo;
+import uw.studybuddy.Events.EventDescription;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 
 /**
@@ -156,7 +159,7 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
 
     @Override
     public void onClick(View view) {
-        String temp = etSearch.getText().toString();
+        final String temp = etSearch.getText().toString();
         //friend dialog
         if(temp.equals("")){
             //do nothing
@@ -232,6 +235,23 @@ public class FriendListFragment extends Fragment implements Button.OnClickListen
                             FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(friendname).setValue(friendname);
                            Toast.makeText(getActivity(), "Success: " + friendname + " is on friend list now",
                                    Toast.LENGTH_LONG).show();
+                           if(MainActivity.notification == true){
+                               String title = "Dear " + temp + "\n\n";
+                               String message = UserInfo.getInstance().getDisplayName() + " has became friend with you!\n\n";
+                               String from = "Thanks,\nYour StudyBuddy Team\n";
+
+                               // Send email to admin
+                               BackgroundMail bm = new BackgroundMail(getContext());
+                               String subject = temp+", "+ UserInfo.getInstance().getDisplayName() + " has became friend with you!";
+                               String email = "studybuddycs446@gmail.com";
+                               String password = "studybuddy123";
+                               bm.setGmailUserName(email);
+                               bm.setGmailPassword(password);
+                               bm.setMailTo(friendname+"@edu.uwaterloo.ca");
+                               bm.setFormSubject(subject);
+                               bm.setFormBody(title + message + from);
+                               bm.send();
+                           }
 
                        }else{
                            Toast.makeText(getActivity(), "Adding friend Failed",
