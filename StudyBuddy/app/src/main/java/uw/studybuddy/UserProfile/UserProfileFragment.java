@@ -191,7 +191,7 @@ public class UserProfileFragment extends Fragment {
         int numCourses = mCoursesList.size();
         mCoursesButtons = new ArrayList<>();
         mUserCoursesLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        int diameter = 100;
+        int diameter = 200;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(diameter, diameter-10);
         params.setMargins(2,2,2,2);
 
@@ -265,7 +265,7 @@ public class UserProfileFragment extends Fragment {
         Button button = new Button(this.getContext());
         button.setBackgroundResource(R.drawable.rounded_corners_button);
         button.setText(course.toString());
-        button.setTextSize(11);
+        button.setTextSize(17);
         button.setClickable(true);
         button.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         return button;
