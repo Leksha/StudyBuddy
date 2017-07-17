@@ -28,7 +28,6 @@
         android:id="@+id/friend_about_me_DG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue"
         android:layout_marginTop="10dp"
         android:text="The user is too lazy to write down anything"
         android:layout_toRightOf="@id/friend_photo_DG"
