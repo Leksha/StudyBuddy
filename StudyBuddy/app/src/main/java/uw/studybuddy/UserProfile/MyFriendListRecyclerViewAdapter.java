@@ -166,6 +166,13 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                         text_aboutme.setText(Userholder.getabout_me());
                         course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
                         dialogAddFriendButton.setText("Chat");
+                        String Uri_temp = Userholder.getImage();
+
+                        if(Uri_temp == null){
+                            image.setImageResource(R.drawable.friend1);
+                        }else{
+                            Picasso.with(context).load(Uri_temp).into(image);
+                        }
 
 
                         //dialogAddFriendButton.setClickable(false);
