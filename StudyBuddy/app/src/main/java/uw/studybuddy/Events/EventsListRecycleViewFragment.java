@@ -206,8 +206,8 @@ public class EventsListRecycleViewFragment extends Fragment {
                                             bm.setFormSubject(subject);
                                             bm.setFormBody(title + message + from);
                                             bm.send();
-                                            isJoinEvent = false;
                                         }
+                                        isJoinEvent = false;
                                     }
                                 }
                             }
