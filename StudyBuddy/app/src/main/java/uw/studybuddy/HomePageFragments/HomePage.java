@@ -110,7 +110,7 @@ public class HomePage extends Fragment {
         // Create the courses tabs
         setupCoursesTabs(rootView);
 
-        buttons[1].callOnClick();
+        buttons[0].callOnClick();
         mCoursesTabLayout.getTabAt(coursesTabItems.length-1).select();
 //        coursesTabItems[coursesTabItems.length - 1].select();
         return rootView;
