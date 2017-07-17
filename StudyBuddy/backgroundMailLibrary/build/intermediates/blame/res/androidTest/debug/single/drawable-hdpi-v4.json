@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_launcher.png",
-        "source": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ic_launcher.png"
-    },
-    {
         "merged": "/Users/leksharamdenee/cs446/StudyBuddy/backgroundMailLibrary/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_launcher.png",
         "source": "/Users/leksharamdenee/cs446/StudyBuddy/backgroundMailLibrary/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ic_launcher.png"
     }

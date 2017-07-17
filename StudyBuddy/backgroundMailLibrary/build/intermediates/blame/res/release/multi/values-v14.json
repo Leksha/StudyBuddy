@@ -1,31 +1,5 @@
 [
     {
-        "outputFile": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-v14/values-v14.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 201
-                },
-                "from": {
-                    "file": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/src/main/res/values-v14/styles.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 225,
-                        "endLine": 9,
-                        "endColumn": 12,
-                        "endOffset": 373
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "/Users/leksharamdenee/cs446/StudyBuddy/backgroundMailLibrary/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-v14/values-v14.xml",
         "map": [
             {

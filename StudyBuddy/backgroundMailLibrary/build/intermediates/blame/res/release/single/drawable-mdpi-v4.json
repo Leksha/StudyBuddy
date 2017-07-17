@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/ic_launcher.png",
-        "source": "/Users/xiaoweiwang/Documents/github/StudyBuddy/StudyBuddy/backgroundMailLibrary/src/main/res/drawable-mdpi/ic_launcher.png"
-    },
-    {
         "merged": "/Users/leksharamdenee/cs446/StudyBuddy/backgroundMailLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/ic_launcher.png",
         "source": "/Users/leksharamdenee/cs446/StudyBuddy/backgroundMailLibrary/src/main/res/drawable-mdpi/ic_launcher.png"
     }
