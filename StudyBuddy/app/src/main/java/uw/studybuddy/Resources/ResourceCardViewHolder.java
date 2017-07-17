@@ -85,7 +85,7 @@ public class ResourceCardViewHolder extends RecyclerView.ViewHolder {
             public boolean onTouch(View v, MotionEvent event) {
 //                showWebDialog(mView.getContext(), link);
                 mView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-                return false;
+                return true;
             }
         });
         webView.setWebViewClient(new MyWebViewClient());

@@ -5,7 +5,7 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              tools:context="uw.studybuddy.Events.EventCreation"
-                                             android:background="@drawable/leaf_two_2"
+                                             android:background="@drawable/leaf_two"
                                              tools:layout_editor_absoluteY="81dp"
                                              tools:layout_editor_absoluteX="0dp">
 
@@ -104,15 +104,12 @@
         android:id="@+id/btn_launchmap"
         android:layout_width="47dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="319dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="44dp"
         android:background="@mipmap/ic_google_map"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/location_create"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="44dp"
+        app:layout_constraintTop_toTopOf="@+id/location_create"
+        android:layout_marginTop="0dp"/>
 
 
     <TextView
