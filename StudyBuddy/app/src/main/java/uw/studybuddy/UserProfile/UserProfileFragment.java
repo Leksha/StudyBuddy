@@ -378,10 +378,10 @@ public class UserProfileFragment extends Fragment {
                 }
                 // Update image of edit button accordingly
                 if (editable) {
-                    mUserEditButton.setBackgroundResource(R.mipmap.done_icon);
+                    mUserEditButton.setText("Done");
                     FirebaseUserInfo.update_name_list(mUserDisplayName.getText().toString());
                 } else {
-                    mUserEditButton.setBackgroundResource(R.mipmap.edit_icon);
+                    mUserEditButton.setText("Edit");
                     FirebaseUserInfo.update_name_list(mUserDisplayName.getText().toString());
                 }
 
