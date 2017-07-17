@@ -3,6 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="uw.studybuddy.HomePageFragments.HomePage"
+              android:background="@drawable/leaf_none"
               android:orientation="vertical">
 
     <RadioGroup
