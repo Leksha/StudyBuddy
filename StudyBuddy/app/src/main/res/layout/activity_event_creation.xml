@@ -104,7 +104,7 @@
         android:id="@+id/btn_launchmap"
         android:layout_width="47dp"
         android:layout_height="45dp"
-        android:background="@mipmap/gmapicon"
+        android:background="@mipmap/gmaps_colour"
         android:layout_marginEnd="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="319dp"
