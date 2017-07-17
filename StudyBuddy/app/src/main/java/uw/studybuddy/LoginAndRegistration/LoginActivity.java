@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void GotoRegister(View view) {
-        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        startActivity(new Intent(LoginActivity.this, TermsAndConditionsActivity.class));
     }
 
     public void SentConfirmation() {
