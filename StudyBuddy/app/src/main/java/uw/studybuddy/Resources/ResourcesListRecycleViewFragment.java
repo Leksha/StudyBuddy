@@ -82,9 +82,9 @@ public class ResourcesListRecycleViewFragment extends Fragment {
             @Override
             protected void populateViewHolder(ResourceCardViewHolder viewHolder, ResourceInfo model, int position) {
                 viewHolder.setCourse(model.getCourse());
-                viewHolder.setTitle(model.getTitle());
-                viewHolder.setUserNameWithQuestId(model.getQuestId(), model.isAnonymous());
                 viewHolder.setLink(model.getLink());
+                viewHolder.setTitle(model.getTitle(), model.getLink());
+                viewHolder.setUserNameWithQuestId(model.getQuestId(), model.isAnonymous());
 
                 boolean isCreator = model.getQuestId().equals(uw.studybuddy.UserProfile.UserInfo.getInstance().getQuestID());
                 viewHolder.setButton(isCreator, model);

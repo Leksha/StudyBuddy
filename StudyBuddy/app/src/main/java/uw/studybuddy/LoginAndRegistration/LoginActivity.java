@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity{
 
         setupDevLoginActivity();
         Button mDevLoginButton = (Button)findViewById(R.id.dev_login_button);
-//        mDevLoginButton.callOnClick();
+        mDevLoginButton.callOnClick();
 
 
     }
