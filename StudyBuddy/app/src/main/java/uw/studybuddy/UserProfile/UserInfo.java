@@ -1,6 +1,7 @@
 package uw.studybuddy.UserProfile;
 
 import android.media.Image;
+import android.net.Uri;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +28,7 @@ public class UserInfo {
     private static List<CourseInfo> mCoursesList;
 
     private static String mAboutMe;
-    private static Image mImage;
+    private static Uri mImage;
 
     //add by Yuna
     private static DataSnapshot mFriendlist_DS;
@@ -44,6 +45,16 @@ public class UserInfo {
 
     public static String getQuestID() {
         return mQuestID;
+    }
+
+    public static Uri getmImage() {
+        return mImage;
+    }
+
+    public static void setmImage(Uri mImage) {
+
+        UserInfo.mImage = mImage;
+        FirebaseUserInfo.set_Image(mImage);
     }
 
     public List getCoursesList() {
@@ -91,12 +102,14 @@ public class UserInfo {
 
 
 
+
     // Constructors
     public UserInfo(String displayName, String questID, List<CourseInfo> courses, String aboutMe, DataSnapshot dataSnapshot) {
         mDisplayName = displayName;
         mFriendlist_DS = dataSnapshot;
         mQuestID = questID;
         UserInfo.mCoursesList = new ArrayList<>(courses);
+        mImage = Uri.parse("android.resource://uw.studybuddy/mipmap/ic_default_user");
 
         mAboutMe = aboutMe;
         instance = this;
@@ -110,6 +123,7 @@ public class UserInfo {
         List<CourseInfo> courseList = new ArrayList<>(Arrays.asList(courses));
 
         String aboutMe = "I can teach you how to make things fly. Wingardium Leviosa!";
+        mImage = Uri.parse("android.resource://uw.studybuddy/mipmap/ic_default_user");
 
         mDisplayName = "Wizard Kid";
 

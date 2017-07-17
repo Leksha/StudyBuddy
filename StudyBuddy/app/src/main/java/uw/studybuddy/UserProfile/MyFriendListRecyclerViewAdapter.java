@@ -3,6 +3,7 @@ package uw.studybuddy.UserProfile;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,11 +81,8 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         String s = mValues.get(position);
         System.out.println(s);
 
-        if(s.equals("Yuna")){
-            holder.mPhotoView.setImageResource(R.drawable.friend1);
-        }else{
-            holder.mPhotoView.setImageResource(R.drawable.friend2);
-        }
+
+
 
 
 
@@ -99,6 +98,15 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
             user.setmUserTable_DS(dataSnapshot_FG);
         }
         Userholder.get_user(dataSnapshot_FG,mValues.get(position));
+
+
+        String Uri_temp = Userholder.getImage();
+
+        if(Uri_temp == null){
+            holder.mPhotoView.setImageResource(R.drawable.friend1);
+        }else{
+            Picasso.with(context).load(Uri_temp).into(holder.mPhotoView);
+        }
 
 
         if(Userholder.getdisplay_name() == null){
@@ -129,11 +137,11 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                     Button dialogAddFriendButton = (Button) dialog.findViewById(R.id.add_Friend_bt);
                     //default photo for now
                     TextView course = (TextView) dialog.findViewById(R.id.couse_DG);
-                    image.setImageResource(R.drawable.friend1);
+
                     //now for testing
 
 
-
+                    image.setImageResource(R.drawable.friend1);
 
 
                     //FirebaseUserInfo.listener_trigger();
@@ -151,6 +159,8 @@ public class MyFriendListRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
                         text_aboutme.setText(Userholder.getabout_me());
                         course.setText(UserPattern.transfer_list_courseInfo_toString(Userholder.getcourse()));
                         dialogAddFriendButton.setText("Chat");
+
+
                         //dialogAddFriendButton.setClickable(false);
                         //dialogAddFriendButton.setVisibility(dialogAddFriendButton.GONE);
                         dialog.show();
