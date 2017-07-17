@@ -187,8 +187,6 @@ public class EventCreation extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PLACE_PICKER_REQUEST && resultCode == EventCreation.RESULT_OK) {
             address = displaySelectedPlaceFromPlacePicker(data);
-            eventKey = mDatabase.push().getKey();
-            mDatabase.child(eventKey).child("location").setValue(address);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
