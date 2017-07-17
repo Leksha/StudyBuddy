@@ -3,6 +3,7 @@ package uw.studybuddy.HomePageFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -109,7 +110,7 @@ public class HomePage extends Fragment {
         // Create the courses tabs
         setupCoursesTabs(rootView);
 
-        buttons[1].callOnClick();
+        buttons[0].callOnClick();
         mCoursesTabLayout.getTabAt(coursesTabItems.length-1).select();
 //        coursesTabItems[coursesTabItems.length - 1].select();
         return rootView;
@@ -172,7 +173,17 @@ public class HomePage extends Fragment {
         currentListClass = fragmentClass;
     }
 
-    private void setCategoriesListeners(final RadioGroup radioGroup, ToggleButton[] buttons, final Class[] classes){
+    private void changeTogglesStyle(ToggleButton[] buttons, int index) {
+        for (int i=0; i<buttons.length; i++) {
+            if (i!=index) {
+                buttons[i].setTypeface(null, Typeface.NORMAL);
+            } else {
+                buttons[i].setTypeface(null, Typeface.BOLD);
+            }
+        }
+    }
+
+    private void setCategoriesListeners(final RadioGroup radioGroup, final ToggleButton[] buttons, final Class[] classes){
         // Initialize the buttons
         for (int i=0; i<buttons.length; i++) {
             final int index = i;
@@ -182,6 +193,7 @@ public class HomePage extends Fragment {
                 @Override
                 public void onClick(View v) {
                     tb.setChecked(!((ToggleButton)v).isChecked());
+                    changeTogglesStyle(buttons, index);
                     setListFragmentTo(classes[index]);
                 }
             });
