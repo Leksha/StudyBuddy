@@ -233,7 +233,7 @@ public class UserProfileFragment extends Fragment {
 
         if(requestCode == GALLERY_REQUEST && resultCode == getActivity().RESULT_OK){
 
-            Uri imageUri = data.getData();
+            //Uri imageUri = data.getData();
 
             CropImage.activity().setAspectRatio(1, 1).start(getContext(), this);
 
