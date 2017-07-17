@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity
 
     private UserInfo user;
     public static Activity fa;
+    private Menu menu;
+
+    public static boolean notification = true;
 
     private boolean firstTimeHomePageInitialize = false;
 
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.navigation_pane, menu);
         return true;
     }
@@ -357,6 +361,17 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void Notification(MenuItem item) {
+        if(notification == true) {
+            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_notification_off));
+            notification = false;
+            Toast.makeText(MainActivity.this, "Notification Emails OFF.", Toast.LENGTH_LONG).show();
+        } else {
+            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_notification_on));
+            notification = true;
+            Toast.makeText(MainActivity.this, "Notification Emails ON.", Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void LogOut(MenuItem item) {
         FirebaseAuth fAuth = FirebaseInstance.getFirebaseAuthInstance();

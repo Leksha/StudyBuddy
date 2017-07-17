@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kristijandraca.backgroundmaillibrary.BackgroundMail;
 
 import java.io.IOException;
 import java.util.List;
@@ -113,6 +114,24 @@ public class EventDescription extends AppCompatActivity {
                     public void onClick(View v) {
                         Toast.makeText(EventDescription.this, "You have add "+username+ " to the FriendList.", Toast.LENGTH_LONG).show();
                         FirebaseUserInfo.getCurrentUserRef().child(FirebaseUserInfo.table_friend).child(questId).setValue(questId);
+
+                        if(MainActivity.notification == true){
+                            String title = "Dear " + username + "\n\n";
+                            String message = User.getInstance().getDisplayName() + " has became friend with you!\n\n";
+                            String from = "Thanks,\nYour StudyBuddy Team\n";
+
+                            // Send email to admin
+                            BackgroundMail bm = new BackgroundMail(EventDescription.this);
+                            String subject = username+", "+User.getInstance().getDisplayName() + " has became friend with you!";
+                            String email = "studybuddycs446@gmail.com";
+                            String password = "studybuddy123";
+                            bm.setGmailUserName(email);
+                            bm.setGmailPassword(password);
+                            bm.setMailTo(questId+"@edu.uwaterloo.ca");
+                            bm.setFormSubject(subject);
+                            bm.setFormBody(title + message + from);
+                            bm.send();
+                        }
                     }
                 });
 

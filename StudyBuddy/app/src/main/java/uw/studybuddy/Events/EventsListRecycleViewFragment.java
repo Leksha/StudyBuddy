@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 
@@ -23,9 +24,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.kristijandraca.backgroundmaillibrary.BackgroundMail;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import uw.studybuddy.HomePageFragments.DisplayCourses;
 import uw.studybuddy.HomePageFragments.HomePage;
+import uw.studybuddy.MainActivity;
 import uw.studybuddy.R;
 import uw.studybuddy.UserProfile.FirebaseUserInfo;
 import uw.studybuddy.UserProfile.UserInfo;
@@ -127,7 +133,7 @@ public class EventsListRecycleViewFragment extends Fragment {
                 mQueryCourse
         ) {
             @Override
-            protected void populateViewHolder(final EventCardViewHolder viewHolder, EventInfo model, int position) {
+            protected void populateViewHolder(final EventCardViewHolder viewHolder, final EventInfo model, int position) {
                 final String eventKey = getRef(position).getKey();
 
                 viewHolder.setCourse(model.getCourse());
@@ -183,7 +189,25 @@ public class EventsListRecycleViewFragment extends Fragment {
                                         isJoinEvent = false;
                                     } else {
                                         mJoinEvent.child(eventKey).child(mCurrentUser.getUid()).setValue(User.getInstance().getDisplayName());
-                                        isJoinEvent = false;
+                                        if(MainActivity.notification == true){
+                                            String title = "Dear " + model.getUsername() + "\n\n";
+                                            String message = User.getInstance().getDisplayName() + " has joined your event【 "
+                                                    +model.getCourse() + " : "+model.getTitle()+" 】" + "\n\n";
+                                            String from = "Thanks,\nYour StudyBuddy Team\n";
+
+                                            // Send email to admin
+                                            BackgroundMail bm = new BackgroundMail(getContext());
+                                            String subject = model.getUsername()+", "+User.getInstance().getDisplayName() + " has joined your event.";
+                                            String email = "studybuddycs446@gmail.com";
+                                            String password = "studybuddy123";
+                                            bm.setGmailUserName(email);
+                                            bm.setGmailPassword(password);
+                                            bm.setMailTo(model.getQuestId()+"@edu.uwaterloo.ca");
+                                            bm.setFormSubject(subject);
+                                            bm.setFormBody(title + message + from);
+                                            bm.send();
+                                            isJoinEvent = false;
+                                        }
                                     }
                                 }
                             }
